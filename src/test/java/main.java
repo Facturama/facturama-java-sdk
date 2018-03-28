@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import com.Facturama.sdk_java.Container.FacturamaApi;
 import com.Facturama.sdk_java.Services.*;
 import com.Facturama.sdk_java.Models.*;
+import com.Facturama.sdk_java.Models.Response.Catalogs.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +31,11 @@ public class main {
             FacturamaApi facturama = createApiInstance();           
         
             // Prueba de la funcionalidad básica del servicio de clientes
-            sampleClients(facturama);
+            //sampleClients(facturama);
+            
+            // Prueba de la funcionalidad básica del servicio de CFDI (crear factura)
+            sampleCfdi(facturama);
+            
         } catch (IOException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,5 +122,27 @@ public class main {
          
          
          return facturama.Clients().Create(newClient);
+    }
+    
+    
+    
+    /**
+     * Ejemplo Operaciones con el servicio de CFDI (Facturas)     
+    */
+    private static void sampleCfdi( FacturamaApi facturama) throws IOException{  
+        
+        System.out.println( "----- Inicio del ejemplo de CFDI -----" );
+        
+        // Lista de todos los productos que se tiene en facturama
+        List<Product> products = facturama.Products().List();
+        
+        // Lista del catálogo de nombres en el PDF
+        List<Catalog> lstNamesForPdf = facturama.Catalogs().NameIds(); 
+        
+        List<Catalog> lstProductOrServicesCatalog = facturama.Catalogs().ProductsOrServices("gatos"); 
+        
+        
+        System.out.println( "----- Fin del ejemplo de CFDI -----" );
+        
     }
 }

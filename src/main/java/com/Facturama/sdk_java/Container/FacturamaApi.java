@@ -4,14 +4,8 @@
  * and open the template in the editor.
  */
 package com.Facturama.sdk_java.Container;
-
-import com.Facturama.sdk_java.Services.ProductService;
-import com.Facturama.sdk_java.Services.ClientService;
-import com.squareup.okhttp.Authenticator;
+import com.Facturama.sdk_java.Services.*;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import java.io.IOException;
 
 /**
  *
@@ -21,6 +15,8 @@ public class FacturamaApi {
         
     private ClientService _clients;
     private ProductService _products;
+    private CatalogService _catalogs;
+    private BranchOfficeService _branchOffices;
         
     /**
      *
@@ -39,6 +35,8 @@ public class FacturamaApi {
         
         _clients = new ClientService(httpClient);
         _products = new ProductService(httpClient);        
+        _catalogs = new CatalogService(httpClient);
+        _branchOffices = new BranchOfficeService(httpClient);
     }
     
     public ClientService Clients(){
@@ -47,6 +45,14 @@ public class FacturamaApi {
     
     public ProductService Products(){
         return _products;
+    }
+    
+    public CatalogService Catalogs(){
+        return _catalogs;
+    }
+    
+    public BranchOfficeService BranchOffices(){
+        return _branchOffices;
     }
 
         

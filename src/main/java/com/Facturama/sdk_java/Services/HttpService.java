@@ -61,15 +61,16 @@ public abstract class HttpService <TI, TO>
     
     
     
+     protected final List<TO> GetList() throws IOException {        
+         return this.GetList("");        
+    }
+
+
     
+    protected final List<TO> GetList(String resource) throws IOException {
 
-
-
-
-    protected final List<TO> GetList() throws IOException {
-        
          HttpUrl.Builder urlBuilder 
-      = HttpUrl.parse(baseUrl + "/" + relativeUrl ).newBuilder();    
+      = HttpUrl.parse(baseUrl + "/" + relativeUrl + resource ).newBuilder();    
  
         String url = urlBuilder.build().toString();    
   
@@ -83,9 +84,8 @@ public abstract class HttpService <TI, TO>
         List<TO> toList = new Gson().fromJson(jsonData, multiType);        
               
         return toList;
-    }
-
-    //protected final TO Post(TI obj, String urlParams = "") throws IOException {
+        
+    }    
     
     
     
