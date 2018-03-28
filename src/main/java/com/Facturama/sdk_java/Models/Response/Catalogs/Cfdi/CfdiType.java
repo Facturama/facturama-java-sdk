@@ -1,19 +1,21 @@
 
 package com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 
-public class CfdiType 
+
+public class CfdiType extends Catalog
 {
     
-   private int NameId;
+   private String Type;
     
-   public int getNameId()
+   public String getType()
    {
-        return NameId;
+        return Type;
    }
    
-   public void setNameId(int NameId)
+   public void setType(String Type)
    {
-      this.NameId = NameId;
+      this.Type = Type;
    }    
     
 }

@@ -1,7 +1,8 @@
 
 package com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 
-public class NameCfdi 
+public class NameCfdi extends Catalog
 {
     
    private String Type;

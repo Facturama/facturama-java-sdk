@@ -1,7 +1,9 @@
 
 package com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 
-public class UseCfdi 
+
+public class UseCfdi extends Catalog
 {
     
    private boolean Natural;

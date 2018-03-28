@@ -1,7 +1,9 @@
 
 package com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 
-public class TariffFraction 
+
+public class TariffFraction extends Catalog
 {
     private String StartDate;
     private String EndDate;

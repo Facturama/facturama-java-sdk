@@ -7,6 +7,7 @@ import com.Facturama.sdk_java.Services.*;
 import com.Facturama.sdk_java.Models.*;
 import com.Facturama.sdk_java.Models.Request.ProductTax;
 import com.Facturama.sdk_java.Models.Response.Catalogs.*;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -168,8 +169,8 @@ public class main {
     
     private static Product sampleProductCreate(FacturamaApi facturama) throws IOException{
         
-        Catalog unit = facturama.Catalogs().Units("servicio").get(0);
-        Catalog prod = facturama.Catalogs().ProductsOrServices("desarrollo").get(0);
+        Unit unit = facturama.Catalogs().Units("servicio").get(0);
+        ProductServices prod = facturama.Catalogs().ProductsOrServices("desarrollo").get(0);
         
         Product product = new Product();
         List<ProductTax> taxes = new ArrayList();
@@ -211,13 +212,15 @@ public class main {
         
         System.out.println( "----- Inicio del ejemplo de CFDI -----" );
         
+        List<Unit> units = facturama.Catalogs().Units(); 
+        
         // Lista de todos los productos que se tiene en facturama
         List<Product> products = facturama.Products().List();
         
         // Lista del catálogo de nombres en el PDF
-        List<Catalog> lstNamesForPdf = facturama.Catalogs().NameIds(); 
+        List<NameCfdi> lstNamesForPdf = facturama.Catalogs().NameIds(); 
         
-        List<Catalog> lstProductOrServicesCatalog = facturama.Catalogs().ProductsOrServices("gatos"); 
+        List<ProductServices> lstProductOrServicesCatalog = facturama.Catalogs().ProductsOrServices("gatos"); 
         
         
         System.out.println( "----- Fin del ejemplo de CFDI -----" );

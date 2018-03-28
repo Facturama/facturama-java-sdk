@@ -6,8 +6,9 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import java.io.IOException;
 import java.util.List;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
 
-public class CatalogService extends HttpService <Catalog, Catalog>{
+public class CatalogService extends HttpService{
     
     
     public CatalogService(OkHttpClient client) {
@@ -16,20 +17,25 @@ public class CatalogService extends HttpService <Catalog, Catalog>{
         multiType = new TypeToken<List<Catalog>>() {}.getType();        
                 
     }
+    public List<Unit> Units()  throws IOException{        
+        return  GetList("/units",  new TypeToken<List<Unit>>() {}.getType());     
+    }
     
-    public List<Catalog> Units(String keyword) throws IOException
+    public List<Unit> Units(String keyword) throws IOException
+    {                                        
+        return  GetList("/units?keyword="+keyword,  new TypeToken<List<Unit>>() {}.getType());        
+    }
+    
+    public List<NameCfdi>  NameIds() throws IOException{
+        return  GetList("/NameIds",  new TypeToken<List<NameCfdi>>() {}.getType());        
+    }
+    
+    public List<ProductServices> ProductsOrServices(String keyword) throws IOException
     {        
-        return  GetList("/units?keyword="+keyword);        
+        return  GetList("/ProductsOrServices?keyword="+keyword, new TypeToken<List<ProductServices>>() {}.getType());        
     }
+
     
-    public List<Catalog>  NameIds() throws IOException{
-        return  GetList("/NameIds");        
-    }
-    
-    public List<Catalog> ProductsOrServices(String keyword) throws IOException
-    {        
-        return  GetList("/ProductsOrServices?keyword="+keyword);        
-    }
     
 
 }

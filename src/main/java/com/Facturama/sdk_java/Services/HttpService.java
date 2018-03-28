@@ -69,6 +69,13 @@ public abstract class HttpService <TI, TO>
     
     protected final List<TO> GetList(String resource) throws IOException {
 
+        return this.GetList(resource, this.multiType);    
+        
+    }    
+    
+    
+    protected final List<TO> GetList(String resource, Type multiType ) throws IOException {
+        
          HttpUrl.Builder urlBuilder 
       = HttpUrl.parse(baseUrl + "/" + relativeUrl + resource ).newBuilder();    
  
@@ -85,7 +92,7 @@ public abstract class HttpService <TI, TO>
               
         return toList;
         
-    }    
+    }
     
     
     

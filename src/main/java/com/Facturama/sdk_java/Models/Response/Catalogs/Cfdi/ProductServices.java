@@ -1,10 +1,12 @@
 
 package com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 
-public class ProductServices 
+
+public class ProductServices extends Catalog
 {
 
-   private String IncludeIva;
+   /*private String IncludeIva;
    private String IncludeIeps;
    private String Complement;
    
@@ -36,6 +38,6 @@ public class ProductServices
    public void setComplement(String Complement)
    {
       this.Complement = Complement;
-   }  
+   }  */
     
 }
