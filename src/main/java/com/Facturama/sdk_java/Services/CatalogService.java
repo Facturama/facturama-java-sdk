@@ -36,6 +36,32 @@ public class CatalogService extends HttpService{
     }
 
     
+    public List<Currency> Currencies() throws IOException
+    {        
+        return  GetList("/currencies", new TypeToken<List<Currency>>() {}.getType());        
+    }
+    
+    public List<Currency> Currencies(String keyword) throws IOException
+    {        
+        return  GetList("/currencies?keyword="+keyword, new TypeToken<List<Currency>>() {}.getType());        
+    }
+    
+    
+    public List<Catalog> PaymentForms() throws IOException
+    {        
+        return  GetList("/paymentforms");        
+    }
+    
+    public List<Catalog> PaymentMethods() throws IOException
+    {        
+        return  GetList("/paymentmethods");        
+    }
+        
+    
+    
+    
+    
+    
     
 
 }
