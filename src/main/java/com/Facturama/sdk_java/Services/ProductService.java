@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import java.util.List;
 
-public class ProductService extends CrudService {
+public class ProductService extends CrudService<Product, Product> {
     
     public ProductService(OkHttpClient client) {
         super(client, "product");

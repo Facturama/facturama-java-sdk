@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 import com.Facturama.sdk_java.Container.FacturamaApi;
 import com.Facturama.sdk_java.Services.*;
 import com.Facturama.sdk_java.Models.*;
+import com.Facturama.sdk_java.Models.Request.ProductTax;
 import com.Facturama.sdk_java.Models.Response.Catalogs.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,8 +35,12 @@ public class main {
             // Prueba de la funcionalidad básica del servicio de clientes
             //sampleClients(facturama);
             
+            // Prueba de funcionalidad de crear un producto
+            sampleProducts(facturama);
+            
+            
             // Prueba de la funcionalidad básica del servicio de CFDI (crear factura)
-            sampleCfdi(facturama);
+            //sampleCfdi(facturama);
             
         } catch (IOException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,7 +130,79 @@ public class main {
          return facturama.Clients().Create(newClient);
     }
     
+    private static void sampleProducts( FacturamaApi facturama) throws IOException{                  
+         List<Product> lstProducts = facturama.Products().List();         
+         Integer ProductsBefore = lstProducts.size();                       
+        
+         // Creacion de Producto
+        Product newProduct = sampleProductCreate(facturama);                
+         
+         // El producto obtenido (ProductRetrived) seria el mismo que (newProductSaved)         
+         String ProductRetrivedId = newProduct.getId();                 
+         Product ProductRetrived = facturama.Products().Retrieve(ProductRetrivedId);
+         
+         // Se modifica el RFC
+         ProductRetrived.setPrice(100.00);    
+         
+         // Edicion
+         facturama.Products().Update(ProductRetrived,ProductRetrived.getId() );         
+         System.out.println( "Producto Editado" );                          
+                  
+         // Eliminación
+         facturama.Products().Remove(ProductRetrivedId);
+         
+         // Comparativa de la cantidad de Productos al inicio y final de la prueba,
+         // para confirmar que se ha eliminado
+         List<Product> lstProductsAfter = facturama.Products().List();         
+         Integer ProductsAfter = lstProductsAfter.size();
+         
+         if(Objects.equals(ProductsBefore, ProductsAfter)){
+             System.out.println( "Creación y eliminacion de Producto correcta!" );
+         }else{
+             System.out.println( "Creación y eliminacion de Producto erronea!" );
+         }
+                  
+         System.out.println( "Fin del ejemplo de Productes" );
+       
+    }
     
+    private static Product sampleProductCreate(FacturamaApi facturama) throws IOException{
+        
+        Catalog unit = facturama.Catalogs().Units("servicio").get(0);
+        Catalog prod = facturama.Catalogs().ProductsOrServices("desarrollo").get(0);
+        
+        Product product = new Product();
+        List<ProductTax> taxes = new ArrayList();
+        
+        product.setUnit("Servicio");
+        product.setUnitCode(unit.getValue());
+        product.setIdentificationNumber("WEB003");
+        product.setName("Sitio Web CMS");
+        product.setDescription("Desarrollo e implementación de sitio web empleando un CMS");
+        product.setPrice(6500.00);
+        product.setCodeProdServ(prod.getValue());
+        product.setCuentaPredial("123");
+
+        ProductTax iva = new ProductTax();
+        iva.setName("IVA");
+        iva.setRate(0.16);
+        iva.setIsRetention(false);
+
+        ProductTax isr = new ProductTax();
+        isr.setName("ISR");
+        isr.setTotal(0.1);
+        isr.setIsRetention(true);
+
+        taxes.add(iva);
+        taxes.add(isr);
+
+        product.setTaxes(taxes);
+        
+        product = facturama.Products().Create(product);
+        System.out.println("Se creo exitosamente un producto con el id: " + product.getId());
+
+        return product;
+    }
     
     /**
      * Ejemplo Operaciones con el servicio de CFDI (Facturas)     
