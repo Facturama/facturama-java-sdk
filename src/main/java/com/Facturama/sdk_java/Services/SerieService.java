@@ -14,7 +14,7 @@ public class SerieService extends HttpService <Serie,Serie>{
     
     public List<Serie> List (String idBranchOffice) throws IOException
     {
-        return GetList(/*idBranchOffice*/);
+        return GetList(idBranchOffice);
     
     }
     
@@ -23,5 +23,12 @@ public class SerieService extends HttpService <Serie,Serie>{
         return Get(""+idBranchOffice+"/"+ SerieName+"");
     }
     
-   
+    public Serie Update(Serie model ) throws IOException
+    {
+        return Put(model,""+ model.getIdBranchOffice()+"/"+model.getName());
+    }
+    public Serie Remove(String idBranchOffice, String SerieName ) throws IOException
+    {
+        return Delete(""+idBranchOffice+"/"+SerieName);
+    }
 }
