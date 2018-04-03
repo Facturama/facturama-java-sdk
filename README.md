@@ -1,7 +1,7 @@
 # Facturama SDK
 Librería para consumir la API Web de Facturama.
 
-##Dependencias 
+## Dependencias 
 * [Gson](https://mvnrepository.com/artifact/com.google.code.gson/gson/2.8.2)
 * [jcommande](https://mvnrepository.com/artifact/com.beust/jcommander/1.72)
 * [joda-time](https://mvnrepository.com/artifact/joda-time/joda-time/2.9.9)
@@ -9,7 +9,7 @@ Librería para consumir la API Web de Facturama.
 * [okhttp](https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp/2.7.5)
 * [okio](https://mvnrepository.com/artifact/com.squareup.okio/okio/1.6.0)
 
-##Inicio rapido
+## Inicio rapido
 
 #### Configuración  #####
 Si el valor de la variable  ```isDevMode``` es ```true``` la librería esta en modo sandbox
