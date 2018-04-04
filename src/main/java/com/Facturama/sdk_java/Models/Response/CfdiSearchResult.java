@@ -11,11 +11,11 @@ public class CfdiSearchResult
     private String Serie;
     private String TaxName;
     private String Rfc;
-    private Date Date;
-    private double Total;
+    private String Date;
+    private Double Total;
     private String Uuid;
     private String Email;
-    private boolean IsActive;
+    private Boolean IsActive;
     private Boolean EmailSent;
     
     
@@ -69,17 +69,17 @@ public class CfdiSearchResult
       this.Rfc = Rfc;
    }
    
-   public Date getDate()
+   public String getDate()
    {
         return Date;
    }
    
-   public void setDate(Date Date)
+   public void setDate(String Date)
    {
       this.Date = Date;
    }
    
-   public double getTotal()
+   public Double getTotal()
    {
         return Total;
    }
@@ -109,7 +109,7 @@ public class CfdiSearchResult
       this.Email = Email;
    }
     
-    public boolean getIsActive() {
+    public Boolean getIsActive() {
         return IsActive;
     }
     

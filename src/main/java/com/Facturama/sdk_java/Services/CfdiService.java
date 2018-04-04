@@ -74,7 +74,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         
         String resource = "cfdi?type=" +  type + "&keyword=" + keyword + "&status=" + status;
         
-        return GetList( resource , new TypeToken<List<CfdiSearchResult>>() {}.getType() );
+        return GetList( resource , new TypeToken<List<com.Facturama.sdk_java.Models.Response.CfdiSearchResult>>() {}.getType() );
     }
     
     
