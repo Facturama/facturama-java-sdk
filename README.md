@@ -73,11 +73,20 @@ Y si el valor de la variable  ```isDevMode``` es ```false``` la librería esta e
      tax.setIsRetention(false);
      lstTaxes.add(tax);
      
-     item.setTaxes(lstTaxes);
-   
-   lstItems.add(item); 
+   item.setTaxes(lstTaxes);
    item.setTotal(116.0);
+   lstItems.add(item); 
      
-   cfdi.setItems(lstItems);
+  cfdi.setItems(lstItems);
  
 ```
+#### Creacion de CFDI 3.3 ####
+ ```java
+ com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
+```
+#### Cancelación ####
+ ```java
+facturama.Cfdis().Remove(cfdiCreated.getId());
+```
+
+
