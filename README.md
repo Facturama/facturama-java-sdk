@@ -71,9 +71,11 @@ Y si el valor de la variable  ```isDevMode``` es ```false``` la librería esta e
      tax.setRate(100.00);
      tax.setBase(0.160000);
      tax.setIsRetention(false);
+     lstTaxes.add(tax);
      
      item.setTaxes(lstTaxes);
-     
+   
+   lstItems.add(item); 
    item.setTotal(116.0);
      
    cfdi.setItems(lstItems);
