@@ -2,6 +2,7 @@
 package com.Facturama.sdk_java.Services;
 
 import com.Facturama.sdk_java.Models.*;
+import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.squareup.okhttp.OkHttpClient;
 import java.io.IOException;
 import java.util.List;
@@ -12,13 +13,13 @@ public class SerieService extends HttpService <Serie,Serie>{
         super(client,"serie");
     }
     
-    public List<Serie> List (String idBranchOffice) throws IOException
+    public List<Serie> List (String idBranchOffice) throws IOException, FacturamaException
     {
         return GetList(/*idBranchOffice*/);
     
     }
     
-    public Serie Retrive(String idBranchOffice, String SerieName ) throws IOException
+    public Serie Retrive(String idBranchOffice, String SerieName ) throws IOException, FacturamaException
     {
         return Get(""+idBranchOffice+"/"+ SerieName+"");
     }

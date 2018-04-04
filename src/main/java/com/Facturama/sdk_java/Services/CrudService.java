@@ -5,6 +5,7 @@
  */
 package com.Facturama.sdk_java.Services;
 
+import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.squareup.okhttp.OkHttpClient;
 import java.io.IOException;
 import java.util.List;
@@ -21,24 +22,24 @@ public class CrudService<TI, TO>  extends HttpService<TI,TO> {
         super(client, url);
     }
     
-    public TO Retrieve(String id) throws IOException{
+    public TO Retrieve(String id) throws IOException, FacturamaException{
         return super.Get(id);
     }
     
-    public List<TO> List() throws IOException{
+    public List<TO> List() throws IOException, FacturamaException{
         return super.GetList();
     }
     
-    public TO Create(TI obj) throws IOException{
+    public TO Create(TI obj) throws IOException, FacturamaException{
         return super.Post(obj);
     }
     
-     public TO Remove(String id) throws IOException{
+     public TO Remove(String id) throws IOException, FacturamaException{
         return super.Delete(id);
     }
      
      
-     public TO Update(TI model, String id) throws IOException{
+     public TO Update(TI model, String id) throws IOException, FacturamaException{
         return super.Put(model, id);
     }
      

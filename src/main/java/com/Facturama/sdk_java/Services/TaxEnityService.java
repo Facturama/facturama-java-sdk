@@ -3,6 +3,7 @@ package com.Facturama.sdk_java.Services;
 
 import com.Facturama.sdk_java.Models.Response.TaxEnity;
 import com.Facturama.sdk_java.Models.*;
+import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Request.*;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -15,7 +16,7 @@ public class TaxEnityService extends HttpService<com.Facturama.sdk_java.Models.R
         super(client, "taxenity");
     }
     
-    public TaxEnity Retrive() throws IOException
+    public TaxEnity Retrive() throws IOException, FacturamaException
     {
         return Get("");
     }

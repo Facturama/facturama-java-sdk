@@ -17,6 +17,8 @@ public class FacturamaApi {
     private ProductService _products;
     private CatalogService _catalogs;
     private BranchOfficeService _branchOffices;
+    private CfdiService _cfdis;
+    
         
     /**
      *
@@ -37,6 +39,7 @@ public class FacturamaApi {
         _products = new ProductService(httpClient);        
         _catalogs = new CatalogService(httpClient);
         _branchOffices = new BranchOfficeService(httpClient);
+        _cfdis = new CfdiService(httpClient);
     }
     
     public ClientService Clients(){
@@ -53,6 +56,10 @@ public class FacturamaApi {
     
     public BranchOfficeService BranchOffices(){
         return _branchOffices;
+    }
+    
+    public CfdiService Cfdis(){
+        return _cfdis;
     }
 
         

@@ -6,11 +6,23 @@ import com.Facturama.sdk_java.Container.FacturamaApi;
 import com.Facturama.sdk_java.Services.*;
 import com.Facturama.sdk_java.Models.*;
 import com.Facturama.sdk_java.Models.Request.ProductTax;
+import com.Facturama.sdk_java.Models.Request.CfdiType;
+import com.Facturama.sdk_java.Models.Request.Item;
+import com.Facturama.sdk_java.Models.Request.Receiver;
+import com.Facturama.sdk_java.Models.Request.Tax;
+import com.Facturama.sdk_java.Models.Request.Cfdi;
 import com.Facturama.sdk_java.Models.Response.Catalogs.*;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
+import com.Facturama.sdk_java.Models.Response.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+import com.Facturama.sdk_java.Models.Exception.FacturamaException;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,14 +49,23 @@ public class main {
             //sampleClients(facturama);
             
             // Prueba de funcionalidad de crear un producto
-            sampleProducts(facturama);
+            //sampleProducts(facturama);
             
             
             // Prueba de la funcionalidad básica del servicio de CFDI (crear factura)
-            //sampleCfdi(facturama);
+            sampleCfdi(facturama);
             
-        } catch (IOException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FacturamaException ex) {                        
+            // Se muestran los errores
+            System.out.println( ex.getMessage() );
+                        
+            Map<String, String[]> messageDetail = ex.getModel().getDetails();
+            messageDetail.entrySet().forEach((entry) -> {
+                System.out.println(entry.getKey() + ": " +  String.join(",", entry.getValue() ));
+            });                                   
+            
+        } catch (Exception ex) {
+            System.out.println( "Error inesperado: " + ex.getMessage() );
         }
         
     }
@@ -71,7 +92,7 @@ public class main {
      * Ejemplos de funcionalidad basica de los servicios de "Clientes" 
      * @param facturama Instancia de la api de facturama
      */
-    private static void sampleClients( FacturamaApi facturama) throws IOException{                  
+    private static void sampleClients( FacturamaApi facturama) throws IOException, FacturamaException{                  
          List<Client> lstClients = facturama.Clients().List();         
          Integer clientsBefore = lstClients.size();                       
         
@@ -107,7 +128,7 @@ public class main {
        
     }
     
-    private static Client sampleClientsCreate(FacturamaApi facturama) throws IOException{
+    private static Client sampleClientsCreate(FacturamaApi facturama) throws IOException, FacturamaException{
         Client newClient = new Client();    
          
          Address clientAddress = new Address();
@@ -131,7 +152,7 @@ public class main {
          return facturama.Clients().Create(newClient);
     }
     
-    private static void sampleProducts( FacturamaApi facturama) throws IOException{                  
+    private static void sampleProducts( FacturamaApi facturama) throws IOException, FacturamaException{                  
          List<Product> lstProducts = facturama.Products().List();         
          Integer ProductsBefore = lstProducts.size();                       
         
@@ -142,7 +163,7 @@ public class main {
          String ProductRetrivedId = newProduct.getId();                 
          Product ProductRetrived = facturama.Products().Retrieve(ProductRetrivedId);
          
-         // Se modifica el RFC
+         // Se modifica el Precio
          ProductRetrived.setPrice(100.00);    
          
          // Edicion
@@ -167,7 +188,7 @@ public class main {
        
     }
     
-    private static Product sampleProductCreate(FacturamaApi facturama) throws IOException{
+    private static Product sampleProductCreate(FacturamaApi facturama) throws IOException, FacturamaException{
         
         Unit unit = facturama.Catalogs().Units("servicio").get(0);
         ProductServices prod = facturama.Catalogs().ProductsOrServices("desarrollo").get(0);
@@ -208,22 +229,183 @@ public class main {
     /**
      * Ejemplo Operaciones con el servicio de CFDI (Facturas)     
     */
-    private static void sampleCfdi( FacturamaApi facturama) throws IOException{  
+    private static void sampleCfdi( FacturamaApi facturama) throws IOException, FacturamaException{  
         
-        System.out.println( "----- Inicio del ejemplo de CFDI -----" );
+        System.out.println( "----- Inicio del ejemplo de CFDI -----" );      
         
-        List<Unit> units = facturama.Catalogs().Units(); 
+        // Se obtiene la moneda con el valor "MXN"
+        List<Currency> lstCurrencies = facturama.Catalogs().Currencies();                
+        Currency currency = lstCurrencies.stream().
+        filter(p -> p.getValue().equals("MXN")).findFirst().get();
         
-        // Lista de todos los productos que se tiene en facturama
-        List<Product> products = facturama.Products().List();
         
-        // Lista del catálogo de nombres en el PDF
-        List<NameCfdi> lstNamesForPdf = facturama.Catalogs().NameIds(); 
+        // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = createCfdi(facturama, currency);
+                
+        // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
+        cfdi = addItemsToCfdi(facturama, currency, cfdi);
         
-        List<ProductServices> lstProductOrServicesCatalog = facturama.Catalogs().ProductsOrServices("gatos"); 
+        
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
+
+        System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
         
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         
+    }
+    
+    
+    /**
+     * Crea el encabezado ()
+     */    
+    private static com.Facturama.sdk_java.Models.Request.Cfdi createCfdi(FacturamaApi facturama, Currency currency) throws IOException, FacturamaException{
+        
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
+            // Lista del catálogo de nombres en el PDF
+            NameCfdi nameForPdf = facturama.Catalogs().NameIds().get(0); // Nombre en el pdf: "Factura"
+                
+            // Método de pago       
+            Catalog paymentMethod = facturama.Catalogs().PaymentMethods().stream().
+            filter(p -> p.getName().equals("Pago en una sola exhibición")).findFirst().get();                
+
+            // Forma de pago
+            Catalog paymentForm = facturama.Catalogs().PaymentForms().stream().
+            filter(p -> p.getName().equals("Efectivo")).findFirst().get();                
+
+
+            // Cliente (se toma como cliente el "cliente generico", aquel que tiene el RFC genérico),
+            // (como los clientes son exclusivos para cada usuario, se debe previamente dar de alta este cliente)
+            Client client = facturama.Clients().List().stream().
+            filter(p -> p.getRfc().equals("XAXX010101000")).findFirst().get();                
+
+            // Lugar de expedición
+            BranchOffice branchOffice = facturama.BranchOffices().List().get(0);
+
+            cfdi.setNameId(nameForPdf.getValue());
+            cfdi.setCfdiType( CfdiType.Ingreso.getValue() );        
+            cfdi.setPaymentForm( paymentForm.getValue() );
+            cfdi.setPaymentMethod( paymentMethod.getValue() );
+            cfdi.setCurrency(currency.getValue());
+            cfdi.setExpeditionPlace(branchOffice.getAddress().getZipCode());
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();        
+            cfdi.setDate(dateFormat.format(date));            
+
+            Receiver  receiver = new Receiver();
+            receiver.setCfdiUse(client.getCfdiUse());
+            receiver.setName(client.getName());
+            receiver.setRfc(client.getRfc());
+
+            cfdi.setReceiver(receiver);           
+        
+       
+        return cfdi;
+                
+    }
+    
+    
+    private static com.Facturama.sdk_java.Models.Request.Cfdi addItemsToCfdi(FacturamaApi facturama, Currency currency,
+            com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException{
+        
+        // Lista de todos los productos
+        List<Product> lstProducts = facturama.Products().List();
+        Random random = new Random();
+        
+        int nItems = (random.nextInt(lstProducts.size()) % 10) + 1;
+        int decimals = (int) currency.getDecimals();
+        
+        
+        // Lista de Items en el cfdi (los articulos a facturar)
+        List<Item> lstItems = new ArrayList<>();
+        
+        // Creacion del CFDI 
+        for( int i = lstProducts.size() - nItems; i < lstProducts.size() && i > 0; i++  ){
+            
+            Product product = lstProducts.get(i);   // Un producto cualquiera
+            int quantity = random.nextInt(5) + 1;   // una cantidad aleatoria de elementos de este producto
+            Double discount = product.getPrice () % ( product.getPrice() == 0 ? 1 : random.nextInt( (int) product.getPrice() ) );
+            
+            // Redondeo del precio del producto, de acuerdo a la moneda
+            Double numberOfDecimals = Math.pow(10, decimals); 
+            Double subTotal = Math.round( (product.getPrice() * quantity) * numberOfDecimals) / numberOfDecimals;
+            
+            
+            // Llenado del item (que va en el cfdi)
+            Item item = new Item();
+            item.setProductCode(product.getCodeProdServ());
+            item.setUnitCode(product.getUnitCode());
+            item.setUnit(product.getUnit());
+            item.setDescription(product.getDescription());
+            item.setIdentificationNumber(product.getIdentificationNumber());
+            item.setQuantity(quantity);
+            item.setDiscount( Math.round( discount * numberOfDecimals) / numberOfDecimals );
+            item.setUnitPrice(Math.round( product.getPrice() * numberOfDecimals) / numberOfDecimals);
+            item.setSubtotal(subTotal);
+            
+            
+            
+            // ---- Llenado de los impuestos del item ----                                    
+            item = addTaxesToItem(item, product, numberOfDecimals);
+                        
+            lstItems.add(item);                        
+            
+        }
+        
+        cfdi.setItems(lstItems);
+        
+        return cfdi;
+    }
+    
+    
+    /**
+     * Se agregan los impuestos al Item (uno de los items del cfdi)
+     * Se agregan todos los impuestos del producto, en el caso de que no se tengan impuestos, se debe colocar un valor nulo
+     */
+    private static Item addTaxesToItem(Item item, Product product, Double numberOfDecimals){
+        
+        List<ProductTax> lstProductTaxes = product.getTaxes(); // impuestos del producto
+            List<Tax> lstTaxes = new ArrayList<>();              // Impuestos del item (del cfdi)
+            
+            Double baseAmount = Math.round( ( item.getSubtotal() - item.getDiscount()) * numberOfDecimals) / numberOfDecimals ;
+            
+            for(int j = 0; j < lstProductTaxes.size(); j++ ){
+                
+                ProductTax pTax = lstProductTaxes.get(j);
+                
+                Tax tax = new Tax();
+                
+                tax.setName(pTax.getName());
+                tax.setIsQuota(pTax.getIsQuota());
+                tax.setIsRetention(pTax.getIsRetention());
+                
+                
+                Double rate = pTax.getRate();
+                Double rateRounded = (double) Math.round(rate  * 1000000) / 1000000;                
+                tax.setRate( rateRounded );
+                tax.setBase( Math.round(item.getSubtotal()  * numberOfDecimals) / numberOfDecimals );
+                tax.setTotal( Math.round( (baseAmount * pTax.getRate()) * numberOfDecimals) / numberOfDecimals );                
+                
+                lstTaxes.add(tax);
+            }
+                        
+            
+            Double retentionsAmount = 0D;
+            Double transfersAmount = 0D;
+            
+            // Asignación de los impuestos, en caso de que no se tengan, el campo va nulo
+            if(!lstTaxes.isEmpty()){
+                item.setTaxes(lstTaxes);
+                
+                retentionsAmount = item.getTaxes().stream().filter(o -> o.getIsRetention()).mapToDouble(o -> o.getTotal()).sum();
+                transfersAmount = item.getTaxes().stream().filter(o -> ! o.getIsRetention()).mapToDouble(o -> o.getTotal()).sum();
+            }                        
+            
+            // Calculo del subtotal
+            item.setTotal(item.getSubtotal() - item.getDiscount() + transfersAmount -  retentionsAmount);
+            
+            return item;
+            
     }
 }

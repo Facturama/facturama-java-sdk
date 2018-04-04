@@ -1,7 +1,7 @@
 
 package com.Facturama.sdk_java.Models.Response;
 
-class TaxStamp 
+public class TaxStamp 
 {
     private String Uuid; 
     private String Date;

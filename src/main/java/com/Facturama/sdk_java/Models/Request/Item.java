@@ -100,8 +100,8 @@ public class Item{
    }
    
    public Double getDiscount()
-   {
-        return Discount;
+   {              
+       return (this.Discount == null) ? 0 : this.Discount;
    }
    
    public void setDiscount(Double Discount)

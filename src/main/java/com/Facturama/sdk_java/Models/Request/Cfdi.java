@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Cfdi {
 
-    private Integer NameId ;
+    private String NameId ;
     private String Date;
     private String Serie;
     private String PaymentAccountNumber;
@@ -24,15 +24,23 @@ public class Cfdi {
     private String PaymentBankName;
    
    
-   public Integer getNameId ()
+   public String getNameId ()
    {
         return NameId;
    }
+      
+   /**
+    * Establece el identificador del nombre para el PDF
+    */
+   public void setNameId (String NameId)
+   {
+        this.NameId = NameId;
+   }
    
-   public void setUnitCode(Integer NameId)
+   /*public void setUnitCode(Integer NameId)
    {
       this.NameId = NameId;
-   }
+   }*/
     
    public String getDate()
    {

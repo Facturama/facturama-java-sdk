@@ -11,7 +11,7 @@ import java.util.List;
 public class BranchOfficeService extends CrudService <BranchOffice, BranchOffice>{
     
     public BranchOfficeService(OkHttpClient client) {
-        super(client, "client");
+        super(client, "BranchOffice");
         
         singleType = BranchOffice.class;
         multiType = new TypeToken<List<BranchOffice>>() {}.getType();        

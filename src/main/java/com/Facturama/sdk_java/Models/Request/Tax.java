@@ -3,10 +3,10 @@ package com.Facturama.sdk_java.Models.Request;
 
 public class Tax {
     
-    private double Total;
+    private Double Total;
     private String Name; 
-    private double Base;
-    private double Rate;
+    private Double Base;
+    private Double Rate;
     private boolean IsRetention;
     private Boolean IsQuota;
 

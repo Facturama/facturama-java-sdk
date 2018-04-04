@@ -3,7 +3,6 @@ package com.Facturama.sdk_java.Services;
 
 import com.Facturama.sdk_java.Container.BaseUrlInterceptor;
 import com.google.gson.Gson;
-import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -13,7 +12,9 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 import java.util.List;
 import java.io.IOException;
-
+import com.Facturama.sdk_java.Models.Exception.FacturamaException;
+import com.Facturama.sdk_java.Models.Exception.ModelException;
+import java.net.ProtocolException;
 
 public abstract class HttpService <TI, TO>
 {   
@@ -32,18 +33,48 @@ public abstract class HttpService <TI, TO>
     }
     
     
-    protected final Response  Execute(Request  request) throws IOException {
-        return httpClient.newCall(request).execute();
+    protected final Response  Execute(Request  request) throws IOException, FacturamaException, Exception {
+        Response response = null;
+        try{
+            response = httpClient.newCall(request).execute();
+        
+            switch(response.code()){
+                case 400: // BadRequest                    
+                    String jsonData = response.body().string();                      
+                    ModelException exception = new Gson().fromJson(jsonData, ModelException.class);
+        
+                    throw new FacturamaException(exception.getMessage(), exception);                                       
+
+
+                case 401: // Unauthorized
+                    throw new FacturamaException("No esta autorizado para realizar esta petición, verifique su usuario y contraseña y que su suscripción se encuentre activa");                                       
+
+                case 500: // InternalServerError
+                    throw new Exception(response.message());                    
+            }
+        }catch(ProtocolException ex){
+            throw new FacturamaException("No esta autorizado para realizar esta petición, verifique su usuario y contraseña y que su suscripción se encuentre activa");                                       
+        }
+        
+        
+        
+        
+        return response;
     }
 
-    protected final TO Get() throws IOException {       
+    protected final TO Get() throws IOException, FacturamaException, Exception {       
         return this.Get("");        
     }
        
-    protected final TO Get(String resourceId) throws IOException {
+    protected final TO Get(String resource) throws IOException, FacturamaException, Exception {
         
-        HttpUrl.Builder urlBuilder 
-        = HttpUrl.parse(baseUrl + "/" + relativeUrl + "/" + resourceId).newBuilder();    
+       return this.Get(resource, singleType);
+    }
+    
+    
+    protected final TO Get(String resource, Type singleType ) throws IOException, FacturamaException, Exception {
+         HttpUrl.Builder urlBuilder 
+        = HttpUrl.parse(baseUrl + "/" + relativeUrl + "/" + resource).newBuilder();    
  
         String url = urlBuilder.build().toString();    
   
@@ -61,20 +92,22 @@ public abstract class HttpService <TI, TO>
     
     
     
-     protected final List<TO> GetList() throws IOException {        
+    
+    
+     protected final List<TO> GetList() throws IOException, FacturamaException, Exception {        
          return this.GetList("");        
     }
 
 
     
-    protected final List<TO> GetList(String resource) throws IOException {
+    protected final List<TO> GetList(String resource) throws IOException, FacturamaException, Exception {
 
         return this.GetList(resource, this.multiType);    
         
     }    
     
     
-    protected final List<TO> GetList(String resource, Type multiType ) throws IOException {
+    protected final List<TO> GetList(String resource, Type multiType ) throws IOException, FacturamaException, Exception {
         
          HttpUrl.Builder urlBuilder 
       = HttpUrl.parse(baseUrl + "/" + relativeUrl + resource ).newBuilder();    
@@ -97,11 +130,11 @@ public abstract class HttpService <TI, TO>
     
     
     
-    protected final TO Post(TI obj) throws IOException {       
+    protected final TO Post(TI obj) throws IOException, FacturamaException, Exception {       
         return Post(obj, "");
     }
     
-    protected final TO Post(TI obj, String urlParams) throws IOException {
+    protected final TO Post(TI obj, String urlParams) throws IOException, FacturamaException, Exception {
         
         if(obj == null){
             throw new NullPointerException( singleType.getTypeName() );
@@ -135,7 +168,7 @@ public abstract class HttpService <TI, TO>
         return object;
     }
    
-    protected final TO Put(TI obj, String id) throws IOException {
+    protected final TO Put(TI obj, String id) throws IOException, FacturamaException, Exception {
 
          if(obj == null){
             throw new NullPointerException( singleType.getTypeName() );
@@ -170,10 +203,10 @@ public abstract class HttpService <TI, TO>
         
     }
 
-    protected final TO Delete(String resourceId) throws IOException {
+    protected final TO Delete(String resource) throws IOException, FacturamaException, Exception {
 
         HttpUrl.Builder urlBuilder 
-        = HttpUrl.parse(baseUrl + "/" + relativeUrl + "/" + resourceId).newBuilder();    
+        = HttpUrl.parse(baseUrl + "/" + relativeUrl + "/" + resource).newBuilder();    
  
         String url = urlBuilder.build().toString();    
   
