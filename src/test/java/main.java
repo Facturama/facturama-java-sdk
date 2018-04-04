@@ -74,9 +74,9 @@ public class main {
     
      /**
     * Creación de una instancia del SDK con los datos del usuario de pruebas
-    * Remplaza  estos datos por los de tu cuenta
-    * Considera que mientras la bandera de 'isDevMode' está en 'false' 
-    * se considera un ambiente de pruebas ( no se consumen folios, las facturas realzadas son apócrifas)
+    * Remplaza 'user' y 'password' por los de tu cuenta
+    * isDevMode = true : ambiente de pruebas ( no se consumen folios, las facturas realzadas son apócrifas)
+    * isDevMode = false : ambiente de producción ( SI se consumen folios, las facturas realzadas son TIMBRADAS por un "PAC" )
     */
     private static FacturamaApi createApiInstance(){
         String user = "pruebas";
@@ -92,7 +92,7 @@ public class main {
      * Ejemplos de funcionalidad basica de los servicios de "Clientes" 
      * @param facturama Instancia de la api de facturama
      */
-    private static void sampleClients( FacturamaApi facturama) throws IOException, FacturamaException{                  
+    private static void sampleClients( FacturamaApi facturama) throws IOException, FacturamaException, Exception{                  
          List<Client> lstClients = facturama.Clients().List();         
          Integer clientsBefore = lstClients.size();                       
         
@@ -128,7 +128,7 @@ public class main {
        
     }
     
-    private static Client sampleClientsCreate(FacturamaApi facturama) throws IOException, FacturamaException{
+    private static Client sampleClientsCreate(FacturamaApi facturama) throws IOException, FacturamaException, Exception{
         Client newClient = new Client();    
          
          Address clientAddress = new Address();
@@ -152,7 +152,7 @@ public class main {
          return facturama.Clients().Create(newClient);
     }
     
-    private static void sampleProducts( FacturamaApi facturama) throws IOException, FacturamaException{                  
+    private static void sampleProducts( FacturamaApi facturama) throws IOException, FacturamaException, Exception{                  
          List<Product> lstProducts = facturama.Products().List();         
          Integer ProductsBefore = lstProducts.size();                       
         
@@ -188,7 +188,7 @@ public class main {
        
     }
     
-    private static Product sampleProductCreate(FacturamaApi facturama) throws IOException, FacturamaException{
+    private static Product sampleProductCreate(FacturamaApi facturama) throws IOException, FacturamaException, Exception{
         
         Unit unit = facturama.Catalogs().Units("servicio").get(0);
         ProductServices prod = facturama.Catalogs().ProductsOrServices("desarrollo").get(0);
@@ -229,7 +229,7 @@ public class main {
     /**
      * Ejemplo Operaciones con el servicio de CFDI (Facturas)     
     */
-    private static void sampleCfdi( FacturamaApi facturama) throws IOException, FacturamaException{  
+    private static void sampleCfdi( FacturamaApi facturama) throws IOException, FacturamaException, Exception{  
         
         System.out.println( "----- Inicio del ejemplo de CFDI -----" );      
         
@@ -259,7 +259,7 @@ public class main {
     /**
      * Crea el encabezado ()
      */    
-    private static com.Facturama.sdk_java.Models.Request.Cfdi createCfdi(FacturamaApi facturama, Currency currency) throws IOException, FacturamaException{
+    private static com.Facturama.sdk_java.Models.Request.Cfdi createCfdi(FacturamaApi facturama, Currency currency) throws IOException, FacturamaException, Exception{
         
         com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
             // Lista del catálogo de nombres en el PDF
@@ -307,7 +307,7 @@ public class main {
     
     
     private static com.Facturama.sdk_java.Models.Request.Cfdi addItemsToCfdi(FacturamaApi facturama, Currency currency,
-            com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException{
+            com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception{
         
         // Lista de todos los productos
         List<Product> lstProducts = facturama.Products().List();

@@ -22,17 +22,17 @@ public class TaxEnityService extends HttpService<com.Facturama.sdk_java.Models.R
         super(client, "taxenity");
     }
     
-    public TaxEnity Retrive() throws IOException, FacturamaException
+    public TaxEnity Retrive() throws IOException, FacturamaException, Exception
     {
         return Get("");
     }
     
-    public  TaxEnity Update(com.Facturama.sdk_java.Models.Request.TaxEnity model) throws IOException
+    public  TaxEnity Update(com.Facturama.sdk_java.Models.Request.TaxEnity model) throws IOException, Exception
     {
         return Put(model,"");
     }
     
-    public boolean UploadImage(Image img) throws IOException          
+    public boolean UploadImage(Image img) throws IOException, Exception          
     {
 
         HttpUrl.Builder urlBuilder 
@@ -54,13 +54,11 @@ public class TaxEnityService extends HttpService<com.Facturama.sdk_java.Models.R
                 .build();
         
         Response response = Execute(request);
-        if(response.code()==204)
-        {
-            return true;
-        }
-        return false;
+        return response.code()==204;
     }
-    public boolean UploadCds(Csd csd) throws IOException
+    
+    
+    public boolean UploadCds(Csd csd) throws IOException, Exception
     {
              HttpUrl.Builder urlBuilder 
         = HttpUrl.parse(baseUrl + "/UploadCsd").newBuilder();    
@@ -81,11 +79,8 @@ public class TaxEnityService extends HttpService<com.Facturama.sdk_java.Models.R
                 .build();
         
         Response response = Execute(request);
-        if(response.code()==204)
-        {
-            return true;
-        }
-        return false;
+        
+        return response.code()==204;
     }
 
 }

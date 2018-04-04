@@ -32,12 +32,12 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         multiType = new TypeToken<List<com.Facturama.sdk_java.Models.Response.Cfdi>>() {}.getType();       
     }
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException{        
+    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");       
     }    
     
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Remove(String id) throws IOException, FacturamaException{        
+    public com.Facturama.sdk_java.Models.Response.Cfdi Remove(String id) throws IOException, FacturamaException, Exception{        
         if(id != null && !id.isEmpty()){
             return (com.Facturama.sdk_java.Models.Response.Cfdi) Delete("cfdi/" + id  + "?type=issued");    
         }else{
@@ -46,27 +46,27 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }            
     
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException
+    public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException, Exception
     {
         return (com.Facturama.sdk_java.Models.Response.Cfdi) Get("cfdi/" + id + "?type=Issued");
     }
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Retrive(String id, InvoiceType type ) throws IOException, FacturamaException
+    public com.Facturama.sdk_java.Models.Response.Cfdi Retrive(String id, InvoiceType type ) throws IOException, FacturamaException, Exception
     {        
         return (com.Facturama.sdk_java.Models.Response.Cfdi) Get("cfdi/" + id + "?type="+type.toString());
     }
     
     
-    public List<CfdiSearchResult> List(String keyword) throws IOException, FacturamaException
+    public List<CfdiSearchResult> List(String keyword) throws IOException, FacturamaException, Exception
     {        
         return this.List(keyword, CfdiStatus.Active );
     }
     
-    public List<CfdiSearchResult> List(String keyword, CfdiStatus status ) throws IOException, FacturamaException{
+    public List<CfdiSearchResult> List(String keyword, CfdiStatus status ) throws IOException, FacturamaException, Exception{
         return this.List(keyword, CfdiStatus.Active, InvoiceType.Issued );
     }
     
-    public List<CfdiSearchResult> List(String keyword, CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException{
+    public List<CfdiSearchResult> List(String keyword, CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{
         keyword = URLEncoder.encode(keyword);
         
         String resource = "cfdi?type=" +  type + "&keyword=" + keyword + "&status=" + status;
@@ -76,7 +76,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     
-    public List<CfdiSearchResult> List() throws IOException, FacturamaException{        
+    public List<CfdiSearchResult> List() throws IOException, FacturamaException, Exception{        
         return this.List(-1, -1, 
                 null, null,
                 "", "", 
@@ -84,7 +84,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
                 CfdiStatus.Active, InvoiceType.Issued);
     }
     
-    public List<CfdiSearchResult> ListFilterByRfc(String rfc) throws IOException, FacturamaException{        
+    public List<CfdiSearchResult> ListFilterByRfc(String rfc) throws IOException, FacturamaException, Exception{        
         return this.List(-1, -1, 
                 rfc, null,
                 "", "", 
@@ -97,7 +97,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
             String rfc, String taxEntityName,
             String dateStart, String dateEnd, 
             String idBranch, String serie,
-            CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException{        
+            CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{        
         
         String resource = "cfdi?type=" +  type + "&status=" + status +
             "&folioStart=" + folioStart + "&folioEnd=" + folioEnd + 

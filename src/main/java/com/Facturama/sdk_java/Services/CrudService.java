@@ -22,24 +22,24 @@ public class CrudService<TI, TO>  extends HttpService<TI,TO> {
         super(client, url);
     }
     
-    public TO Retrieve(String id) throws IOException, FacturamaException{
+    public TO Retrieve(String id) throws IOException, FacturamaException, Exception{
         return super.Get(id);
     }
     
-    public List<TO> List() throws IOException, FacturamaException{
+    public List<TO> List() throws IOException, FacturamaException, Exception{
         return super.GetList();
     }
     
-    public TO Create(TI obj) throws IOException, FacturamaException{
+    public TO Create(TI obj) throws IOException, FacturamaException, Exception{
         return super.Post(obj);
     }
     
-     public TO Remove(String id) throws IOException, FacturamaException{
+     public TO Remove(String id) throws IOException, FacturamaException, Exception{
         return super.Delete(id);
     }
      
      
-     public TO Update(TI model, String id) throws IOException, FacturamaException{
+     public TO Update(TI model, String id) throws IOException, FacturamaException, Exception{
         return super.Put(model, id);
     }
      

@@ -11,7 +11,7 @@ public class ProfileService extends HttpService<Profile,Profile>{
     public ProfileService(OkHttpClient client) {
         super(client,"profile");
     }
-    public Profile Retrive() throws IOException, FacturamaException
+    public Profile Retrive() throws IOException, FacturamaException, Exception
     {
       return Get(""); 
     }

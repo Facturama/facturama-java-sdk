@@ -13,22 +13,24 @@ public class SerieService extends HttpService <Serie,Serie>{
         super(client,"serie");
     }
     
-    public List<Serie> List (String idBranchOffice) throws IOException, FacturamaException
+    public List<Serie> List (String idBranchOffice) throws IOException, FacturamaException, Exception
     {
         return GetList(idBranchOffice);
     
     }
     
-    public Serie Retrive(String idBranchOffice, String SerieName ) throws IOException, FacturamaException
+    public Serie Retrive(String idBranchOffice, String SerieName ) throws IOException, FacturamaException, Exception
     {
         return Get(""+idBranchOffice+"/"+ SerieName+"");
     }
     
-    public Serie Update(Serie model ) throws IOException
+    public Serie Update(Serie model ) throws IOException, Exception
     {
         return Put(model,""+ model.getIdBranchOffice()+"/"+model.getName());
     }
-    public Serie Remove(String idBranchOffice, String SerieName ) throws IOException
+    
+    
+    public Serie Remove(String idBranchOffice, String SerieName ) throws IOException, Exception
     {
         return Delete(""+idBranchOffice+"/"+SerieName);
     }
