@@ -58,7 +58,7 @@ public class TaxEnityService extends HttpService<com.Facturama.sdk_java.Models.R
     }
     
     
-    public boolean UploadCds(Csd csd) throws IOException, Exception
+    public boolean UploadCsd(Csd csd) throws IOException, Exception
     {
              HttpUrl.Builder urlBuilder 
         = HttpUrl.parse(baseUrl + "/UploadCsd").newBuilder();    

@@ -53,7 +53,11 @@ public class main {
             
             
             // Prueba de la funcionalidad básica del servicio de CFDI (crear factura)
-            sampleCfdi(facturama);
+            //sampleCfdi(facturama);
+            
+            String filePath = "factura";
+            facturama.Cfdis().SavePdf(filePath+".pdf", "7eo51BvzV-E16gBx3nnxfQ2");
+            facturama.Cfdis().SaveXml(filePath+".xml", "7eo51BvzV-E16gBx3nnxfQ2");
             
         } catch (FacturamaException ex) {                        
             // Se muestran los errores
@@ -250,6 +254,14 @@ public class main {
 
         System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
+        // Descarga de los archivos de la factura
+         String filePath = "factura";
+        facturama.Cfdis().SavePdf(filePath+".pdf", "7eo51BvzV-E16gBx3nnxfQ2");
+        facturama.Cfdis().SaveXml(filePath+".xml", "7eo51BvzV-E16gBx3nnxfQ2");
+        
+        
+        
+        facturama.Cfdis().Remove(cfdiCreated.getId());
         
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         

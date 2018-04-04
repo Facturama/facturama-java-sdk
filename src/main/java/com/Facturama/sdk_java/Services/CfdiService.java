@@ -8,6 +8,9 @@ import java.io.IOException;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.net.URLEncoder;
+import com.Facturama.sdk_java.Models.Response.InovoiceFile;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.io.FileOutputStream;
 
 public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.Request.Cfdi,com.Facturama.sdk_java.Models.Response.Cfdi>{
 
@@ -109,7 +112,111 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }
     
     
-            
+    /**-
+     * Obtiene un archivo referente a un CFDI del tipo "Issued"
+     * @param id Identificador del CFDI
+     * @param format Formato deseado ( pdf | html | xml )     
+     * @return Archivo en cuestion
+     */
+    public InovoiceFile GetFile(String id, FileFormat format) throws Exception{
+       return GetFile(id, format, InvoiceType.Issued);
+    }
     
+    /**
+     * Obtiene un archivo referente a un CFDI
+     * @param id Identificador del CFDI
+     * @param format Formato deseado ( pdf | html | xml )
+     * @param type Tipo de comprobante ( payroll | received | issued )
+     * @return Archivo en cuestion
+     */
+    public InovoiceFile GetFile(String id, FileFormat format, InvoiceType type ) throws FacturamaException, Exception{
+        
+        String resource = "cfdi/" +  format + "/" + type + "/" + "/" + id;
+        
+        InovoiceFile file = (InovoiceFile)  Get(resource, InovoiceFile.class);                         
+        
+        return  file;        
+    }
+          
+    
+    /**
+     * Guardada el PDF de  un CFDI del tipo "Issued" en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     */
+    public void SavePdf( String filePath, String id) throws Exception{
+        SavePdf(filePath, id, InvoiceType.Issued);
+    }
+    
+    /**
+     * Guardada el PDF de  un CFDI en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     * @param type Tipo del comprobante (payroll | received | issued)
+     */
+    public void SavePdf( String filePath, String id, InvoiceType type ) throws Exception{
+        InovoiceFile file = GetFile(id, FileFormat.Pdf, type);
+        
+        FileOutputStream fos = new FileOutputStream(filePath);                 
+                 fos.write(Base64.decode(file.getContent()));
+                 fos.close();                 
+    }
+    
+    
+    
+    
+    /**
+     * Guardada el XML de  un CFDI del tipo "Issued" en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     */
+    public void SaveXml( String filePath, String id) throws Exception{
+        SaveXml(filePath, id, InvoiceType.Issued);
+    }
+    
+    /**
+     * Guardada el XML de  un CFDI en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     * @param type Tipo del comprobante (payroll | received | issued)
+     */
+    public void SaveXml( String filePath, String id, InvoiceType type ) throws Exception{
+        InovoiceFile file = GetFile(id, FileFormat.Xml, type);
+        
+        FileOutputStream fos = new FileOutputStream(filePath);                 
+                 fos.write(Base64.decode(file.getContent()));
+                 fos.close();                 
+    }
+    
+    
+    
+    /**
+     * Guardada el HTML de  un CFDI del tipo "Issued" en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     */
+    public void SaveHtml( String filePath, String id) throws Exception{
+        SaveXml(filePath, id, InvoiceType.Issued);
+    }
+    
+    /**
+     * Guardada el HTML de  un CFDI en la ruta especificada
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     * @param type Tipo del comprobante (payroll | received | issued)
+     */
+    public void SaveHtml( String filePath, String id, InvoiceType type ) throws Exception{
+        InovoiceFile file = GetFile(id, FileFormat.Html, type);
+        
+        FileOutputStream fos = new FileOutputStream(filePath);                 
+                 fos.write(Base64.decode(file.getContent()));
+                 fos.close();                 
+    }
         
 }

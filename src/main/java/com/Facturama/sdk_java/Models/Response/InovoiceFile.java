@@ -1,8 +1,6 @@
 
 package com.Facturama.sdk_java.Models.Response;
 
-import com.Facturama.sdk_java.Models.Address;
-import com.Facturama.sdk_java.Models.Csd;
 
 public class InovoiceFile 
 {
