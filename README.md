@@ -33,7 +33,7 @@ Y si el valor de la variable  ```isDevMode``` es ```false``` la librería esta e
  }
 ```
 ## CFDI 3.3
-#### Crear un objeto de tipo CFCDI ####
+Crear un objeto de tipo CFCDI
  ```java
  com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
  
@@ -80,15 +80,20 @@ Y si el valor de la variable  ```isDevMode``` es ```false``` la librería esta e
  cfdi.setItems(lstItems);
  
 ```
-#### Creacion de CFDI 3.3 ####
+Creacion de CFDI 3.3
  ```java
- com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
+  com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
 ```
-#### Cancelación ####
+Cancelación 
  ```java
-facturama.Cfdis().Remove(cfdiCreated.getId());
+ facturama.Cfdis().Remove(cfdiCreated.getId());
 ```
-
+Descarga en el formato deseado xml, html ó pdf
+ ```java
+  String filePath = "factura";
+  facturama.Cfdis().SavePdf(filePath+".pdf", "7eo51BvzV-E16gBx3nnxfQ2");
+  facturama.Cfdis().SaveXml(filePath+".xml", "7eo51BvzV-E16gBx3nnxfQ2");
+```
 ## Otras Operaciones
 * Consultar Perfil y Suscripción actual,
 * Carga de Logo y Certificados Digitales
