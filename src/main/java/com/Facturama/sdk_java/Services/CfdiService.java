@@ -90,23 +90,44 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     public List<CfdiSearchResult> ListFilterByRfc(String rfc) throws IOException, FacturamaException, Exception{        
         return this.List(-1, -1, 
                 rfc, null,
-                "", "", 
-                "", "",
+                null, null, 
+                null, null,
                 CfdiStatus.Active, InvoiceType.Issued);
     }
-    
-    
+            
+        
     public List<CfdiSearchResult> List(int folioStart, int folioEnd, 
             String rfc, String taxEntityName,
             String dateStart, String dateEnd, 
             String idBranch, String serie,
             CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{        
         
-        String resource = "cfdi?type=" +  type + "&status=" + status +
-            "&folioStart=" + folioStart + "&folioEnd=" + folioEnd + 
-                "&rfc=" + rfc + "&taxEntityName=" + taxEntityName + 
-                "&dateStart=" + dateStart + "&dateEnd=" + dateEnd +
-                "&idBranch=" + idBranch + "&serie=" + serie;
+        String resource = "cfdi?type=" +  type + "&status=" + status;
+        
+        if( folioStart > -1 )
+            resource += "&folioStart=" + folioStart;
+        
+        if( folioEnd > -1 )
+            resource += "&folioEnd=" + folioEnd;        
+        
+        if( rfc != null )
+            resource += "&rfc=" + rfc;
+        
+        if( taxEntityName != null )
+            resource += "&taxEntityName=" + taxEntityName;
+        
+        if( dateStart != null )
+            resource += "&dateStart=" + dateStart;
+        
+        if( dateEnd != null )
+            resource += "&dateEnd=" + dateEnd;
+        
+        if( idBranch != null )
+            resource += "&idBranch=" + idBranch;
+        
+        if( serie != null )
+            resource += "&serie=" + serie;
+
         
         return GetList( resource , new TypeToken<List<CfdiSearchResult>>() {}.getType() );
     }

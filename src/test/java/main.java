@@ -55,7 +55,7 @@ public class main {
             // Prueba de la funcionalidad básica del servicio de CFDI (crear factura)
             sampleCfdi(facturama);            
             
-            
+             
             
             
         } catch (FacturamaException ex) {                        
@@ -267,7 +267,7 @@ public class main {
         
         // Consulta de cfdis mediante palabra clave o rfc
         List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
-        List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");
+        List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
 
         System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
         System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
