@@ -28,7 +28,7 @@ public class FacturamaApi {
      */
     public FacturamaApi(String user, String password, boolean isDevelopment )
     {              
-        String host = isDevelopment ? "apisandbox.facturama.com.mx" : "www.api.facturama.com.mx";
+        String host = isDevelopment ? "apisandbox.facturama.mx" : "www.api.facturama.mx";
         String schema = isDevelopment ? "http" : "https";
         int port = isDevelopment ? 80 : 443;
         
