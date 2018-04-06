@@ -264,7 +264,8 @@ public class main {
         facturama.Cfdis().Remove(cfdiCreated.getId());        
         System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
-        
+        //El correo que se ingrese debe existir 
+        System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
         // Consulta de cfdis mediante palabra clave o rfc
         List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
         List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                

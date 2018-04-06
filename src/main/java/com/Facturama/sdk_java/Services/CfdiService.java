@@ -9,6 +9,13 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.net.URLEncoder;
 import com.Facturama.sdk_java.Models.Response.InovoiceFile;
+import com.Facturama.sdk_java.Models.Response.CfdiSendEmail;
+import com.google.gson.Gson;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.FileOutputStream;
 
@@ -59,6 +66,27 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         return (com.Facturama.sdk_java.Models.Response.Cfdi) Get("cfdi/" + id + "?type="+type.toString());
     }
     
+    public boolean SendEmail(String email, InvoiceType type, String cfdiId) throws FacturamaException, Exception
+    {
+           HttpUrl.Builder urlBuilder 
+        = HttpUrl.parse(baseUrl + "/Cfdi?cfdiType="+type+"&cfdiId="+cfdiId+"&email="+email ).newBuilder();
+           String jsonObj = new Gson().toString();
+            String url = urlBuilder.build().toString(); 
+            RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),jsonObj);
+            
+            Request request = new Request.Builder()
+                .url(url)
+                .post(body)    
+                .build();
+            
+             Response response = Execute(request);
+             String jsonData = response.body().string();
+             
+             CfdiSendEmail object = new Gson().fromJson(jsonData, CfdiSendEmail.class );
+             return object.getsuccess();
+
+    }
     
     public List<CfdiSearchResult> List(String keyword) throws IOException, FacturamaException, Exception
     {        
