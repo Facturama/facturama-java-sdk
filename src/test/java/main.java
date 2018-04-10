@@ -213,13 +213,13 @@ public class main {
         iva.setRate(0.16);
         iva.setIsRetention(false);
 
-        ProductTax isr = new ProductTax();
+        /*ProductTax isr = new ProductTax();
         isr.setName("ISR");
-        isr.setTotal(0.1);
-        isr.setIsRetention(true);
+        isr.setTotal(0.19);
+        isr.setIsRetention(true);*/
 
         taxes.add(iva);
-        taxes.add(isr);
+        //taxes.add(isr);
 
         product.setTaxes(taxes);
         
@@ -329,7 +329,7 @@ public class main {
     
     
     private static com.Facturama.sdk_java.Models.Request.Cfdi addItemsToCfdi(FacturamaApi facturama, Currency currency,
-            com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception{
+       com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception{
         
         // Lista de todos los productos
         List<Product> lstProducts = facturama.Products().List();
@@ -401,13 +401,16 @@ public class main {
                 tax.setName(pTax.getName());
                 tax.setIsQuota(pTax.getIsQuota());
                 tax.setIsRetention(pTax.getIsRetention());
-                
+                if(pTax.getRate() == null)
+                {
+                    pTax.setRate(0d);
+                }
                 
                 Double rate = pTax.getRate();
                 Double rateRounded = (double) Math.round(rate  * 1000000) / 1000000;                
                 tax.setRate( rateRounded );
                 tax.setBase( Math.round(item.getSubtotal()  * numberOfDecimals) / numberOfDecimals );
-                tax.setTotal( Math.round( (baseAmount * pTax.getRate()) * numberOfDecimals) / numberOfDecimals );                
+                tax.setTotal( Math.round( (/*cambie el baseAmount*/tax.getBase() * pTax.getRate()) * numberOfDecimals) / numberOfDecimals );                
                 
                 lstTaxes.add(tax);
             }

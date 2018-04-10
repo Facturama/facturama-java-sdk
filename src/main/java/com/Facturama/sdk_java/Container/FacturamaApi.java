@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.Facturama.sdk_java.Container;
+
 import com.Facturama.sdk_java.Services.*;
 import com.squareup.okhttp.OkHttpClient;
 
-/**
- *
- * @author user
- */
+
 public class FacturamaApi {
         
     private ClientService _clients;

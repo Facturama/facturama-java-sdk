@@ -202,4 +202,5 @@ public class Cfdi {
       this.PaymentBankName = PaymentBankName;
    }
    
+
 }
