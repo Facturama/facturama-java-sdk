@@ -3,6 +3,7 @@ package com.Facturama.sdk_java.Models;
 
 public class Csd {
     
+   private String Rfc;
    private String Certificate;
    private String PrivateKey;        
    private String PrivateKeyPassword;
@@ -15,6 +16,16 @@ public class Csd {
    public void setCertificate(String Certificate)
    {
       this.Certificate = Certificate;
+   }
+   
+   public String getRfc()
+   {
+        return Rfc;
+   }
+   
+   public void setRfc(String Rfc)
+   {
+      this.Rfc = Rfc;
    }
    
    public String getPrivateKey()
