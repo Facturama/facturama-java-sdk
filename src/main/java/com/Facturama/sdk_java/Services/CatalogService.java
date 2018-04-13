@@ -57,12 +57,16 @@ public class CatalogService extends HttpService{
     {        
         return  GetList("/paymentmethods");        
     }
+    public List<UseCfdi> CfdiUses (String keyword) throws IOException, FacturamaException, Exception
+    {
+       return  GetList("/CfdiUses?keyword="+ keyword, new TypeToken<List<UseCfdi>>() {}.getType());
+       
+    }
+    public List<FiscalRegimen> FiscalRegimens() throws IOException, FacturamaException, Exception
+   {
+     return  GetList("/FiscalRegimens", new TypeToken<List<FiscalRegimen>>() {}.getType());     
         
-    
-    
-    
-    
-    
-    
+    }
+
 
 }

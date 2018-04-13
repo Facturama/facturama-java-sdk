@@ -1,10 +1,25 @@
 
 import com.Facturama.sdk_java.Container.FacturamaApiMultiemisor;
+import com.Facturama.sdk_java.Models.BranchOffice;
 import com.Facturama.sdk_java.Models.Client;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Csd;
+import com.Facturama.sdk_java.Models.Request.CfdiType;
+import com.Facturama.sdk_java.Models.Request.Issuer;
+import com.Facturama.sdk_java.Models.Request.Item;
+import com.Facturama.sdk_java.Models.Request.Receiver;
+import com.Facturama.sdk_java.Models.Request.Tax;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
+import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.Currency;
+import com.Facturama.sdk_java.Models.Response.CfdiSearchResult;
+import com.Facturama.sdk_java.Services.CfdiService;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Map;
 
 
@@ -50,7 +65,7 @@ public class SampleApiMultiemisor {
         List<Csd> lstCsd = facturama.Csd().List(); 
         Integer csdBefore = lstCsd.size();                       
         
-        facturama.Csd().Remove("AAA010101AAA");
+        //facturama.Csd().Remove("AAA010101AAA");
         
         
         Csd newCsd = sampleCsdCreate(facturama); 
@@ -87,6 +102,163 @@ public class SampleApiMultiemisor {
         return facturama.Csd().Create(newCsd);
     
     }   
+     private static void sampleCfdi( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
+        
+        System.out.println( "----- Inicio del ejemplo de CFDI -----" );      
+        
+        // Se obtiene la moneda con el valor "MXN"
+        List<Currency> lstCurrencies = facturama.Catalogs().Currencies();                
+        Currency currency = lstCurrencies.stream().
+        filter(p -> p.getValue().equals("MXN")).findFirst().get();
+        
+        
+        // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
+        com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = createCfdi(facturama, currency);
+                
+        // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
+        cfdi = addItemsToCfdi(facturama, currency, cfdi);
+        
+        
+        // Se obtiene la factura recien creada
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
 
-    
+        System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        
+        // Descarga de los archivos de la factura
+        String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
+        facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
+        
+        
+        // Se elmina la factura recien creada
+        facturama.Cfdis().Remove(cfdiCreated.getId());        
+        System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        
+        //El correo que se ingrese debe existir 
+        
+        // Consulta de cfdis mediante palabra clave o rfc
+        List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
+        List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
+
+        System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
+        System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        
+        System.out.println( "----- Fin del ejemplo de CFDI -----" );
+        
+    } 
+    private static com.Facturama.sdk_java.Models.Request.CfdiLite createCfdi(FacturamaApiMultiemisor facturama, Currency currency) throws IOException, FacturamaException, Exception{
+        
+        com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = new com.Facturama.sdk_java.Models.Request.CfdiLite();
+          
+                
+            // Método de pago       
+            Catalog paymentMethod = facturama.Catalogs().PaymentMethods().stream().
+            filter(p -> p.getName().equals("Pago en una sola exhibición")).findFirst().get();                
+
+            // Forma de pago
+            Catalog paymentForm = facturama.Catalogs().PaymentForms().stream().
+            filter(p -> p.getName().equals("Efectivo")).findFirst().get();                
+
+
+            // Cliente (se toma como cliente el "cliente generico", aquel que tiene el RFC genérico),
+            // (como los clientes son exclusivos para cada usuario, se debe previamente dar de alta este cliente)
+                
+
+            // Lugar de expedición
+            cfdi.setFolio("10");
+            cfdi.setNameId(facturama.Catalogs().NameIds().get(1).getValue());
+            cfdi.setCfdiType( CfdiType.Ingreso.getValue() );        
+            cfdi.setPaymentForm( paymentForm.getValue() );
+            cfdi.setPaymentMethod( paymentMethod.getValue() );
+            cfdi.setCurrency(currency.getValue());
+         
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();        
+            cfdi.setDate(dateFormat.format(date));            
+            cfdi.setExpeditionPlace("78180");
+            
+            Receiver  receiver = new Receiver();
+            receiver.setCfdiUse(facturama.Catalogs().CfdiUses("AAA010101AAA").get(1).getValue());
+            receiver.setName("Receptor de Ejemplo");
+            receiver.setRfc("ESO1202108R2");
+            
+            Issuer issuer = new Issuer();
+            issuer.setFiscalRegime(facturama.Catalogs().FiscalRegimens().get(1).getValue());
+            issuer.setName("Receptor de Ejemplo");
+            issuer.setRfc("ESO1202108R2");
+            cfdi.setIssuer(issuer);
+            cfdi.setReceiver(receiver);           
+       
+        return cfdi;
+                
+    }
+     private static com.Facturama.sdk_java.Models.Request.CfdiLite addItemsToCfdi(FacturamaApiMultiemisor facturama, Currency currency,
+       com.Facturama.sdk_java.Models.Request.CfdiLite cfdi) throws IOException, FacturamaException, Exception{
+               
+        Double price = 100.00;
+        Double quantity = 2.00;
+        Double discount = 10.00;
+        int decimals = (int) currency.getDecimals();
+        Double numberOfDecimals = Math.pow(10, decimals);
+      
+        Double subtotal =   Math.round( (price * quantity) * numberOfDecimals) / numberOfDecimals;
+        List<Item> lstItems = new ArrayList<>();
+        Item item = new Item();
+            item.setProductCode(facturama.Catalogs().ProductsOrServices("desarrollo").get(1).getValue());
+            item.setUnitCode(facturama.Catalogs().Units("pieza").get(1).getValue());
+            item.setUnit("Libra");
+            item.setDescription("Descripción del Producto");
+            item.setIdentificationNumber("010101-56");
+            item.setQuantity(quantity);
+            item.setDiscount( Math.round( discount * numberOfDecimals) / numberOfDecimals );
+            item.setUnitPrice(Math.round( price* numberOfDecimals) / numberOfDecimals);
+            item.setSubtotal(subtotal);
+            lstItems.add(item);
+            
+        item = addTaxesToItem(item, numberOfDecimals);
+               
+
+        
+        cfdi.setItems(lstItems);
+        
+        return cfdi;
+    }
+    private static Item addTaxesToItem(Item item, Double numberOfDecimals){
+        
+
+            List<Tax> lstTaxes = new ArrayList<>();              // Impuestos del item (del cfdi)
+
+                
+      
+                
+                Tax tax = new Tax();
+                
+                tax.setName("IVA");
+                tax.setIsQuota(false);
+                tax.setIsRetention(false);
+                                       
+                tax.setRate( 0.160000d );
+                tax.setBase( Math.round(item.getSubtotal()  * numberOfDecimals) / numberOfDecimals );
+                tax.setTotal( Math.round( (item.getSubtotal()-item.getDiscount()) * 0.160000d) / numberOfDecimals );                
+                
+                lstTaxes.add(tax);
+            
+
+            
+            Double retentionsAmount = 0D;
+            Double transfersAmount = 0D;
+            
+            // Asignación de los impuestos, en caso de que no se tengan, el campo va nulo
+            if(!lstTaxes.isEmpty()){
+                item.setTaxes(lstTaxes);
+                
+                retentionsAmount = item.getTaxes().stream().filter(o -> o.getIsRetention()).mapToDouble(o -> o.getTotal()).sum();
+                transfersAmount = item.getTaxes().stream().filter(o -> ! o.getIsRetention()).mapToDouble(o -> o.getTotal()).sum();
+            }                        
+            
+            // Calculo del subtotal
+            item.setTotal(item.getSubtotal() - item.getDiscount() + transfersAmount -  retentionsAmount);
+            
+            return item;
+            
+    } 
 }

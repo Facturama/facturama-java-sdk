@@ -1,11 +1,13 @@
 
 package com.Facturama.sdk_java.Models.Request;
 
-import java.util.List;
 
+import java.util.List;
+import com.Facturama.sdk_java.Models.Request.Issuer;
 
 public class CfdiLite {
     
+   public String NameId; 
    public String Date;
    public String Serie;
    public String PaymentAccountNumber;
@@ -21,6 +23,16 @@ public class CfdiLite {
    public Issuer Issuer;
    public Receiver Receiver;
    public List<Item> Items;
+   
+   public String getNameId()
+   {
+        return NameId;
+   }
+   
+   public void setNameId(String NameId)
+   {
+      this.NameId = NameId;
+   }
   
    public String getDate()
    {
@@ -170,6 +182,6 @@ public class CfdiLite {
    public void setItems(List<Item> Items)
    {
       this.Items = Items;
-   } 
+   }
    
 }
