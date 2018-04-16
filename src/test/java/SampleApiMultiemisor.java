@@ -33,7 +33,8 @@ public class SampleApiMultiemisor {
             FacturamaApiMultiemisor facturama = createApiInstance();           
         
 
-            sampleCsd(facturama);            
+            sampleCsd(facturama);
+            sampleCfdi(facturama);
             
              
             
@@ -65,7 +66,7 @@ public class SampleApiMultiemisor {
         List<Csd> lstCsd = facturama.Csd().List(); 
         Integer csdBefore = lstCsd.size();                       
         
-        //facturama.Csd().Remove("AAA010101AAA");
+       facturama.Csd().Remove("AAA010101AAA");
         
         
         Csd newCsd = sampleCsdCreate(facturama); 
@@ -147,6 +148,7 @@ public class SampleApiMultiemisor {
     } 
     private static com.Facturama.sdk_java.Models.Request.CfdiLite createCfdi(FacturamaApiMultiemisor facturama, Currency currency) throws IOException, FacturamaException, Exception{
         
+
         com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = new com.Facturama.sdk_java.Models.Request.CfdiLite();
           
                 
@@ -170,6 +172,7 @@ public class SampleApiMultiemisor {
             cfdi.setPaymentForm( paymentForm.getValue() );
             cfdi.setPaymentMethod( paymentMethod.getValue() );
             cfdi.setCurrency(currency.getValue());
+
          
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();        
@@ -177,14 +180,14 @@ public class SampleApiMultiemisor {
             cfdi.setExpeditionPlace("78180");
             
             Receiver  receiver = new Receiver();
-            receiver.setCfdiUse(facturama.Catalogs().CfdiUses("AAA010101AAA").get(1).getValue());
+            receiver.setCfdiUse(facturama.Catalogs().CfdiUses("AAA010101AAA").get(0).getValue());
             receiver.setName("Receptor de Ejemplo");
             receiver.setRfc("ESO1202108R2");
             
             Issuer issuer = new Issuer();
-            issuer.setFiscalRegime(facturama.Catalogs().FiscalRegimens().get(1).getValue());
-            issuer.setName("Receptor de Ejemplo");
-            issuer.setRfc("ESO1202108R2");
+            issuer.setFiscalRegime(facturama.Catalogs().FiscalRegimens().get(0).getValue());
+            issuer.setName("Emisor de Ejemplo");
+            issuer.setRfc("AAA010101AAA");
             cfdi.setIssuer(issuer);
             cfdi.setReceiver(receiver);           
        
@@ -203,7 +206,7 @@ public class SampleApiMultiemisor {
         Double subtotal =   Math.round( (price * quantity) * numberOfDecimals) / numberOfDecimals;
         List<Item> lstItems = new ArrayList<>();
         Item item = new Item();
-            item.setProductCode(facturama.Catalogs().ProductsOrServices("desarrollo").get(1).getValue());
+            item.setProductCode(facturama.Catalogs().ProductsOrServices("desarrollo").get(0).getValue());
             item.setUnitCode(facturama.Catalogs().Units("pieza").get(1).getValue());
             item.setUnit("Libra");
             item.setDescription("Descripción del Producto");
@@ -238,7 +241,7 @@ public class SampleApiMultiemisor {
                                        
                 tax.setRate( 0.160000d );
                 tax.setBase( Math.round(item.getSubtotal()  * numberOfDecimals) / numberOfDecimals );
-                tax.setTotal( Math.round( (item.getSubtotal()-item.getDiscount()) * 0.160000d) / numberOfDecimals );                
+                tax.setTotal( Math.round( (/*cambie el baseAmount*/tax.getBase() * tax.getRate()) * numberOfDecimals) / numberOfDecimals );                
                 
                 lstTaxes.add(tax);
             

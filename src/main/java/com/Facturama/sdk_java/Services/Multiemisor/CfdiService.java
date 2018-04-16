@@ -44,13 +44,13 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
-    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");       
+    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");       
     }    
     
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Remove(String id) throws IOException, FacturamaException, Exception{        
         if(id != null && !id.isEmpty()){
-            return (com.Facturama.sdk_java.Models.Response.Cfdi) Delete("cfdi/" + id  + "?type=issued");    
+            return (com.Facturama.sdk_java.Models.Response.Cfdi) Delete("api-lite/cfdi/" + id  + "?type=issuedLite");    
         }else{
             throw new NullPointerException( singleType.getTypeName() );
         }        
@@ -59,7 +59,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException, Exception
     {
-        return (com.Facturama.sdk_java.Models.Response.Cfdi) Get("cfdi/" + id + "?type=Issued");
+        return (com.Facturama.sdk_java.Models.Response.Cfdi) Get("cfdi/" + id + "?type=IssuedLite");
     }
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Retrive(String id, InvoiceType type ) throws IOException, FacturamaException, Exception
@@ -79,7 +79,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     public List<CfdiSearchResult> List(String keyword, CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{
         keyword = URLEncoder.encode(keyword);
         
-        String resource = "cfdi?type=" +  type + "&keyword=" + keyword + "&status=" + status;
+        String resource = "cfdi?type=" +  type + "Lite&keyword=" + keyword + "&status=" + status;
         
         return GetList( resource , new TypeToken<List<com.Facturama.sdk_java.Models.Response.CfdiSearchResult>>() {}.getType() );
     }
@@ -109,7 +109,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
             String idBranch, String serie,
             CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{        
         
-        String resource = "cfdi?type=" +  type + "&status=" + status;
+        String resource = "cfdi?type=" +  type + "Lite&status=" + status;
         
         if( folioStart > -1 )
             resource += "&folioStart=" + folioStart;
@@ -159,7 +159,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
      */
     public InovoiceFile GetFile(String id, FileFormat format, InvoiceType type ) throws FacturamaException, Exception{
         
-        String resource = "cfdi/" +  format + "/" + type + "/" + "/" + id;
+        String resource = "cfdi/" +  format + "/" + type + "Lite/" + "/" + id;
         
         InovoiceFile file = (InovoiceFile)  Get(resource, InovoiceFile.class);                         
         
