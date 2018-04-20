@@ -7,22 +7,23 @@ import com.Facturama.sdk_java.Models.Request.Issuer;
 
 public class CfdiLite {
     
-   public String NameId; 
-   public String Date;
-   public String Serie;
-   public String PaymentAccountNumber;
-   public Double CurrencyExchangeRate;
-   public String Currency;
-   public String ExpeditionPlace;
-   public String PaymentConditions;
-   public CfdiRelations Relations;
-   public String Folio;
-   public String CfdiType;
-   public String PaymentForm;
-   public String PaymentMethod;
-   public Issuer Issuer;
-   public Receiver Receiver;
-   public List<Item> Items;
+   private String NameId; 
+   private String Date;
+   private String Serie;
+   private String PaymentAccountNumber;
+   private Double CurrencyExchangeRate;
+   private String Currency;
+   private String ExpeditionPlace;
+   private String PaymentConditions;
+   private CfdiRelations Relations;
+   private String Folio;
+   private String CfdiType;
+   private String PaymentForm;
+   private String PaymentMethod;
+   private Issuer Issuer;
+   private Receiver Receiver;
+   private List<Item> Items;
+   private Complements Complements;
    
    public String getNameId()
    {
@@ -183,5 +184,14 @@ public class CfdiLite {
    {
       this.Items = Items;
    }
+      public Complements getComplements()
+   {
+        return Complements;
+   }
    
+   public void setComplements(Complements Complements)
+   {
+      this.Complements = Complements;
+   }
+
 }

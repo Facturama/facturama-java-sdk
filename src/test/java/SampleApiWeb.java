@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
+import com.Facturama.sdk_java.Models.Request.Complements;
+import com.Facturama.sdk_java.Models.Request.Payment;
+import com.Facturama.sdk_java.Models.Request.RelatedDocument;
 import java.util.Map;
 
 /*
@@ -319,7 +322,37 @@ public class SampleApiWeb {
             receiver.setRfc(client.getRfc());
 
             cfdi.setReceiver(receiver);           
-        
+            
+            Complements complement = new Complements();
+            List<Payment> lstPagos = new ArrayList();
+            Payment pagos = new Payment();
+            
+            pagos.setDate("2018-04-05T05:00:00.000Z");
+            pagos.setPaymentForm(paymentForm.getValue());
+            pagos.setCurrency(currency.getValue());
+            pagos.setAmount(100.00);
+            
+            List<RelatedDocument> lstrelatedDocument = new ArrayList();
+            RelatedDocument relatedDocument = new RelatedDocument();
+            relatedDocument.setUuid("27568D31-E579-442F-BA77-798CBF30BD7D");
+            relatedDocument.setSerie("CB");
+            relatedDocument.setFolio("34853");
+            relatedDocument.setCurrency(currency.getValue());
+            relatedDocument.setPaymentMethod("PUE");
+            relatedDocument.setPartialityNumber(1);
+            relatedDocument.setPreviousBalanceAmount(100.00);
+            relatedDocument.setAmountPaid(100.00);
+            
+            lstrelatedDocument.add(relatedDocument);
+            
+            pagos.setRelatedDocument(lstrelatedDocument);
+            
+            lstPagos.add(pagos);
+            
+            complement.setPayments(lstPagos);
+            
+            cfdi.setComplements(complement);
+            
        
         return cfdi;
                 

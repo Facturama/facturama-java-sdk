@@ -3,9 +3,9 @@ package com.Facturama.sdk_java.Models.Request;
 
 public class Issuer {
     
-    public String FiscalRegime;
-    public String Rfc;
-    public String Name;
+    private String FiscalRegime;
+    private String Rfc;
+    private String Name;
     
    public String getFiscalRegime()
    {

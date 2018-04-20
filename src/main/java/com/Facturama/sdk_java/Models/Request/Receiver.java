@@ -11,12 +11,12 @@ public class Receiver {
     private String TaxRegistrationNumber;
     
     
-   public String Id ()
+   public String getId()
    {
         return Id;
    }
    
-   public void setUnitCode(String Id)
+   public void setId(String Id)
    {
       this.Id = Id;
    }

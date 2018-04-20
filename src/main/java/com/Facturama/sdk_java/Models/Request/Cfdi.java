@@ -22,6 +22,7 @@ public class Cfdi {
     private String Observations;
     private String OrderNumber;
     private String PaymentBankName;
+    private Complements Complements;
    
    
    public String getNameId ()
@@ -197,10 +198,18 @@ public class Cfdi {
         return PaymentBankName;
    }
    
-   public void setPaymentPaymentBankName(String PaymentBankName)
+   public void setPaymentBankName(String PaymentBankName)
    {
       this.PaymentBankName = PaymentBankName;
    }
+   public Complements getComplements()
+   {
+        return Complements;
+   }
    
+   public void setComplements(Complements Complements)
+   {
+      this.Complements = Complements;
+   }
 
 }

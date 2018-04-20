@@ -1,7 +1,7 @@
 
 package com.Facturama.sdk_java.Models.Response;
 
-
+import com.Facturama.sdk_java.Models.Request.Complements;
 import java.util.List;
 
 public class Cfdi {
@@ -28,6 +28,7 @@ public class Cfdi {
     private List<Item> Items;
     private List<Tax> Taxes;   
     private Complement Complement;
+    private Complements Complements;
         
    public String getId()
    {
@@ -248,5 +249,15 @@ public class Cfdi {
     {
         this.Complement = Complement;
     }
-              
+             
+        public Complements getComplements() 
+    {
+        return Complements;
+    }
+    
+    public void setComplement(Complements Complements) 
+    {
+        this.Complements = Complements;
+    }
+     
 }
