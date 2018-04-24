@@ -1,5 +1,5 @@
 #ant specific
-dist/
+#dist/        #se permite la capeta dist, para colocar el jar
 build/
 
 #netbeans specific
