@@ -3,16 +3,16 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 public class Address {
 
-    public String Street;
-    public String ExteriorNumber;
-    public String InteriorNumber;
-    public String Neighborhood;
-    public String Reference;
-    public String Locality;
-    public String Municipality;
-    public String State;
-    public String Country;
-    public String ZipCode;    
+    private String Street;
+    private String ExteriorNumber;
+    private String InteriorNumber;
+    private String Neighborhood;
+    private String Reference;
+    private String Locality;
+    private String Municipality;
+    private String State;
+    private String Country;
+    private String ZipCode;    
          
     public String getStreet()
     {

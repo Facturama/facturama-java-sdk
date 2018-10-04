@@ -1,11 +1,11 @@
 
 package com.Facturama.sdk_java.Models.Request.Complements.Donat;
 
-public class Donatarias {
+public class Donat {
 
-    public String AuthorizationNumber;
-    public String AuthorizationDate;
-    public String Legend;
+    private String AuthorizationNumber;
+    private String AuthorizationDate;
+    private String Legend;
     
     public String getAuthorizationNumber()
     {

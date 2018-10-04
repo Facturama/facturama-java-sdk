@@ -3,8 +3,8 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 public class Owner {
     
-    public String NumRegIdTrib;
-    public String TaxResidence;
+    private String NumRegIdTrib;
+    private String TaxResidence;
     
     public String getNumRegIdTrib()
     {

@@ -5,13 +5,13 @@ import java.util.List;
 
 public class ThirdPartyAccount {
     
-    public String Rfc;
-    public String Name;
-    public Address ThirdTaxInformation;
-    public CustomsInformation CustomsInformation;
-    public List<Part> Parts;
-    public String PropertyTaxNumber;
-    public List<ThirdPartyAccountTax> Taxes;
+    private String Rfc;
+    private String Name;
+    private Address ThirdTaxInformation;
+    private CustomsInformation CustomsInformation;
+    private List<Part> Parts;
+    private String PropertyTaxNumber;
+    private List<ThirdPartyAccountTax> Taxes;
 
     public String getRfc()
     {

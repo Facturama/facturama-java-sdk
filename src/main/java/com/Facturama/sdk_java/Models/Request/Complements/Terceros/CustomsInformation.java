@@ -3,9 +3,9 @@ package com.Facturama.sdk_java.Models.Request.Complements.Terceros;
 
 public class CustomsInformation {
     
-    public String Number;
-    public String Date;
-    public String Customs;
+    private String Number;
+    private String Date;
+    private String Customs;
     
     public String getNumber()
     {

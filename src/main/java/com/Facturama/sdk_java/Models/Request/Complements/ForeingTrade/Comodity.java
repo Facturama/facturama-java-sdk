@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Comodity {
     
-    public List<SpecificDescriptions> SpecificDescriptions;
-    public String IdentificationNumber;
-    public String TariffFraction;
-    public Double CustomsQuantity;
-    public String CustomsUnit;
-    public Double CustomsUnitValue;
-    public double ValueInDolar;
+    private List<SpecificDescriptions> SpecificDescriptions;
+    private String IdentificationNumber;
+    private String TariffFraction;
+    private Double CustomsQuantity;
+    private String CustomsUnit;
+    private Double CustomsUnitValue;
+    private double ValueInDolar;
     
     public List<SpecificDescriptions> getSpecificDescriptions()
     {

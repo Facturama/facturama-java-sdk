@@ -3,7 +3,7 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 public class Receiver {
 
-    public Address Address;
+    private Address Address;
         
     public Address getAddress()
     {

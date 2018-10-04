@@ -3,9 +3,9 @@ package com.Facturama.sdk_java.Models.Request.Complements.Terceros;
 
 public class ThirdPartyAccountTax {
     
-    public String Name;
-    public Double Rate;
-    public double Amount;
+    private String Name;
+    private Double Rate;
+    private double Amount;
 
     public String getName()
     {

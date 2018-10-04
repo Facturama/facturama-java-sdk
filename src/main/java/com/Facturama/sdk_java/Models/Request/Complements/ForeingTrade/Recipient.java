@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Recipient {
     
-    public String Name;
-    public String NumRegIdTrib;
-    public List<Address> Addresses;
+    private String Name;
+    private String NumRegIdTrib;
+    private List<Address> Addresses;
     
    public String getName()
    {

@@ -4,11 +4,11 @@ package com.Facturama.sdk_java.Models.Request.Complements.IEDU;
 
 public class EducationalInstitution {
 
-    public String StudentsName;
-    public String Curp;
-    public String EducationLevel;
-    public String AutRvoe;
-    public String PaymentRfc;
+    private String StudentsName;
+    private String Curp;
+    private String EducationLevel;
+    private String AutRvoe;
+    private String PaymentRfc;
     
     public String getStudentsName()
     {

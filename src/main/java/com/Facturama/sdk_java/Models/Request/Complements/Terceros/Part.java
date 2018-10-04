@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Part {
     
-    public double Quantity;
-    public String Unit;
-    public String IdentificationNumber;
-    public String Description;
-    public Double UnitPrce;
-    public Double Amount;
-    public List<CustomsInformation> CustomsInformation;
+    private double Quantity;
+    private String Unit;
+    private String IdentificationNumber;
+    private String Description;
+    private Double UnitPrce;
+    private Double Amount;
+    private List<CustomsInformation> CustomsInformation;
     
     public double getQuantity()
     {

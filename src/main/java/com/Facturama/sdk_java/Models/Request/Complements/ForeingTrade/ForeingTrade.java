@@ -7,22 +7,22 @@ import java.util.List;
 
 public class ForeingTrade {
     
-    public Issuer Issuer;
-    public Receiver Receiver;
-    public List<Owner> Owner;
-    public List<Recipient> Recipient;
-    public String ReasonForTransfer;
-    public String OperationType;
-    public List<Comodity> Comodity;
-    public String RequestCode;
-    public String Incoterm;
-    public Boolean Subdivision;
-    public Double ExchangeRateUSD;
-    public Double TotalUSD; 
-    public Boolean OriginCertificate;
-    public String OriginCertificateNumber;
-    public String ReliableExporterNumber;
-    public String Observations;
+    private Issuer Issuer;
+    private Receiver Receiver;
+    private List<Owner> Owner;
+    private List<Recipient> Recipient;
+    private String ReasonForTransfer;
+    private String OperationType;
+    private List<Comodity> Comodity;
+    private String RequestCode;
+    private String Incoterm;
+    private Boolean Subdivision;
+    private Double ExchangeRateUSD;
+    private Double TotalUSD; 
+    private Boolean OriginCertificate;
+    private String OriginCertificateNumber;
+    private String ReliableExporterNumber;
+    private String Observations;
     
     public Issuer getIssuer()
     {

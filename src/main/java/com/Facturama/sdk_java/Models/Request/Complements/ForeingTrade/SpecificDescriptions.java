@@ -3,10 +3,10 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 public class SpecificDescriptions {
     
-    public String Brand;
-    public String Model;
-    public String SubModel;
-    public String SerialNumber;
+    private String Brand;
+    private String Model;
+    private String SubModel;
+    private String SerialNumber;
     
     public String getBrand()
     {

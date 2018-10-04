@@ -3,8 +3,8 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 public class Issuer {
     
-    public AddressEmisor Address;
-    public String Curp;
+    private AddressEmisor Address;
+    private String Curp;
        
     public AddressEmisor getAddress()
     {

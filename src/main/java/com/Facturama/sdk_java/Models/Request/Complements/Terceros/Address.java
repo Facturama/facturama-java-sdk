@@ -3,16 +3,16 @@ package com.Facturama.sdk_java.Models.Request.Complements.Terceros;
 
 public class Address {
     
-    public String Street;
-    public String ExteriorNumber;
-    public String InteriorNumber;
-    public String Neighborhood;
-    public String Locality;
-    public String Reference;
-    public String Municipality;
-    public String State;
-    public String Country;
-    public String PostalCode; 
+    private String Street;
+    private String ExteriorNumber;
+    private String InteriorNumber;
+    private String Neighborhood;
+    private String Locality;
+    private String Reference;
+    private String Municipality;
+    private String State;
+    private String Country;
+    private String PostalCode; 
     
     public String getStreet()
     {
