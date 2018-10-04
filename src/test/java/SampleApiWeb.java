@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
-import com.Facturama.sdk_java.Models.Request.Complements;
+import com.Facturama.sdk_java.Models.Request.Complements.Complements;
 import com.Facturama.sdk_java.Models.Request.Payment;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
 import java.util.Map;

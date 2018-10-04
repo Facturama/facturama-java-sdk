@@ -1,7 +1,7 @@
 
 package com.Facturama.sdk_java.Models.Response;
 
-import com.Facturama.sdk_java.Models.Request.Complements;
+import com.Facturama.sdk_java.Models.Request.Complements.Complements;
 import java.util.List;
 
 public class Cfdi {

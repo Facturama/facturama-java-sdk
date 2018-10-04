@@ -14,7 +14,7 @@ public class Address {
     private String Country;
     
    
-    public String getStreet()
+   public String getStreet()
    {
         return Street;
    }
