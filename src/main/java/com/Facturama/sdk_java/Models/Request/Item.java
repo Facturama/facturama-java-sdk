@@ -2,9 +2,11 @@
 package com.Facturama.sdk_java.Models.Request;
 
 import java.util.List;
+import com.Facturama.sdk_java.Models.Request.Complements.ItemComplement;
 
 public class Item{
     
+    private String IdProduct;
     private String ProductCode;
     private String IdentificationNumber;
     private String Description;
@@ -17,7 +19,17 @@ public class Item{
     private List<Tax> Taxes;
     private String CuentaPredial;
     private double Total;
-
+    private ItemComplement Complement;
+    
+   public String getIdProduct()
+   {
+        return IdProduct;
+   }
+   
+   public void setIdProduct(String IdProduct)
+   {
+      this.IdProduct = IdProduct;
+   }
     
    public String getProductCode()
    {
@@ -138,7 +150,15 @@ public class Item{
    }
    
    
+   public ItemComplement getComplement()
+   {
+        return Complement;
+   }
+   
+   public void setComplement(ItemComplement Complement)
+   {
+      this.Complement = Complement;
+   }
+      
 }
-
-
 

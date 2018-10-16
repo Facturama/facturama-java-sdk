@@ -15,8 +15,7 @@ public class Complements {
    private List<Payment> payments;
    private ForeingTrade foreingTrades;
    private Donat Donation;
-   private EducationalInstitution EducationalInstitution; 
-   private ThirdPartyAccount ThirdPartyAccount; 
+
  
    
    
@@ -48,24 +47,5 @@ public class Complements {
    {
        this.Donation = Donation;
    }  
-   
-   public EducationalInstitution getEducationalInstitution()
-   {
-        return EducationalInstitution;
-   }
-   
-   public void setEducationalInstitution(EducationalInstitution EducationalInstitution)
-   {
-       this.EducationalInstitution = EducationalInstitution;
-   }  
-   
-   public ThirdPartyAccount getThirdPartyAccount()
-   {
-        return ThirdPartyAccount;
-   }
-   
-   public void setThirdPartyAccount(ThirdPartyAccount ThirdPartyAccount)
-   {
-       this.ThirdPartyAccount = ThirdPartyAccount;
-   }     
+       
 }

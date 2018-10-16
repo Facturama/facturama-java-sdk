@@ -3,7 +3,7 @@ package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
 import java.util.List;
 
-public class Comodity {
+public class Commodity {
     
     private List<SpecificDescriptions> SpecificDescriptions;
     private String IdentificationNumber;

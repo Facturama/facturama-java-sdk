@@ -1,7 +1,7 @@
 
 package com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade;
 
-import com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade.Comodity;
+import com.Facturama.sdk_java.Models.Request.Complements.ForeingTrade.Commodity;
 import com.Facturama.sdk_java.Models.Request.Issuer;
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class ForeingTrade {
     private List<Recipient> Recipient;
     private String ReasonForTransfer;
     private String OperationType;
-    private List<Comodity> Comodity;
+    private List<Commodity> Comodity;
     private String RequestCode;
     private String Incoterm;
     private Boolean Subdivision;
@@ -83,12 +83,12 @@ public class ForeingTrade {
     {
         this.OperationType = OperationType;
     } 
-    public List<Comodity> getComodity()
+    public List<Commodity> getComodity()
     {
         return Comodity;
     }
     
-    public void setComodity(List<Comodity> Comodity)
+    public void setComodity(List<Commodity> Comodity)
     {
         this.Comodity = Comodity;
     }
