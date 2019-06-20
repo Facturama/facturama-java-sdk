@@ -29,7 +29,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public enum InvoiceType
     {
-        Issued, Received,Payroll
+        Issued, Received,Payroll, IssuedLite
     }
     
     public enum CfdiStatus
@@ -167,6 +167,39 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }
           
     
+    
+      /**     
+     * Guardada el PDF de  un CFDI del tipo "Issued" en la ruta especificada
+     * 
+     * ADVERTENCIA: Facturama NO ofrece la descarga de PDF en API Multiemisor como una de las características
+     * El PDF obtenido mediante esta función es básico, y en el caso de requerir algo más específico, 
+     * se recomienda a cada uno de nuestros clientes, el desarrollarlo por su cuenta
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     */
+    public void SavePdf( String filePath, String id) throws Exception{
+        SavePdf(filePath, id, InvoiceType.Issued);
+    }
+    
+    /**
+     * Guardada el PDF de  un CFDI en la ruta especificada
+     * 
+     * ADVERTENCIA: Facturama NO ofrece la descarga de PDF en API Multiemisor como una de las características
+     * El PDF obtenido mediante esta función es básico, y en el caso de requerir algo más específico, 
+     * se recomienda a cada uno de nuestros clientes, el desarrollarlo por su cuenta
+     * 
+     * @param filePath Ruta donde se va a guardar el PDF
+     * @param id Idenficador del CFDI
+     * @param type Tipo del comprobante (payroll | received | issued)
+     */
+    public void SavePdf( String filePath, String id, InvoiceType type ) throws Exception{
+        InovoiceFile file = GetFile(id, FileFormat.Pdf, type);
+        
+        FileOutputStream fos = new FileOutputStream(filePath);                 
+                 fos.write(Base64.decode(file.getContent()));
+                 fos.close();                 
+    }
 
     
     
@@ -193,6 +226,27 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     
+     public boolean SendEmail(String email, InvoiceType type, String cfdiId) throws FacturamaException, Exception
+    {
+           HttpUrl.Builder urlBuilder 
+        = HttpUrl.parse(baseUrl + "/Cfdi?cfdiType="+type+"&cfdiId="+cfdiId+"&email="+email ).newBuilder();
+           String jsonObj = new Gson().toString();
+            String url = urlBuilder.build().toString(); 
+            RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),jsonObj);
+            
+            Request request = new Request.Builder()
+                .url(url)
+                .post(body)    
+                .build();
+            
+             Response response = Execute(request);
+             String jsonData = response.body().string();
+             
+             CfdiSendEmail object = new Gson().fromJson(jsonData, CfdiSendEmail.class );
+             return object.getsuccess();
+
+    }
 
 
         

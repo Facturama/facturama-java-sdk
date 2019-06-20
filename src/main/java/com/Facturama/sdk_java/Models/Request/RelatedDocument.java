@@ -13,6 +13,7 @@ public class RelatedDocument {
    private Integer PartialityNumber; 
    private Double PreviousBalanceAmount; 
    private Double AmountPaid;
+   private Double ImpSaldoInsoluto;
 
    public String getUuid()
    {
@@ -105,5 +106,16 @@ public class RelatedDocument {
    }
    
 
+   public Double getImpSaldoInsoluto()
+   {
+        return AmountPaid;
+   }
+   
+   public void setImpSaldoInsoluto(Double ImpSaldoInsoluto)
+   {
+      this.ImpSaldoInsoluto = ImpSaldoInsoluto;
+   }
+   
+   
         
 }

@@ -40,12 +40,20 @@ public class CatalogService extends HttpService{
     public List<Currency> Currencies() throws IOException, FacturamaException, Exception
     {        
         return  GetList("/currencies", new TypeToken<List<Currency>>() {}.getType());        
-    }
-    
+    }   
+           
     public List<Currency> Currencies(String keyword) throws IOException, FacturamaException, Exception
     {        
         return  GetList("/currencies?keyword="+keyword, new TypeToken<List<Currency>>() {}.getType());        
     }
+    
+    public Currency Currency(String currencyCode) throws IOException, FacturamaException, Exception
+    {        
+        List<Currency> lstCurrencies = Currencies();                
+        
+        return  lstCurrencies.stream().
+        filter(p -> p.getValue().equals(currencyCode)).findFirst().get();                
+    }   
     
     
     public List<Catalog> PaymentForms() throws IOException, FacturamaException, Exception
@@ -53,9 +61,33 @@ public class CatalogService extends HttpService{
         return  GetList("/paymentforms");        
     }
     
+    /**
+     * Métodos de pago, consulta del catálogo
+     * Referencia:  https://apisandbox.facturama.mx/guias/catalogos/metodos-pago
+     * @return
+     * @throws IOException
+     * @throws FacturamaException
+     * @throws Exception 
+     */
     public List<Catalog> PaymentMethods() throws IOException, FacturamaException, Exception
     {        
         return  GetList("/paymentmethods");        
+    }
+    
+    /**
+     * Método de pago, consulta de un elemento especifico del catálogo, definido por el valor/código del mismo
+     * Valores posibles: PUE | PPD
+     * para una referencia completa de los valores posibles, consulta: el catálogo PaymentMethods()
+     * @param paymentMethodCode
+     * @return
+     * @throws IOException
+     * @throws FacturamaException
+     * @throws Exception 
+     */
+    public Catalog PaymentMethod(String paymentMethodCode) throws IOException, FacturamaException, Exception
+    {        
+        return PaymentMethods().stream().
+            filter(p -> p.getValue().equals(paymentMethodCode)).findFirst().get();                
     }
     public List<UseCfdi> CfdiUses (String keyword) throws IOException, FacturamaException, Exception
     {

@@ -28,7 +28,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public enum InvoiceType
     {
-        Issued, Received,Payroll
+        Issued, Received,Payroll, IssuedLite
     }
     
     public enum CfdiStatus

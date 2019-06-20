@@ -52,6 +52,8 @@ public class Cfdi {
    
    public String getSerie()
    {
+       if("".equals(Serie))
+           return null;
         return Serie;
    }
    
@@ -62,7 +64,9 @@ public class Cfdi {
    
    public String getFolio()
    {
-        return Folio;
+       if("".equals(Folio))
+           return null;
+        return Folio;                
    }
    
    public void setFolio(String Folio)

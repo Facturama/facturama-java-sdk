@@ -24,7 +24,7 @@ public class CfdiLite {
    private Issuer Issuer;
    private Receiver Receiver;
    private List<Item> Items;
-   private Complements Complements;
+   private Complements Complemento;
    
    public String getNameId()
    {
@@ -187,12 +187,12 @@ public class CfdiLite {
    }
       public Complements getComplements()
    {
-        return Complements;
+        return Complemento;
    }
    
    public void setComplements(Complements Complements)
    {
-      this.Complements = Complements;
+      this.Complemento = Complements;
    }
 
 }

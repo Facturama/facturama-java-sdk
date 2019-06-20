@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Payment {
 
-   private List<RelatedDocument> RelatedDocument;
-   private List<Tax> Taxes;
+   private List<RelatedDocument> RelatedDocuments;
+   private List<Tax> Impuestos;
    private String Date;
    private String PaymentForm;
    private String Currency;
@@ -23,22 +23,22 @@ public class Payment {
    
    public List<RelatedDocument> getRelatedDocument()
    {
-        return RelatedDocument;
+        return RelatedDocuments;
    }
    
    public void setRelatedDocument(List<RelatedDocument> RelatedDocument)
    {
-      this.RelatedDocument = RelatedDocument;
+      this.RelatedDocuments = RelatedDocument;
    }
    
    public List<Tax> getTaxes()
    {
-        return Taxes;
+        return Impuestos;
    }
    
    public void setTaxes(List<Tax> Taxes)
    {
-      this.Taxes = Taxes;
+      this.Impuestos = Taxes;
    }
    
    public String getDate()
