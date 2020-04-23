@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 
 public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.Request.Cfdi,com.Facturama.sdk_java.Models.Response.Cfdi>{
 
-    private enum FileFormat
+    public enum FileFormat
     {
         Xml,Pdf,Html
     }

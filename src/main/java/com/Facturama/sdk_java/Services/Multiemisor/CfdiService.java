@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 
 public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.Request.Cfdi,com.Facturama.sdk_java.Models.Response.Cfdi>{
 
-    private enum FileFormat
+    public enum FileFormat
     {
         Xml,Pdf,Html
     }
@@ -159,7 +159,8 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
      */
     public InovoiceFile GetFile(String id, FileFormat format, InvoiceType type ) throws FacturamaException, Exception{
         
-        String resource = "cfdi/" +  format + "/" + type + "Lite/" + "/" + id;
+        String sFormat = format.name().toLowerCase();        
+        String resource = "cfdi/" +  sFormat + "/" + type + "Lite/" + "/" + id;        
         
         InovoiceFile file = (InovoiceFile)  Get(resource, InovoiceFile.class);                         
         
