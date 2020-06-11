@@ -26,6 +26,11 @@ public class CfdiLite {
    private List<Item> Items;
    private Complements Complemento;
    
+   // Datos no fiscales (se muestran en el PDF)
+   private String Observations;
+   private String OrderNumber;
+   private String PaymentBankName;
+   
    public String getNameId()
    {
         return NameId;
@@ -193,6 +198,36 @@ public class CfdiLite {
    public void setComplements(Complements Complements)
    {
       this.Complemento = Complements;
+   }
+   
+    public String getObservations()
+   {
+        return Observations;
+   }
+   
+   public void setObservations(String Observations)
+   {
+      this.Observations = Observations;
+   }
+   
+    public String getOrderNumber()
+   {
+        return OrderNumber;
+   }
+   
+   public void setOrderNumber(String OrderNumber)
+   {
+      this.OrderNumber = OrderNumber;
+   }
+   
+    public String getPaymentBankName()
+   {
+        return PaymentBankName;
+   }
+   
+   public void setPaymentBankName(String PaymentBankName)
+   {
+      this.PaymentBankName = PaymentBankName;
    }
 
 }

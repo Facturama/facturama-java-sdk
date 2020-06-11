@@ -29,6 +29,9 @@ public class Cfdi {
     private List<Tax> Taxes;   
     private Complement Complement;
     private Complements Complements;
+    // Datos no fiscales (se muestran en el PDF)   
+   private String OrderNumber;
+   private String PaymentBankName;
         
    public String getId()
    {
@@ -264,4 +267,25 @@ public class Cfdi {
         this.Complements = Complements;
     }
      
+     
+   
+    public String getOrderNumber()
+   {
+        return OrderNumber;
+   }
+   
+   public void setOrderNumber(String OrderNumber)
+   {
+      this.OrderNumber = OrderNumber;
+   }
+   
+    public String getPaymentBankName()
+   {
+        return PaymentBankName;
+   }
+   
+   public void setPaymentBankName(String PaymentBankName)
+   {
+      this.PaymentBankName = PaymentBankName;
+   }
 }

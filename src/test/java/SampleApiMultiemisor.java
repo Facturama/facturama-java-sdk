@@ -187,6 +187,13 @@ public class SampleApiMultiemisor {
             cfdi.setPaymentForm( paymentForm.getValue() );
             cfdi.setPaymentMethod( paymentMethod.getValue() );
             cfdi.setCurrency(currency.getValue());
+            
+            // Datos no fiscales (se muestran en el PDF)
+            cfdi.setObservations("Este es un ejemplo de observaciones");
+            cfdi.setOrderNumber("123321");
+            cfdi.setPaymentBankName("BBVA");
+            cfdi.setPaymentAccountNumber("6789");
+            cfdi.setPaymentConditions("Condiciones");
 
          
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
