@@ -26,6 +26,8 @@ public class CfdiLite {
    private List<Item> Items;
    private Complements Complemento;
    
+   private String LogoUrl;      
+   
    // Datos no fiscales (se muestran en el PDF)
    private String Observations;
    private String OrderNumber;
@@ -130,6 +132,18 @@ public class CfdiLite {
    {
       this.Folio = Folio;
    }
+   
+   public String getLogoUrl()
+   {
+        return LogoUrl;
+   }
+   
+   public void setLogoUrl(String LogoUrl)
+   {
+      this.LogoUrl = LogoUrl;
+   }
+   
+   
    
    public String getCfdiType()
    {

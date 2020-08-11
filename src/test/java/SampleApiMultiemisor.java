@@ -35,10 +35,14 @@ public class SampleApiMultiemisor {
             FacturamaApiMultiemisor facturama = createApiInstance();           
         
 
+            // Ejemplo de administración de CSDs (descomenta la linea para incluirlo en la ejecución)
             //sampleCsd(facturama);
+            
+            // Ejemplo de creación de CFDI 
             sampleCfdi(facturama);
             
-             samplePaymentComplement(facturama);
+            // Ejemplo de creación de "Complemento de Pago"
+            samplePaymentComplement(facturama);
             
             
         } catch (FacturamaException ex) {                        
@@ -56,14 +60,30 @@ public class SampleApiMultiemisor {
         
     }
     
+    /**
+     * Creación del Objeto Facturama Multiemisor
+     * @return Objeto creado, listo para hacer las peticiones a la API
+     */
     private static FacturamaApiMultiemisor createApiInstance(){
         String user = "pruebas";
         String password = "pruebas2011";
-        Boolean isDevMode = true;
+        Boolean isDevMode = true;       // true  = Sandbox, false = Productivo
         
         return new FacturamaApiMultiemisor(user, password, isDevMode);
     }
-     
+    
+    /**
+     * Ejemplo de manejo de los Sellos Digitales CSD
+     * - Eliminar
+     * - Agregar
+     * - Listar
+     * - Mostrar CSD específico
+     * 
+     * @param facturama Objeto Facturama Multiemisor
+     * @throws IOException
+     * @throws FacturamaException
+     * @throws Exception 
+     */
     private static void sampleCsd( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
         
         System.out.println( "----- Inicio del ejemplo de CSD -----" );
@@ -188,6 +208,10 @@ public class SampleApiMultiemisor {
             cfdi.setPaymentMethod( paymentMethod.getValue() );
             cfdi.setCurrency(currency.getValue());
             
+            // logo - Se especifica como una URL
+            cfdi.setLogoUrl("https://www.ejemplos.co/wp-content/uploads/2015/11/Logo-Chanel.jpg");            
+            
+            
             // Datos no fiscales (se muestran en el PDF)
             cfdi.setObservations("Este es un ejemplo de observaciones");
             cfdi.setOrderNumber("123321");
@@ -303,6 +327,9 @@ public class SampleApiMultiemisor {
         cfdi = addItemsToCfdi(facturama, cfdi);
         cfdi.setFolio("11");
         cfdi.setPaymentMethod("PPD");                   // El método de pago del documento inicial debe ser "PPD"
+        
+        // logo - Se especifica como una URL
+        cfdi.setLogoUrl("https://www.ejemplos.co/wp-content/uploads/2015/11/Logo-Chanel.jpg");            
         
                 
         // Se manda timbrar mediante Facturama
@@ -421,8 +448,11 @@ public class SampleApiMultiemisor {
             filter(p -> p.getName().equals("Efectivo")).findFirst().get();                
             
             cfdi.setNameId(nameForPdf.getValue());            
-            cfdi.setCfdiType( CfdiType.Pago.getValue() ); // "P"           
+            cfdi.setCfdiType( CfdiType.Pago.getValue() ); // "P"  (El comprobante es del tipo "Pago")         
             cfdi.setFolio("12");            
+            
+            // logo - Se especifica como una URL
+            cfdi.setLogoUrl("https://www.ejemplos.co/wp-content/uploads/2015/11/Logo-Chanel.jpg");            
 
             
             
