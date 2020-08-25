@@ -40,7 +40,8 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     public CfdiService(OkHttpClient client) {
         super(client, "");                
         singleType = com.Facturama.sdk_java.Models.Response.Cfdi.class;
-        multiType = new TypeToken<List<com.Facturama.sdk_java.Models.Response.Cfdi>>() {}.getType();       
+        multiType = new TypeToken<List<com.Facturama.sdk_java.Models.Response.Cfdi>>() {}.getType();     
+        cancelationStatus = com.Facturama.sdk_java.Models.Response.CancelationStatus.class;     
     }
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
@@ -48,9 +49,9 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }    
     
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Remove(String id) throws IOException, FacturamaException, Exception{        
+    public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id) throws IOException, FacturamaException, Exception{        
         if(id != null && !id.isEmpty()){
-            return (com.Facturama.sdk_java.Models.Response.Cfdi) Delete("api-lite/cfdi/" + id  + "?type=issuedLite");    
+            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("api-lite/cfdis/" + id );    
         }else{
             throw new NullPointerException( singleType.getTypeName() );
         }        

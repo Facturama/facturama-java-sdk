@@ -21,7 +21,7 @@ public abstract class HttpService <TI, TO>
     protected  OkHttpClient httpClient;
     protected  String baseUrl; // URL base (Test o Produccion)
     protected String relativeUrl;
-    protected Type singleType, multiType;         
+    protected Type singleType, multiType, cancelationStatus;         
     
     public HttpService(OkHttpClient client, String url)
     {                                  
@@ -218,7 +218,7 @@ public abstract class HttpService <TI, TO>
         Response response = Execute(request);
         String jsonData = response.body().string();
                       
-        TO object = new Gson().fromJson(jsonData, singleType);
+        TO object = new Gson().fromJson(jsonData, this.cancelationStatus);
         
         return object;
         

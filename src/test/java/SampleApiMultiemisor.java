@@ -10,6 +10,7 @@ import com.Facturama.sdk_java.Models.Request.Payment;
 import com.Facturama.sdk_java.Models.Request.Receiver;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
 import com.Facturama.sdk_java.Models.Request.Tax;
+import com.Facturama.sdk_java.Models.Response.CancelationStatus;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.Currency;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.NameCfdi;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import com.Facturama.sdk_java.Models.Response.Cfdi;
 
 
 public class SampleApiMultiemisor {
@@ -42,7 +44,7 @@ public class SampleApiMultiemisor {
             sampleCfdi(facturama);
             
             // Ejemplo de creación de "Complemento de Pago"
-            samplePaymentComplement(facturama);
+            //samplePaymentComplement(facturama);
             
             
         } catch (FacturamaException ex) {                        
@@ -93,7 +95,7 @@ public class SampleApiMultiemisor {
        
         System.out.println( "Eliminando el Certificado para el RFC AAA010101AAA" );
         
-        facturama.Csd().Remove("ROAJ850914837");
+
         facturama.Csd().Remove("AAA010101AAA");
         
         
@@ -164,8 +166,21 @@ public class SampleApiMultiemisor {
         
         
         // Se elmina la factura recien creada
-        facturama.Cfdis().Remove(cfdiCreated.getId());        
-        System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+         CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId());        
+        
+        System.out.println(response.getStatus());
+        
+        String strCanceled = "canceled" ;
+        String strPending = "canceled" ;
+        if( strCanceled.equals(response.getStatus())){
+            System.out.println( "Se ha cancelado exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        }else if(strPending.equals(response.getStatus())){
+            System.out.println( "La factura está en proceso de cancelación, pueden pasar hasta 72 horas para que se considere cancelada." );
+        }
+        else{
+            System.out.println( "Algo ha pasado, que el CFDI no se ha podido cancelar. Revisa el mensaje: " + response.getMessage() );
+        }
+        
         
         //El correo que se ingrese debe existir 
         
