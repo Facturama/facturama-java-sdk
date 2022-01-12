@@ -166,7 +166,7 @@ public class SampleApiMultiemisor {
         
         
         // Se elmina la factura recien creada
-         CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId());        
+         CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
         
         System.out.println(response.getStatus());
         

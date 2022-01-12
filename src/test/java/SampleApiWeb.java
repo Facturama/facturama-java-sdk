@@ -244,23 +244,23 @@ public class SampleApiWeb {
         System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
         // Descarga de los archivos de la factura
-        String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
-        facturama.Cfdis().SavePdf(filePath+".pdf", cfdiCreated.getId());
-        facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
+        //String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
+        //facturama.Cfdis().SavePdf(filePath+".pdf", cfdiCreated.getId());
+        //facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
         
         
         // Se elmina la factura recien creada
-        facturama.Cfdis().Remove(cfdiCreated.getId());        
+        facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
         System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
         //El correo que se ingrese debe existir 
-        System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
+        //System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
         // Consulta de cfdis mediante palabra clave o rfc
-        List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
-        List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
+        //List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
+        //List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
 
-        System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
-        System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        //System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
+        //System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
         
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         

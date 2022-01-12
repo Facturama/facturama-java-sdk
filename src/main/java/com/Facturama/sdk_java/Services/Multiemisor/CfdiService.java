@@ -49,13 +49,14 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }    
     
     
-    public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id) throws IOException, FacturamaException, Exception{        
+    public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String motive, String uuidReplacement) throws IOException, FacturamaException, Exception{        
+        String R_uuidReplacement= uuidReplacement.isEmpty()? "" : uuidReplacement;
         if(id != null && !id.isEmpty()){
-            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("api-lite/cfdis/" + id );    
+            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("api-lite/cfdis/" + id + "&motive=" + motive + "&uuidReplacement=" + R_uuidReplacement);    
         }else{
             throw new NullPointerException( singleType.getTypeName() );
         }        
-    }            
+    }               
     
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException, Exception
