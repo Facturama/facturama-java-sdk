@@ -49,7 +49,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String type, String motive, String uuidReplacement ) throws IOException, FacturamaException, Exception{
-        String R_uuidReplacement= uuidReplacement.isEmpty()? "" : uuidReplacement;
+        String R_uuidReplacement= uuidReplacement.isEmpty()? null : uuidReplacement;
         if(id != null && !id.isEmpty()){
             return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("cfdi/" + id  + "?type=" + type + "&motive=" + motive + "&uuidReplacement=" + R_uuidReplacement);
         }else{
