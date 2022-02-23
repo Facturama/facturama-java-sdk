@@ -23,7 +23,7 @@ If the value of the ```isDevMode``` variable is ```true```, the library is in sa
 ```.rb
   new FacturamaApi("USUARIO","CONTRASEÑA", isDevMode);
 ```
-If the value of the  ```isDevMode ``` variable is ```false```, the library is in sandbox mode.
+If the value of the  ```isDevMode ``` variable is ```false```, the library is in production mode.
  ```.rb
   new FacturamaApi("USUARIO","CONTRASEÑA",isDevMode);
 ```
