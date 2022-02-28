@@ -2,7 +2,7 @@
 
 [NOTE] This document is also available in [English]
 
-Libreria para consumir la API Web de [Facturama](https://api.facturama.mx/).
+Libreria para consumir la API Web y API Multiemisor de [Facturama](https://api.facturama.mx/).
 
 ## Dependencias 
 * [Gson](https://mvnrepository.com/artifact/com.google.code.gson/gson/2.8.2)
