@@ -48,6 +48,11 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");       
     }    
     
+    //Ejemplo de endpoint para CFDI 4.0
+    public com.Facturama.sdk_java.Models.Response.Cfdi Create_3(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
+    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");       
+    }  
+    
     
     public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String motive, String uuidReplacement) throws IOException, FacturamaException, Exception{        
         String R_uuidReplacement= uuidReplacement.isEmpty()? null : uuidReplacement;
