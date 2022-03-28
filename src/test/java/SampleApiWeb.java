@@ -50,7 +50,7 @@ public class SampleApiWeb {
             
              
            // Ejemplo de la creación de un complemento de pago
-           samplePaymentComplement(facturama);
+           //samplePaymentComplement(facturama);
             
             
         } catch (FacturamaException ex) {                        
@@ -250,8 +250,8 @@ public class SampleApiWeb {
         
         
         // Se elmina la factura recien creada
-        facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
-        System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        //facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
+        //System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
         //El correo que se ingrese debe existir 
         //System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
@@ -308,9 +308,11 @@ public class SampleApiWeb {
             cfdi.setDate(dateFormat.format(date));            
 
             Receiver  receiver = new Receiver();
-            receiver.setCfdiUse(client.getCfdiUse());
-            receiver.setName(client.getName());
-            receiver.setRfc(client.getRfc());
+            receiver.setCfdiUse("G03");
+            receiver.setName("ESCUELA KEMPER URGATE");
+            receiver.setRfc("EKU9003173C9");
+            //receiver.setFiscalRegime("601");
+            //receiver.setTaxZipCode("26015");
 
             cfdi.setReceiver(receiver);           
             
@@ -361,6 +363,7 @@ public class SampleApiWeb {
             item.setDiscount( Math.round( discount * numberOfDecimals) / numberOfDecimals );
             item.setUnitPrice(Math.round( product.getPrice() * numberOfDecimals) / numberOfDecimals);
             item.setSubtotal(subTotal);
+            //item.setObjetoImp("02");// Nuevo elemento CFDI 4.0
             
             
             

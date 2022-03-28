@@ -45,6 +45,11 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");       
+    } 
+    
+    //Ejemplo de endpoint para CFDI 4.0
+    public com.Facturama.sdk_java.Models.Response.Cfdi Create_3(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
+    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");       
     }    
     
     
