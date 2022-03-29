@@ -33,6 +33,10 @@ public class CrudService<TI, TO>  extends HttpService<TI,TO> {
     public TO Create(TI obj) throws IOException, FacturamaException, Exception{
         return super.Post(obj);
     }
+    public TO Create3(TI obj) throws IOException, FacturamaException, Exception{
+        return super.Post(obj);
+    }
+    
     
      public TO Remove(String id) throws IOException, FacturamaException, Exception{
         return super.Delete(id);
