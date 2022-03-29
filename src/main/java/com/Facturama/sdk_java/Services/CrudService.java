@@ -33,7 +33,7 @@ public class CrudService<TI, TO>  extends HttpService<TI,TO> {
     public TO Create(TI obj) throws IOException, FacturamaException, Exception{
         return super.Post(obj);
     }
-    public TO Create_3(TI obj) throws IOException, FacturamaException, Exception{
+    public TO Create3(TI obj) throws IOException, FacturamaException, Exception{
         return super.Post(obj);
     }
     
