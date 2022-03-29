@@ -1,8 +1,18 @@
 # Facturama Java SDK
 
-[NOTE] This document is also available in [English]
+> [NOTE] This document is also available in [English].
+>
+> Librería para consumir la API Web y API Multiemisor de [Facturama](https://api.facturama.mx/).
+>
+> Puedes consultar la guía completa de la [API](https://apisandbox.facturama.mx/guias)).
 
-Libreria para consumir la API Web y API Multiemisor de [Facturama](https://api.facturama.mx/).
+## Crear cuenta de usuario
+
+> Crear una cuenta de usuario en el ambiente de prueba [Sandbox](https://dev.facturama.mx/api/login) 
+>
+> Para API Web, realiza la configuración básica usando RFC de pruebas **"EKU9003173C9"**, más información [aquí](https://apisandbox.facturama.mx/guias/perfil-fiscal).
+>
+> Sellos digitales de prueba (CSD), [aquí](https://github.com/rafa-dx/facturama-CSD-prueba).
 
 ## Dependencias 
 * [Gson](https://mvnrepository.com/artifact/com.google.code.gson/gson/2.8.2)
@@ -24,25 +34,34 @@ Y si el valor de la variable  ```isDevMode``` es ```false``` la librería esta e
   new FacturamaApi("USUARIO","CONTRASEÑA",isDevMode);
 ```
 
-## Operaciones Web API
+## API Web
 
-- Crear, Consultar Cancelar CFDI así como descargar XML, PDF y envió de
-   estos por mail.
-- Consultar Perfil y Suscripción actual
-- Carga de Logo y Certificados Digitales
+> Creación de CFDIs con un único emisor, (el propietario de la cuenta, cuyo perfil fiscal se tiene configurado)
+> 
+> *Todas las operaciones son reflejadas en la plataforma web.*
+### Operaciones API Web
+- Crear, Consultar Cancelar CFDI así como descargar XML, PDF y envió de estos por mail.
+- Consultar Perfil y Suscripción actual.
+- Carga de Logo y Certificados Digitales.
 - CRUD de Productos, Clientes, Sucursales y Series.
 
 Algunos ejemplos: [aquí](https://github.com/Facturama/facturama-java-sdk/wiki/API-Web)
 
-*Todas las operaciones son reflejadas en la plataforma web.*
 
-## Operaciones API Multiemisor
 
-- Crear, Consultar, Cancelar descarga de XML
+## API Multiemisor
+
+> Creacion de CFDIs con multiples emisores.
+>
+> *Las operaciones NO se reflejan en la plataforma web.*
+> 
+### Operaciones API Multiemisor
+
+- Crear, Consultar, Cancelar descarga de XML.
 - CRUD de CSD (Certificados de los Sellos Digitales).
 
 Algunos ejemplos: [aquí](https://github.com/Facturama/facturama-java-sdk/wiki/API-Multiemisor)
 
-*Las operaciones no se reflejan en la plataforma web.*
+
 
 [English]: ./README-en.md
