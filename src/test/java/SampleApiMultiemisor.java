@@ -157,16 +157,18 @@ public class SampleApiMultiemisor {
         
         // Se obtiene la factura recien creada
         com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create(cfdi);
+        //com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create3(cfdi); // CFDI 4.0 Disponible hasta el 30 de Junio 2022
 
-        System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() ); // CFDI 3.3
+        //System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() ); // cfdi 4.0 test
         
         // Descarga de los archivos de la factura
-        String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
-        facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
+        //String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
+        //facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
         
         
         // Se elmina la factura recien creada
-         CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
+         CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"02","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
         
         System.out.println(response.getStatus());
         
@@ -185,13 +187,13 @@ public class SampleApiMultiemisor {
         //El correo que se ingrese debe existir 
         
         // Consulta de cfdis mediante palabra clave o rfc
-        System.out.println( "Consulta de RFCs mediante RFC" );  
+        //System.out.println( "Consulta de RFCs mediante RFC" );  
         
         //List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
-        List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
+        //List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
 
         //System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
-        System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        //System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
         
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         
@@ -238,17 +240,20 @@ public class SampleApiMultiemisor {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();        
             cfdi.setDate(dateFormat.format(date));            
-            cfdi.setExpeditionPlace("78180");
+            cfdi.setExpeditionPlace("78140");
             
             Receiver  receiver = new Receiver();
             receiver.setCfdiUse(facturama.Catalogs().CfdiUses("AAA010101AAA").get(0).getValue());
-            receiver.setName("Receptor de Ejemplo");
-            receiver.setRfc("ESO1202108R2");
+            receiver.setCfdiUse("G03");
+            receiver.setName("UNIVERSIDAD ROBOTICA ESPAÑOLA");
+            receiver.setRfc("URE180429TM6");
+            //receiver.setFiscalRegime("601"); // Valores para CFDI 4.0
+            //receiver.setTaxZipCode("65000"); // Valores para CFDI 4.0
             
             Issuer issuer = new Issuer();
             issuer.setFiscalRegime(facturama.Catalogs().FiscalRegimens().get(0).getValue());
-            issuer.setName("Emisor de Ejemplo");
-            issuer.setRfc("AAA010101AAA");
+            issuer.setName("ESCUELA KEMPER URGATE");
+            issuer.setRfc("EKU9003173C9");
             cfdi.setIssuer(issuer);
             cfdi.setReceiver(receiver);           
        
@@ -268,7 +273,8 @@ public class SampleApiMultiemisor {
         Double subtotal =   Math.round( (price * quantity) * numberOfDecimals) / numberOfDecimals;
         List<Item> lstItems = new ArrayList<>();
         Item item = new Item();
-            item.setProductCode(facturama.Catalogs().ProductsOrServices("desarrollo").get(0).getValue());
+            //item.setProductCode(facturama.Catalogs().ProductsOrServices("desarrollo").get(0).getValue());
+            item.setProductCode("84111506");
             item.setUnitCode(facturama.Catalogs().Units("pieza").get(1).getValue());
             item.setUnit("Libra");
             item.setDescription("Descripción del Producto");
@@ -317,7 +323,7 @@ public class SampleApiMultiemisor {
             
             // Calculo del subtotal
             item.setTotal(item.getSubtotal() - item.getDiscount() + transfersAmount -  retentionsAmount);
-            
+            //item.setObjetoImp("02");// Nuevo elemento CFDI 4.0
             return item;
             
     } 
