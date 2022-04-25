@@ -48,7 +48,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");       
     }    
     
-    //Ejemplo de endpoint para CFDI 4.0
+    //Ejemplo de endpoint de pruebas para CFDI 4.0 Disponible hasta el 30 de Junio 2022
     public com.Facturama.sdk_java.Models.Response.Cfdi Create3(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");       
     }  

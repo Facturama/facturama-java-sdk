@@ -8,6 +8,7 @@ public class TaxStamp
     private String CfdiSign;
     private String SatCertNumber;
     private String SatSign;
+    private String RfcProvCertif;
     
    public String getUuid()
    {
@@ -58,4 +59,16 @@ public class TaxStamp
    {
       this.SatSign = SatSign;
    }
+   
+   public String getRfcProvCertif()
+   {
+       return RfcProvCertif;
+   }
+   
+   public void setRfcProvCertif(String RfcProvCertif)
+   {
+       this.RfcProvCertif=RfcProvCertif;
+   }
+   
+   
 }

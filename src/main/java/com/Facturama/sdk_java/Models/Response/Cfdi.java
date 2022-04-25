@@ -29,6 +29,8 @@ public class Cfdi {
     private List<Tax> Taxes;   
     private Complement Complement;
     private Complements Complements;
+    private String Status;
+    private String OriginalString;
     // Datos no fiscales (se muestran en el PDF)   
    private String OrderNumber;
    private String PaymentBankName;
@@ -265,6 +267,26 @@ public class Cfdi {
     public void setComplement(Complements Complements) 
     {
         this.Complements = Complements;
+    }
+
+    public String getStatus() 
+    {
+        return Status;
+    }
+    
+    public void setStatus(String Status) 
+    {
+        this.Status = Status;
+    }
+
+    public String getOriginalString() 
+    {
+        return OriginalString;
+    }
+    
+    public void setOriginalString(String OriginalString) 
+    {
+        this.OriginalString = OriginalString;
     }
      
      
