@@ -44,8 +44,10 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         cancelationStatus = com.Facturama.sdk_java.Models.Response.CancelationStatus.class;     
     }
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
-    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");       
+    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception
+    {   
+        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");   // Disponible el 01/07/2022       
+        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");   // Vigente hasta 30/06/2022    
     }    
     
     //Ejemplo de endpoint de pruebas para CFDI 4.0 Disponible hasta el 30 de Junio 2022
@@ -61,7 +63,20 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         }else{
             throw new NullPointerException( singleType.getTypeName() );
         }        
-    }               
+    }    
+    
+    
+    
+    public com.Facturama.sdk_java.Models.Response.CancelationStatus RemoveRet(String id,  String motive) 
+            throws IOException, FacturamaException, Exception
+    {
+
+        if(id != null && !id.isEmpty()){
+            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("retenciones/" + id  + "?motive=" + motive );
+        }else{
+            throw new NullPointerException( singleType.getTypeName() );
+        }        
+    }  
     
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException, Exception

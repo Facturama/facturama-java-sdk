@@ -26,6 +26,12 @@ import java.util.List;
 import java.util.Map;
 import com.Facturama.sdk_java.Models.Response.Cfdi;
 
+/*
+ * Soporte API
+ * @author Facturama
+ * chucho@facturama.mx
+ * rafael@facturama.mx
+ */
 
 public class SampleApiMultiemisor {
     
@@ -40,8 +46,11 @@ public class SampleApiMultiemisor {
             // Ejemplo de administración de CSDs (descomenta la linea para incluirlo en la ejecución)
             //sampleCsd(facturama);
             
-            // Ejemplo de creación de CFDI 
-            sampleCfdi(facturama);
+            // Ejemplo de creación de CFDI ..3
+            //sampleCfdi(facturama);
+
+            // Ejemplo de creación de CFDI 4.0
+            sampleCfdi40(facturama);
             
             // Ejemplo de creación de "Complemento de Pago"
             //samplePaymentComplement(facturama);
@@ -62,7 +71,7 @@ public class SampleApiMultiemisor {
         
     }
     
-    /**
+    /*
      * Creación del Objeto Facturama Multiemisor
      * @return Objeto creado, listo para hacer las peticiones a la API
      */
@@ -74,7 +83,7 @@ public class SampleApiMultiemisor {
         return new FacturamaApiMultiemisor(user, password, isDevMode);
     }
     
-    /**
+    /*
      * Ejemplo de manejo de los Sellos Digitales CSD
      * - Eliminar
      * - Agregar
@@ -86,19 +95,15 @@ public class SampleApiMultiemisor {
      * @throws FacturamaException
      * @throws Exception 
      */
-    private static void sampleCsd( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
+    private static void sampleCsd( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+    {  
         
         System.out.println( "----- Inicio del ejemplo de CSD -----" );
-        
-        
-        
        
         System.out.println( "Eliminando el Certificado para el RFC AAA010101AAA" );
         
-
         facturama.Csd().Remove("AAA010101AAA");
-        
-        
+                
         System.out.println( "Agregando el Certificado para el RFC AAA010101AAA" );
         sampleCsdCreate(facturama);                       
         
@@ -129,7 +134,9 @@ public class SampleApiMultiemisor {
         System.out.println("ejemplo de CSD terminado");
     
     }
-     private static Csd sampleCsdCreate( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
+    
+    private static Csd sampleCsdCreate( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+     {  
         Csd newCsd = new Csd();
         newCsd.setCertificate("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");
         newCsd.setPrivateKey("MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQIAgEAAoIBAQACAggAMBQGCCqGSIb3DQMHBAgwggS9AgEAMASCBMh4EHl7aNSCaMDA1VlRoXCZ5UUmqErAbucRBAKNQXH8tz2zJ7hdZaOZx7PEfMiWh5Nh6e8G8kxY+GW4YCSbLxslkhBtfTR6v5JYv3vhgH7XzMCwJPOfX6gxeeCYZ4HTdDNAyBVCjTbJpqbo778ri33o+I4yx7zgMqA3mzVE61re6MPrGXh1YT/K9zZeEdmwvXQfPs9VnioKUhiswoMcJ3kc3FxGLrEAsjQqv/ZVOHPY3NrbcfpQUyprsCKv3rRdxkIRdMPY4eiA720mffzvDqyzeQ8xfwHTE8Xjunja4KXvW/mV7ItTH0vRXHc3HJQ0dNnyawXmbC1FiYbCVdswoYuVQmslvq3QEXUGwP3KYfxQzKatnU7nprkmsipPqPBqDrzqc6NSN/8rxIc5zTAL4bFul+CEKz9VybwdavgewEy7u3fPnKPN+y4HilNgmlbtS7seWpbIgVPA+woG2Ph5hsgREXZCjGKSRuI77/FLcI5CMrZR+FvbnaqG+gXDBTz2lWhK9pmWlVawT2pvfiHOLzYRf2YyuVbJ79D2EgbUKyp3kCQ6fddMzspPhD/pvLQizExeyIxImb/kQXs2mmtDnyFIsj4Hcn5wCcs+SDIj+FJnwRiKB6YfdzjIig/ZMfpgMpl0u69LX649uL318o+Hy3d5t3wxgSkTaJ5McKhWyh9x9vlHZhYyM6HArBNfP9cGF86M3GwAMHAiJQl9UevyKe6rlvAIDlop6l3M02m5hHUXUpPjz4j7inFXZzvSv0tFoSbEqGgno0Pa+0gWHqRwBEGLGEwHVfyEy+Of8g4+0jzo0jNPIcurA5xRh9HSRSAd3kdEhx75eeVL7lBdLjRUkbtRtg7nelSjqAX7tQZK6Awp5C/17W96+f/vtjB+Y+ZgrSUjnQDADnZCnapIrzHgE3ZanhGAtnMMl+o4aLd1+74inG4jht/GJB60raSQfYrDrM3kBs0oyfpbEk5TI8ISzRlRmejv+mqpTogJaAqhnLP7rAli3d4pRhUjbACn/xQSFKxl2OURdmnMlvlbb6pleXviJHRxzPPQ25NVdWvmCYWrDfAZYn8X1sABOdyrth38BfmAVsyyPATYFB+5cXuNIZkPz1swz3859iZWTn5JRfPEAGICu5G6w6nrgOLYM9UqOPmxofzEdiEPafLQ5orMxdSWF6+3mD2Yw/VP+B43B/oYehgfrYjBUJt2D04VU/v8XK1ZUVgX/Co0odcdcszAP+ljQ7UVhW+uxVMd2sEprwepPPjYT3HvdI6RBB94yYBWfkoCSo/jsrrRpw2DVEyvoDp/hOXKyt8Y/8UGLCxJUhhv5fEiezYnlUAmwAGjgZfzfAErx0gkQFBgNKglEA7jz0Dqc2Z92pGVGTyPtXqRsqX3IYX5WsZVUoJim0wI7+LNmKpu147ePC0G4Sf4AGoZyPWVXq2SZSPpN261pIKSoLEDeA8WIKj2U5JG2DMMYokV0bZ1TsabrwHvwsp3muLnaP8L+n2fBplbhAEE2buBXvsATixMGu57ZI5WKFLnHn4KIBrZzALCtGehfFbCsdf1nBR6aAt+BpWhhZki54fZTurgMr6zuC5hAaP4rExW+LCc3upHMW7R9DcHWaZuZIfwnVDImnAQ9UOsz+A=");
@@ -138,7 +145,10 @@ public class SampleApiMultiemisor {
         return facturama.Csd().Create(newCsd);
     
     }   
-     private static void sampleCfdi( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
+     
+    //Test CFDI 3.3
+    private static void sampleCfdi( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+     {  
         
         System.out.println( "----- Inicio del ejemplo de CFDI -----" );      
         
@@ -198,7 +208,73 @@ public class SampleApiMultiemisor {
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         
     } 
-    private static com.Facturama.sdk_java.Models.Request.CfdiLite createCfdi(FacturamaApiMultiemisor facturama, Currency currency) throws IOException, FacturamaException, Exception{
+     
+     //Test CFDI 4.0 Multiemisor
+    private static void sampleCfdi40( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+     {  
+        
+        System.out.println( "----- Inicio del ejemplo de CFDI 4.0 -----" );      
+        
+        // Se obtiene la moneda con el valor "MXN"
+        List<Currency> lstCurrencies = facturama.Catalogs().Currencies();                
+        Currency currency = lstCurrencies.stream().
+        filter(p -> p.getValue().equals("MXN")).findFirst().get();
+        
+        
+        // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
+        com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = createCfdi40(facturama, currency);
+                
+        // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
+        cfdi = addItemsToCfdi(facturama, cfdi);
+        
+        
+        // Se obtiene la factura recien creada
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create3(cfdi);
+
+        System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() ); // CFDI 3.3
+        //System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() ); // cfdi 4.0 test
+        
+        // Descarga de los archivos de la factura
+        //String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
+        //facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
+        
+        
+        // Se elmina la factura recien creada
+        /*
+        CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"02","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
+        
+        System.out.println(response.getStatus());
+        
+        String strCanceled = "canceled" ;
+        String strPending = "canceled" ;
+        if( strCanceled.equals(response.getStatus())){
+            System.out.println( "Se ha cancelado exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        }else if(strPending.equals(response.getStatus())){
+            System.out.println( "La factura está en proceso de cancelación, pueden pasar hasta 72 horas para que se considere cancelada." );
+        }
+        else{
+            System.out.println( "Algo ha pasado, que el CFDI no se ha podido cancelar. Revisa el mensaje: " + response.getMessage() );
+        }
+        */
+        
+        //El correo que se ingrese debe existir 
+        
+        // Consulta de cfdis mediante palabra clave o rfc
+        //System.out.println( "Consulta de RFCs mediante RFC" );  
+        
+        //List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
+        //List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
+
+        //System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
+        //System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        
+        System.out.println( "----- Fin del ejemplo de CFDI -----" );
+        
+    } 
+     
+    private static com.Facturama.sdk_java.Models.Request.CfdiLite createCfdi(FacturamaApiMultiemisor facturama, Currency currency) 
+            throws IOException, FacturamaException, Exception
+    {
         
 
         com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = new com.Facturama.sdk_java.Models.Request.CfdiLite();
@@ -260,8 +336,60 @@ public class SampleApiMultiemisor {
         return cfdi;
                 
     }
+    
+    //Llenado del CFDI 4.0
+        private static com.Facturama.sdk_java.Models.Request.CfdiLite createCfdi40(FacturamaApiMultiemisor facturama, Currency currency) 
+            throws IOException, FacturamaException, Exception
+    {
+        com.Facturama.sdk_java.Models.Request.CfdiLite cfdi = new com.Facturama.sdk_java.Models.Request.CfdiLite();
+          
+             
+            // Lugar de expedición
+            cfdi.setFolio("100");
+            cfdi.setNameId("1");
+            cfdi.setCfdiType("I");        
+            cfdi.setPaymentForm("03");
+            cfdi.setPaymentMethod("PUE");
+            cfdi.setCurrency("MXN");
+            
+            // logo - Se especifica como una URL
+            cfdi.setLogoUrl("https://www.ejemplos.co/wp-content/uploads/2015/11/Logo-Chanel.jpg");            
+            
+            
+            // Datos no fiscales (se muestran en el PDF)
+            cfdi.setObservations("Este es un ejemplo de observaciones");
+            cfdi.setOrderNumber("123321");
+            cfdi.setPaymentBankName("BBVA");
+            cfdi.setPaymentAccountNumber("6789");
+            cfdi.setPaymentConditions("Condiciones");
+
+         
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();        
+            cfdi.setDate(dateFormat.format(date));            
+            cfdi.setExpeditionPlace("78140");
+            
+            Receiver  receiver = new Receiver();
+            receiver.setCfdiUse("G03");
+            receiver.setName("UNIVERSIDAD ROBOTICA ESPAÑOLA");
+            receiver.setRfc("URE180429TM6");
+            receiver.setFiscalRegime("601"); // Valores para CFDI 4.0
+            receiver.setTaxZipCode("65000"); // Valores para CFDI 4.0
+            
+            Issuer issuer = new Issuer();
+            issuer.setFiscalRegime("601");
+            issuer.setName("ESCUELA KEMPER URGATE");
+            issuer.setRfc("EKU9003173C9");
+            cfdi.setIssuer(issuer);
+            cfdi.setReceiver(receiver);           
+       
+        return cfdi;
+                
+    }
+    
      private static com.Facturama.sdk_java.Models.Request.CfdiLite addItemsToCfdi(FacturamaApiMultiemisor facturama,
-       com.Facturama.sdk_java.Models.Request.CfdiLite cfdi) throws IOException, FacturamaException, Exception{
+       com.Facturama.sdk_java.Models.Request.CfdiLite cfdi) throws IOException, FacturamaException, Exception
+     {
                
         Double price = 100.00;
         Double quantity = 2.00;
@@ -283,6 +411,7 @@ public class SampleApiMultiemisor {
             item.setDiscount( Math.round( discount * numberOfDecimals) / numberOfDecimals );
             item.setUnitPrice(Math.round( price* numberOfDecimals) / numberOfDecimals);
             item.setSubtotal(subtotal);
+            item.setTaxObject("02");
             lstItems.add(item);
             
         item = addTaxesToItem(item, numberOfDecimals);
@@ -293,7 +422,9 @@ public class SampleApiMultiemisor {
         
         return cfdi;
     }
-    private static Item addTaxesToItem(Item item, Double numberOfDecimals){
+     
+    private static Item addTaxesToItem(Item item, Double numberOfDecimals)
+    {
         
 
             List<Tax> lstTaxes = new ArrayList<>();              // Impuestos del item (del cfdi)
@@ -328,14 +459,16 @@ public class SampleApiMultiemisor {
             
     } 
     
-     /**
+     /*
      * Ejemplo de creación de un CFDI "complemento de pago"
      * Referencia: https://apisandbox.facturama.mx/guias/api-web/cfdi/complemento-pago
      * 
      * En virtud de que el complemento de pago, requiere ser asociado a un CFDI con el campo "PaymentMethod" = "PPD"
      * En este ejemplo se incluye la creacón de este CFDI, para posteriormente realizar el  "Complemento de pago" = "PUE"     
     */
-    private static void samplePaymentComplement( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{  
+    private static void samplePaymentComplement( FacturamaApiMultiemisor facturama) 
+            throws IOException, FacturamaException, Exception
+    {  
         
         System.out.println( "----- Inicio del ejemplo samplePaymentComplement -----" );      
         
@@ -396,11 +529,13 @@ public class SampleApiMultiemisor {
     }
     
     
-    /**
+    /*
      * Llenado del modelo de CFDI, de una forma general
      * - Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición     
      */    
-    private static com.Facturama.sdk_java.Models.Request.CfdiLite createModelCfdiGeneral(FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception{
+    private static com.Facturama.sdk_java.Models.Request.CfdiLite createModelCfdiGeneral(FacturamaApiMultiemisor facturama) 
+            throws IOException, FacturamaException, Exception
+    {
         
         System.out.println( "createModelCfdiGeneral" );
         
@@ -448,13 +583,14 @@ public class SampleApiMultiemisor {
     
     
     
-     /**
+     /*
      * Modelo "Complemento de pago"
      * - Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición     
      */    
     private static com.Facturama.sdk_java.Models.Request.CfdiLite 
         createModelCfdiPaymentComplement(FacturamaApiMultiemisor facturama,com.Facturama.sdk_java.Models.Response.Cfdi cfdiInicial ) 
-                throws IOException, FacturamaException, Exception{
+                throws IOException, FacturamaException, Exception
+        {
             
             
             System.out.println( "createModelCfdiPaymentComplement" );

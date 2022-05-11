@@ -43,24 +43,40 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         cancelationStatus = com.Facturama.sdk_java.Models.Response.CancelationStatus.class;     
     }
     
-    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
-    return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");       
+    public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception
+    {      
+        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");  //  Método disponible 1/07/2022
+        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");    //  Vigente hasta el 30/06/2022   
     } 
     
-    //Ejemplo de endpoint para CFDI 4.0
+    //metodo de pruebas para CFDI 4.0, vigente hasta el 30/06/2022
     public com.Facturama.sdk_java.Models.Response.Cfdi Create3(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");       
     }    
     
     
-    public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String type, String motive, String uuidReplacement ) throws IOException, FacturamaException, Exception{
+    public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String type, String motive, String uuidReplacement ) 
+            throws IOException, FacturamaException, Exception
+    {
         String R_uuidReplacement= uuidReplacement.isEmpty()? null : uuidReplacement;
         if(id != null && !id.isEmpty()){
             return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("cfdi/" + id  + "?type=" + type + "&motive=" + motive + "&uuidReplacement=" + R_uuidReplacement);
         }else{
             throw new NullPointerException( singleType.getTypeName() );
         }        
-    }           
+    }   
+    
+    public com.Facturama.sdk_java.Models.Response.CancelationStatus RemoveRet(String id,  String motive) 
+            throws IOException, FacturamaException, Exception
+    {
+
+        if(id != null && !id.isEmpty()){
+            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("retenciones/" + id  + "?motive=" + motive );
+        }else{
+            throw new NullPointerException( singleType.getTypeName() );
+        }        
+    }   
+
     
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Retrive( String id) throws IOException, FacturamaException, Exception

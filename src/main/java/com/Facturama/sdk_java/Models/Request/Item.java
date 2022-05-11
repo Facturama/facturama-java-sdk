@@ -16,7 +16,7 @@ public class Item{
     private double Quantity;
     private double Subtotal;
     private Double Discount;
-    private String ObjetoImp;
+    private String TaxObject;
     private List<Tax> Taxes;
     private String CuentaPredial;
     private double Total;
@@ -150,14 +150,14 @@ public class Item{
       this.Total = Total;
    }
    
-   public String getObjetoImp()
+   public String getTaxObject()
    {
-       return ObjetoImp;
+       return TaxObject;
    }
    
-   public void setObjetoImp(String ObjetoImp)
+   public void setTaxObject(String TaxObject)
    {
-       this.ObjetoImp=ObjetoImp;
+       this.TaxObject=TaxObject;
    }
    public ItemComplement getComplement()
    {
