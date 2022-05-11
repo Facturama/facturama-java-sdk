@@ -42,6 +42,10 @@ public class CrudService<TI, TO>  extends HttpService<TI,TO> {
         return super.Delete(id);
     }
      
+    public TO RemoveRet(String id) throws IOException, FacturamaException, Exception{
+        return super.Delete(id);
+    }
+     
      
      public TO Update(TI model, String id) throws IOException, FacturamaException, Exception{
         return super.Put(model, id);
