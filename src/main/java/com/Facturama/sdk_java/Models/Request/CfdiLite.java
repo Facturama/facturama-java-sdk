@@ -19,12 +19,14 @@ public class CfdiLite {
    private CfdiRelations Relations;
    private String Folio;
    private String CfdiType;
+   private String Exportation;
    private String PaymentForm;
    private String PaymentMethod;
    private Issuer Issuer;
    private Receiver Receiver;
    private List<Item> Items;
    private Complements Complemento;
+   private GlobalInformation GlobalInformation;
    
    private String LogoUrl;      
    
@@ -154,7 +156,15 @@ public class CfdiLite {
    {
       this.CfdiType = CfdiType;
    }
+   public String getExportation()
+   {
+       return Exportation;
+   }
    
+   public void setExportation(String Exportation)
+   {
+       this.Exportation = Exportation;
+   }
    public String getPaymentForm()
    {
         return PaymentForm;
@@ -242,6 +252,15 @@ public class CfdiLite {
    public void setPaymentBankName(String PaymentBankName)
    {
       this.PaymentBankName = PaymentBankName;
+   }
+   public GlobalInformation getGlobalInformation()
+   {
+       return GlobalInformation;
+   }
+   
+   public void setGlobalInformation(GlobalInformation GlobalInformation)
+   {
+       this.GlobalInformation=GlobalInformation;
    }
 
 }

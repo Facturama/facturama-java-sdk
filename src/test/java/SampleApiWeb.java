@@ -7,6 +7,7 @@ import com.Facturama.sdk_java.Models.Request.ProductTax;
 import com.Facturama.sdk_java.Models.Request.CfdiType;
 import com.Facturama.sdk_java.Models.Request.Item;
 import com.Facturama.sdk_java.Models.Request.Receiver;
+import com.Facturama.sdk_java.Models.Request.GlobalInformation;
 import com.Facturama.sdk_java.Models.Request.Tax;
 import com.Facturama.sdk_java.Models.Response.Catalogs.*;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
@@ -31,10 +32,12 @@ import java.util.Map;
  * chucho@facturama.mx
  * rafael@facturama.mx
  */
-public class SampleApiWeb {
+public class SampleApiWeb 
+{
 
-    public static void principal() {        
-        System.out.println( "Ejemplos de consumo de la FacturamaAPI Web, con el usuario de 'pruebas'" );
+    public static void principal() 
+    {        
+        System.out.println( "Ejemplos de consumo de la FacturamaAPI Web, con el usuario de 'sdkpruebas'" );
             
        try {     
             // Creación de la instancia
@@ -43,13 +46,13 @@ public class SampleApiWeb {
             // Prueba de la funcionalidad básica del servicio de clientes
             //sampleClients(facturama);
             
-            // Prueba de funcionalidad de crear un producto
+            //Prueba de funcionalidad de crear un producto
             //sampleProducts(facturama);
             
             
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
             //sampleCfdi(facturama);    // Test CFDI 3.3
-            sampleCfdi40(facturama);    // Test CFDI 4.0
+            sampleCfdi40(facturama);    // Test CFDI 4.0 global
             
              
            // Ejemplo de la creación de un complemento de pago
@@ -74,14 +77,14 @@ public class SampleApiWeb {
     
     
     /*
-    * Creación de una instancia del SDK con los datos del usuario de pruebas
+    * Creación de una instancia del SDK con los datos del usuario de sdkpruebas
     * Remplaza 'user' y 'password' por los de tu cuenta
     * isDevMode = true : ambiente de pruebas ( no se consumen folios, las facturas realzadas son apócrifas)
     * isDevMode = false : ambiente de producción ( SI se consumen folios, las facturas realzadas son TIMBRADAS por un "PAC" )
     */
     private static FacturamaApi createApiInstance(){
-        String user = "pruebas";
-        String password = "pruebas2011";
+        String user = "sdkpruebas";
+        String password = "pruebas2022";
         Boolean isDevMode = true;
         
         return new FacturamaApi(user, password, isDevMode);
@@ -372,11 +375,12 @@ public class SampleApiWeb {
     
     
     /*
-    *   Llenado del CFDI 4.0 de forma general
+    *   Llenado del CFDI 4.0 Global
     *   Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición 
     */
         private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40(FacturamaApi facturama) throws IOException, FacturamaException, Exception
     {
+        
                 
         com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
                         
@@ -385,18 +389,29 @@ public class SampleApiWeb {
             cfdi.setPaymentForm("03");
             cfdi.setPaymentMethod("PUE");
             cfdi.setCurrency("MXN");
-            cfdi.setExpeditionPlace("78140");
+            cfdi.setExpeditionPlace("30230");
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();        
-            cfdi.setDate(dateFormat.format(date));            
+            cfdi.setDate(dateFormat.format(date));
+            
+            cfdi.setExportation("01");
+            
+            //Nodo Informacion Global
+            GlobalInformation globalinformation=new GlobalInformation();
+            globalinformation.setPeriodicity("02");
+            globalinformation.setMonths("04");
+            globalinformation.setYear("2022");
+            cfdi.setGlobalInformation(globalinformation);
+            
 
             Receiver  receiver = new Receiver();
-            receiver.setCfdiUse("G03");
-            receiver.setName("ESCUELA KEMPER URGATE");
-            receiver.setRfc("EKU9003173C9");
-            receiver.setFiscalRegime("601");
-            receiver.setTaxZipCode("26015");
+            receiver.setRfc("XAXX010101000");
+            receiver.setName("PUBLICO GENERAL");
+            receiver.setCfdiUse("S01");
+            receiver.setTaxZipCode("30230");
+            receiver.setFiscalRegime("616");
+
 
             cfdi.setReceiver(receiver);           
             

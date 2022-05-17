@@ -16,6 +16,7 @@ public class Cfdi {
     private String PaymentConditions;
     private CfdiRelation Relations;
     private String CfdiType;
+    private String Exportation;
     private String PaymentForm;
     private String PaymentMethod;
     private Receiver Receiver;
@@ -24,6 +25,7 @@ public class Cfdi {
     private String OrderNumber;
     private String PaymentBankName;
     private Complements Complemento;
+    private GlobalInformation GlobalInformation;
    
    
    public String getNameId ()
@@ -31,7 +33,7 @@ public class Cfdi {
         return NameId;
    }
       
-   /**
+   /*
     * Establece el identificador del nombre para el PDF
     */
    public void setNameId (String NameId)
@@ -134,6 +136,16 @@ public class Cfdi {
       this.CfdiType = CfdiType;
    }
    
+   public String getExportation()
+   {
+       return Exportation;
+   }
+   
+   public void setExportation(String Exportation)
+   {
+       this.Exportation = Exportation;
+   }
+   
    public String getPaymentForm()
    {
         return PaymentForm;
@@ -212,5 +224,16 @@ public class Cfdi {
    {
       this.Complemento = Complements;
    }
+   
+   public GlobalInformation getGlobalInformation()
+   {
+       return GlobalInformation;
+   }
+   
+   public void setGlobalInformation(GlobalInformation GlobalInformation)
+   {
+       this.GlobalInformation=GlobalInformation;
+   }
+   
 
 }
