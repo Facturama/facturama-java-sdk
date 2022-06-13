@@ -11,6 +11,8 @@ public class Client {
     private String Rfc;
     private String Name;
     private String CfdiUse;
+    private String FiscalRegime;
+    private String TaxZipCode;
     private String TaxResidence;
     private String NumRegIdTrib;
     
@@ -92,6 +94,25 @@ public class Client {
    public void setCfdiUse(String CfdiUse)
    {
       this.CfdiUse = CfdiUse;
+   }
+      public String getFiscalRegime()
+   {
+       return FiscalRegime;
+   }
+   
+   public void setFiscalRegime(String FiscalRegime)
+   {
+       this.FiscalRegime=FiscalRegime;
+   }
+   
+   public String getTaxZipCode()
+   {
+       return TaxZipCode;
+   }
+   
+   public void setTaxZipCode(String TaxZipCode)
+   {
+       this.TaxZipCode=TaxZipCode;
    }
     
    public String getTaxResidence ()

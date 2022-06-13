@@ -11,6 +11,7 @@ import com.Facturama.sdk_java.Models.Request.Receiver;
 import com.Facturama.sdk_java.Models.Request.GlobalInformation;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
 import com.Facturama.sdk_java.Models.Request.Tax;
+import com.Facturama.sdk_java.Models.Request.ThirdPartyAccount;
 import com.Facturama.sdk_java.Models.Response.CancelationStatus;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.Currency;
@@ -45,7 +46,7 @@ public class SampleApiMultiemisor {
         
 
             // Ejemplo de administración de CSDs (descomenta la linea para incluirlo en la ejecución)
-            sampleCsd(facturama);
+            //sampleCsd(facturama);
             
             // Ejemplo de creación de CFDI ..3
             //sampleCfdi(facturama);
@@ -424,6 +425,23 @@ public class SampleApiMultiemisor {
             item.setUnitPrice(Math.round( price* numberOfDecimals) / numberOfDecimals);
             item.setSubtotal(subtotal);
             item.setTaxObject("02");
+            
+            
+            //A cuenta de terceros
+            /*
+            ThirdPartyAccount thirdPartyAccount= new ThirdPartyAccount(); 
+            thirdPartyAccount.setRfc("CACX7605101P8");
+            thirdPartyAccount.setName("XOCHILT CASAS CHAVEZ");
+            thirdPartyAccount.setFiscalRegime("616");
+            thirdPartyAccount.setTaxZipCode("10740");
+            item.setThirdPartyAccount(thirdPartyAccount);
+            item.setCuentaPredial("12345");
+            */
+       
+            
+            
+            
+            
             lstItems.add(item);
             
         item = addTaxesToItem(item, numberOfDecimals);

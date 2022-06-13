@@ -17,8 +17,10 @@ public class Item{
     private double Subtotal;
     private Double Discount;
     private String TaxObject;
-    private List<Tax> Taxes;
+    private ThirdPartyAccount ThirdPartyAccount;
     private String CuentaPredial;
+    private List<Tax> Taxes;
+
     private double Total;
     private ItemComplement Complement;
     
@@ -159,6 +161,17 @@ public class Item{
    {
        this.TaxObject=TaxObject;
    }
+   
+   public ThirdPartyAccount getThirdPartyAccount()
+   {
+       return ThirdPartyAccount;
+   }
+   
+   public void setThirdPartyAccount(ThirdPartyAccount ThirdPartyAccount)
+   {
+       this.ThirdPartyAccount=ThirdPartyAccount;
+   }
+   
    public ItemComplement getComplement()
    {
         return Complement;
@@ -168,6 +181,8 @@ public class Item{
    {
       this.Complement = Complement;
    }
+
+
       
 }
 
