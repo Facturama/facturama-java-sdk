@@ -46,11 +46,11 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception
     {   
-        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");   // Disponible el 01/07/2022       
-        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");   // Vigente hasta 30/06/2022    
+        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");         
+        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/2/cfdis");   
     }    
     
-    //Ejemplo de endpoint de pruebas para CFDI 4.0 Disponible hasta el 30 de Junio 2022
+    //Ejemplo de endpoint de pruebas para CFDI 4.0 
     public com.Facturama.sdk_java.Models.Response.Cfdi Create3(com.Facturama.sdk_java.Models.Request.CfdiLite model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "api-lite/3/cfdis");       
     }  

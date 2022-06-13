@@ -19,13 +19,14 @@ public class Cfdi {
     private String Exportation;
     private String PaymentForm;
     private String PaymentMethod;
+    private GlobalInformation GlobalInformation;
     private Receiver Receiver;
     private List<Item> Items;
     private String Observations;
     private String OrderNumber;
     private String PaymentBankName;
     private Complements Complemento;
-    private GlobalInformation GlobalInformation;
+    
    
    
    public String getNameId ()

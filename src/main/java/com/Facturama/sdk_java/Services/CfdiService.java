@@ -45,8 +45,8 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception
     {      
-        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");  //  Método disponible 1/07/2022
-        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");    //  Vigente hasta el 30/06/2022   
+        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");  
+        return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");     
     } 
     
     //metodo de pruebas para CFDI 4.0, vigente hasta el 30/06/2022

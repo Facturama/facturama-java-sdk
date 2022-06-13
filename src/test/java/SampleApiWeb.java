@@ -8,6 +8,7 @@ import com.Facturama.sdk_java.Models.Request.CfdiType;
 import com.Facturama.sdk_java.Models.Request.Item;
 import com.Facturama.sdk_java.Models.Request.Receiver;
 import com.Facturama.sdk_java.Models.Request.GlobalInformation;
+import com.Facturama.sdk_java.Models.Request.ThirdPartyAccount;
 import com.Facturama.sdk_java.Models.Request.Tax;
 import com.Facturama.sdk_java.Models.Response.Catalogs.*;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
@@ -151,6 +152,8 @@ public class SampleApiWeb
          newClient.setAddress(clientAddress);         
          newClient.setCfdiUse("P01");
          newClient.setRfc("ESO1202108R2");
+         newClient.setFiscalRegime("605");
+         newClient.setTaxZipCode("78140");
          newClient.setEmail("diego@facturama.com.mx");
          newClient.setName("Expresion en Software");
          
@@ -461,8 +464,18 @@ public class SampleApiWeb
             item.setSubtotal(subTotal);
             item.setTaxObject("02");// Nuevo elemento CFDI 4.0
             
+            //A cuenta de terceros
+            /*item.setCuentaPredial("12345");
+            
+            ThirdPartyAccount thirdPartyAccount= new ThirdPartyAccount(); 
+            thirdPartyAccount.setRfc("CACX7605101P8");
+            thirdPartyAccount.setName("XOCHILT CASAS CHAVEZ");
+            thirdPartyAccount.setFiscalRegime("616");
+            thirdPartyAccount.setTaxZipCode("10740");
             
             
+           item.setThirdPartyAccount(thirdPartyAccount);
+            */
             // ---- Llenado de los impuestos del item ----                                    
             item = addTaxesToItem(item, product, numberOfDecimals);
                         

@@ -22,11 +22,12 @@ public class CfdiLite {
    private String Exportation;
    private String PaymentForm;
    private String PaymentMethod;
+    private GlobalInformation GlobalInformation;
    private Issuer Issuer;
    private Receiver Receiver;
    private List<Item> Items;
    private Complements Complemento;
-   private GlobalInformation GlobalInformation;
+  
    
    private String LogoUrl;      
    
