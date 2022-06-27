@@ -28,12 +28,12 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public enum InvoiceType
     {
-        Issued, Received,Payroll, IssuedLite
+        Issued, Received,Payroll, IssuedLite,issued, received,payroll, issuedLite
     }
     
     public enum CfdiStatus
     {
-        All, Active,Cancel
+        All, Active,Cancel,all,active,cancel
     }
     
     public CfdiService(OkHttpClient client) {
@@ -111,6 +111,14 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
 
     }
     
+    public List<CfdiSearchResult> List() throws IOException, FacturamaException, Exception{        
+        return this.List(-1, -1, 
+                null, null,
+                "", "", 
+                "", "",
+                CfdiStatus.Active, InvoiceType.Issued, null);
+    }
+    
     public List<CfdiSearchResult> List(String keyword) throws IOException, FacturamaException, Exception
     {        
         return this.List(keyword, CfdiStatus.Active );
@@ -119,7 +127,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     public List<CfdiSearchResult> List(String keyword, CfdiStatus status ) throws IOException, FacturamaException, Exception{
         return this.List(keyword, CfdiStatus.Active, InvoiceType.Issued );
     }
-    
+        
     public List<CfdiSearchResult> List(String keyword, CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{
         keyword = URLEncoder.encode(keyword);
         
@@ -127,23 +135,21 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         
         return GetList( resource , new TypeToken<List<com.Facturama.sdk_java.Models.Response.CfdiSearchResult>>() {}.getType() );
     }
-    
-    
-    
-    public List<CfdiSearchResult> List() throws IOException, FacturamaException, Exception{        
-        return this.List(-1, -1, 
-                null, null,
-                "", "", 
-                "", "",
-                CfdiStatus.Active, InvoiceType.Issued);
-    }
-    
+         
     public List<CfdiSearchResult> ListFilterByRfc(String rfc) throws IOException, FacturamaException, Exception{        
         return this.List(-1, -1, 
                 rfc, null,
                 null, null, 
                 null, null,
-                CfdiStatus.Active, InvoiceType.Issued);
+                CfdiStatus.Active, InvoiceType.Issued, null);
+    }
+    
+    public List<CfdiSearchResult> ListFilterByOrderNumber(InvoiceType type, String OrderNumber) throws IOException, FacturamaException, Exception{        
+        return this.List(-1, -1, 
+                null, null,
+                null, null, 
+                null, null,
+                CfdiStatus.active, InvoiceType.issued, OrderNumber);
     }
             
         
@@ -151,7 +157,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
             String rfc, String taxEntityName,
             String dateStart, String dateEnd, 
             String idBranch, String serie,
-            CfdiStatus status, InvoiceType type ) throws IOException, FacturamaException, Exception{        
+            CfdiStatus status, InvoiceType type, String OrderNumber ) throws IOException, FacturamaException, Exception{        
         
         String resource = "cfdi?type=" +  type + "&status=" + status;
         
@@ -178,13 +184,16 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         
         if( serie != null )
             resource += "&serie=" + serie;
+        
+        if( OrderNumber != null )
+            resource += "&orderNumber=" + OrderNumber;
 
         
         return GetList( resource , new TypeToken<List<CfdiSearchResult>>() {}.getType() );
     }
     
     
-    /**-
+    /*
      * Obtiene un archivo referente a un CFDI del tipo "Issued"
      * @param id Identificador del CFDI
      * @param format Formato deseado ( pdf | html | xml )     
@@ -194,7 +203,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
        return GetFile(id, format, InvoiceType.Issued);
     }
     
-    /**
+    /*
      * Obtiene un archivo referente a un CFDI
      * @param id Identificador del CFDI
      * @param format Formato deseado ( pdf | html | xml )
@@ -212,7 +221,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     }
           
     
-    /**
+    /*
      * Guardada el PDF de  un CFDI del tipo "Issued" en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF
@@ -222,7 +231,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         SavePdf(filePath, id, InvoiceType.Issued);
     }
     
-    /**
+    /*
      * Guardada el PDF de  un CFDI en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF
@@ -240,7 +249,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     
-    /**
+    /*
      * Guardada el XML de  un CFDI del tipo "Issued" en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF
@@ -250,7 +259,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         SaveXml(filePath, id, InvoiceType.Issued);
     }
     
-    /**
+    /*
      * Guardada el XML de  un CFDI en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF
@@ -267,7 +276,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     
-    /**
+    /*
      * Guardada el HTML de  un CFDI del tipo "Issued" en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF
@@ -277,7 +286,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         SaveXml(filePath, id, InvoiceType.Issued);
     }
     
-    /**
+    /*
      * Guardada el HTML de  un CFDI en la ruta especificada
      * 
      * @param filePath Ruta donde se va a guardar el PDF

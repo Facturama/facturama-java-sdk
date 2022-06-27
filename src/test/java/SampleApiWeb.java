@@ -24,6 +24,7 @@ import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Request.Complements.Complements;
 import com.Facturama.sdk_java.Models.Request.Payment;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
+
 import java.util.Calendar;
 import java.util.Map;
 
@@ -53,8 +54,9 @@ public class SampleApiWeb
             
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
             //sampleCfdi(facturama);    // Test CFDI 3.3
-            sampleCfdi40(facturama);    // Test CFDI 4.0 global
+            //sampleCfdi40(facturama);    // Test CFDI 4.0 global
             
+            sampleList(facturama);
              
            // Ejemplo de la creación de un complemento de pago
            //samplePaymentComplement(facturama);
@@ -84,8 +86,8 @@ public class SampleApiWeb
     * isDevMode = false : ambiente de producción ( SI se consumen folios, las facturas realzadas son TIMBRADAS por un "PAC" )
     */
     private static FacturamaApi createApiInstance(){
-        String user = "sdkpruebas";
-        String password = "pruebas2022";
+        String user = "userprueba";
+        String password = "Temporal.123";
         Boolean isDevMode = true;
         
         return new FacturamaApi(user, password, isDevMode);
@@ -235,6 +237,41 @@ public class SampleApiWeb
         System.out.println("Se creo exitosamente un producto con el id: " + product.getId());
 
         return product;
+    }
+    
+    private static void sampleList(FacturamaApi facturama)throws IOException, FacturamaException, Exception
+    {
+        //List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("ORGANICOS"); 
+        //System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.toString());
+        
+        //List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2"); 
+        //System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        
+        //Opción 1
+        //List<CfdiSearchResult> lstCfdiByOrderNumber = facturama.Cfdis().ListFilterByOrderNumber(CfdiService.InvoiceType.Issued, "050408");
+        //System.out.println("Se obtiene la lista de facturas: " + lstCfdiByOrderNumber.get(0).getId());
+        
+        
+        //Opción 2, prueba con parametros
+        int FolioIni=-1;
+        int FolioFin=-1;
+        String Rfc="OÑO120726RX3";
+        String taxEntityName= null;
+        String dateStart=null;
+        String dateEnd=null;
+        String idBranch=null;
+        String serie=null;
+        CfdiService.CfdiStatus status = CfdiService.CfdiStatus.all;
+        CfdiService.InvoiceType type= CfdiService.InvoiceType.Issued; 
+        String OrderNumber= "050408";
+        
+        List<CfdiSearchResult> lstCfdiByOrderNumber2 = facturama.Cfdis().List(FolioIni, FolioFin, Rfc, taxEntityName, dateStart, dateEnd, idBranch, serie, status, type, OrderNumber);
+        System.out.println("Se obtiene la lista de facturas: " + lstCfdiByOrderNumber2.get(0).getId());
+
+        
+        
+        
+        
     }
     
     /*

@@ -7,15 +7,22 @@ public class CfdiSearchResult
 {
        
     private String Id;
+    private String CfdiType;
+    private String Type;
     private String Folio;
     private String Serie;
     private String TaxName;
     private String Rfc;
+    private String RfcIssuer;
     private String Date;
+    private Double Subtotal;
     private Double Total;
     private String Uuid;
-    private String Email;
     private Boolean IsActive;
+    private String PaymentMethod;
+    private String OrderNumber;
+    private String Status;
+    private String Email;
     private Boolean EmailSent;
     
     
@@ -29,6 +36,22 @@ public class CfdiSearchResult
       this.Id = Id;
    }
    
+   public String getCfdiType()
+   {
+       return CfdiType;
+   }
+   public void setCfdiType(String CfdiType)
+   {
+       this.CfdiType=CfdiType;
+   }
+    public String getType()
+   {
+       return Type;
+   }
+    public void setType(String Type)
+   {
+       this.Type=Type;
+   }  
    public String getFolio()
    {
         return Folio;
@@ -68,6 +91,14 @@ public class CfdiSearchResult
    {
       this.Rfc = Rfc;
    }
+   public String getRfcIssuer()
+   {
+       return RfcIssuer;
+   }
+   public void setRfcIssuer(String RfcIssuer)
+   {
+       this.RfcIssuer=RfcIssuer;
+   }
    
    public String getDate()
    {
@@ -78,6 +109,15 @@ public class CfdiSearchResult
    {
       this.Date = Date;
    }
+    public Double getSubtotal()
+   {
+        return Subtotal;
+   }
+   
+   public void setSubtotal(double Subtotal)
+   {
+      this.Subtotal = Subtotal;
+   }  
    
    public Double getTotal()
    {
@@ -115,6 +155,32 @@ public class CfdiSearchResult
     
     public void setIsActive(boolean IsActive) {
         this.IsActive = IsActive;
+    }
+    
+    public String getPaymentMethod()
+    {
+        return PaymentMethod;
+    }
+    public void setPaymentMethod(String PaymentMethod)
+    {
+        this.PaymentMethod=PaymentMethod;
+    }
+    
+    public String getOrderNumber()
+    {
+            return OrderNumber;
+    }
+    public void setOrderNumber(String OrderNumber)
+    {
+        this.OrderNumber=OrderNumber;
+    }
+    public String getStatus()
+    {
+        return Status;
+    }
+    public void setStatus(String Status)
+    {
+        this.Status=Status;
     }
     
     public Boolean getEmailSent() {
