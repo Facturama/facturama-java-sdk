@@ -39,9 +39,10 @@ public class SampleApiWeb
 
     public static void principal() 
     {        
-        System.out.println( "Ejemplos de consumo de la FacturamaAPI Web, con el usuario de 'sdkpruebas'" );
+        System.out.println( "Ejemplos de consumo de la FacturamaAPI Web, con el usuario de 'pruebas'" );
             
-       try {     
+       try 
+       {     
             // Creación de la instancia
             FacturamaApi facturama = createApiInstance();           
         
@@ -50,19 +51,23 @@ public class SampleApiWeb
             
             //Prueba de funcionalidad de crear un producto
             //sampleProducts(facturama);
-            
-            
+                        
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
-            //sampleCfdi(facturama);    // Test CFDI 3.3
-            //sampleCfdi40(facturama);    // Test CFDI 4.0 global
+            sampleCfdi(facturama);    // Test CFDI 3.3
+            //sampleCfdi40(facturama);    // Test CFDI 4.0 
+             //sampleCfdiGlobal(facturama);    // Test CFDI 4.0 Factura Global
+             
+            //Prueba de funcionalidad de crear un producto             
+            //sampleList(facturama);
             
-            sampleList(facturama);
              
            // Ejemplo de la creación de un complemento de pago
            //samplePaymentComplement(facturama);
             
             
-        } catch (FacturamaException ex) {                        
+        } 
+        catch (FacturamaException ex) 
+        {                        
             // Se muestran los errores
             System.out.println( ex.getMessage() );
                         
@@ -71,7 +76,9 @@ public class SampleApiWeb
                 System.out.println(entry.getKey() + ": " +  String.join(",", entry.getValue() ));
             });                                   
             
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) 
+        {
             System.out.println( "Error inesperado: " + ex.getMessage() );
         }
         
@@ -85,14 +92,14 @@ public class SampleApiWeb
     * isDevMode = true : ambiente de pruebas ( no se consumen folios, las facturas realzadas son apócrifas)
     * isDevMode = false : ambiente de producción ( SI se consumen folios, las facturas realzadas son TIMBRADAS por un "PAC" )
     */
-    private static FacturamaApi createApiInstance(){
-        String user = "userprueba";
-        String password = "Temporal.123";
+    private static FacturamaApi createApiInstance()
+    {
+        String user = "pruebas";
+        String password = "pruebas2011";
         Boolean isDevMode = true;
         
         return new FacturamaApi(user, password, isDevMode);
     }
-    
     
     
     /*
@@ -149,15 +156,15 @@ public class SampleApiWeb
          clientAddress.setNeighborhood("Lomas 4ta");
          clientAddress.setState("San Luis Potosí");
          clientAddress.setStreet("Cañada de Gomez");
-         clientAddress.setZipCode("78220");
+         clientAddress.setZipCode("30230");
          
          newClient.setAddress(clientAddress);         
          newClient.setCfdiUse("P01");
-         newClient.setRfc("ESO1202108R2");
+         newClient.setRfc("IAÑL750210963");
          newClient.setFiscalRegime("605");
-         newClient.setTaxZipCode("78140");
-         newClient.setEmail("diego@facturama.com.mx");
-         newClient.setName("Expresion en Software");
+         newClient.setTaxZipCode("30230");
+         newClient.setEmail("pruebas@facturama.mx");
+         newClient.setName("LUIS IAN ÑUZCO");
          
          
          return facturama.Clients().Create(newClient);
@@ -280,7 +287,7 @@ public class SampleApiWeb
     private static void sampleCfdi( FacturamaApi facturama) throws IOException, FacturamaException, Exception
     {  
         
-        System.out.println( "----- Inicio del ejemplo de CFDI -----" );                              
+        System.out.println( "----- Inicio del ejemplo de CFDI 3.3 API WEB-----" );                              
         
         // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
         com.Facturama.sdk_java.Models.Request.Cfdi cfdi = createModelCfdiGeneral(facturama);
@@ -333,6 +340,47 @@ public class SampleApiWeb
         
         // Se obtiene la factura recien creada
         com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create3(cfdi);
+        
+        System.out.println("Se creo CFDI con el siguiente ID: " + cfdiCreated.getId());
+        System.out.println( "\nSe creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        
+        // Descarga de los archivos de la factura
+        //String filePath = "factura"+cfdiCreated.getComplement().getTaxStamp().getUuid();
+        //facturama.Cfdis().SavePdf(filePath+".pdf", cfdiCreated.getId());
+        //facturama.Cfdis().SaveXml(filePath+".xml", cfdiCreated.getId());
+        
+        
+        // Se elmina la factura recien creada
+        //facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
+        //System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        
+        //El correo que se ingrese debe existir 
+        //System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
+        // Consulta de cfdis mediante palabra clave o rfc
+        //List<CfdiSearchResult> lstCfdiFilteredByKeyword = facturama.Cfdis().List("Expresion en Software");
+        //List<CfdiSearchResult> lstCfdiFilteredByRfc = facturama.Cfdis().ListFilterByRfc("ESO1202108R2");                
+
+        //System.out.println("Se obtiene la lista de facturas: " + lstCfdiFilteredByKeyword.size());
+        //System.out.println("Se obtiene la lista de facturas por RFC: " + lstCfdiFilteredByRfc.size());
+        
+        System.out.println( "----- Fin del ejemplo de CFDI -----" );
+        
+    }
+    
+    private static void sampleCfdiGlobal( FacturamaApi facturama) throws IOException, FacturamaException, Exception
+    {  
+        
+        System.out.println( "----- Inicio del ejemplo de CFDI 4.0 -----" );                              
+        
+        // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = createModelCfdiGeneral40Global(facturama);
+                
+        // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
+        cfdi = addItemsToCfdi(facturama, cfdi);
+        
+        
+        // Se obtiene la factura recien creada
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create3(cfdi);
 
         System.out.println( "Se creó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
@@ -358,8 +406,7 @@ public class SampleApiWeb
         System.out.println( "----- Fin del ejemplo de CFDI -----" );
         
     }
-    
-                 
+                     
     /*
      * Llenado del modelo de CFDI 3.3, de una forma general
      * - Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición     
@@ -415,10 +462,42 @@ public class SampleApiWeb
     
     
     /*
-    *   Llenado del CFDI 4.0 Global
+    *   Llenado del CFDI 4.0
     *   Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición 
     */
         private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40(FacturamaApi facturama) throws IOException, FacturamaException, Exception
+    {
+        
+                
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
+                        
+            cfdi.setNameId("1");
+            cfdi.setCfdiType("I");        
+            cfdi.setPaymentForm("03");
+            cfdi.setPaymentMethod("PUE");
+            cfdi.setCurrency("MXN");
+            cfdi.setExpeditionPlace("30230");
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();        
+            cfdi.setDate(dateFormat.format(date));            
+
+            Receiver  receiver = new Receiver();
+            receiver.setRfc("ZUÑ920208KL4");
+            receiver.setName("ZAPATERIA URTADO ÑERI");
+            receiver.setCfdiUse("G03");
+            receiver.setTaxZipCode("77060");
+            receiver.setFiscalRegime("601");
+
+
+            cfdi.setReceiver(receiver);           
+            
+        return cfdi;
+                
+    }
+  
+        
+        private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40Global(FacturamaApi facturama) throws IOException, FacturamaException, Exception
     {
         
                 
@@ -447,9 +526,9 @@ public class SampleApiWeb
 
             Receiver  receiver = new Receiver();
             receiver.setRfc("XAXX010101000");
-            receiver.setName("PUBLICO GENERAL");
+            receiver.setName("PUBLICO EN GENERAL");
             receiver.setCfdiUse("S01");
-            receiver.setTaxZipCode("30230");
+            receiver.setTaxZipCode("78140");
             receiver.setFiscalRegime("616");
 
 
@@ -458,7 +537,7 @@ public class SampleApiWeb
         return cfdi;
                 
     }
-  
+         
         
     private static com.Facturama.sdk_java.Models.Request.Cfdi addItemsToCfdi(FacturamaApi facturama,
        com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception
@@ -513,6 +592,17 @@ public class SampleApiWeb
             
            item.setThirdPartyAccount(thirdPartyAccount);
             */
+            
+            //Número de Pedimento
+            /*
+            ArrayList<String> numerosPedimento=new ArrayList<>();
+            numerosPedimento.add("21  47  3807  8003832");
+            numerosPedimento.add("21  47  3807  8003832");
+            numerosPedimento.add("21  47  3807  8003832");
+            
+            item.setNumerosPedimento(numerosPedimento);
+            */
+            
             // ---- Llenado de los impuestos del item ----                                    
             item = addTaxesToItem(item, product, numberOfDecimals);
                         

@@ -19,6 +19,7 @@ public class Item{
     private String TaxObject;
     private ThirdPartyAccount ThirdPartyAccount;
     private String CuentaPredial;
+    private List<String> NumerosPedimento;
     private List<Tax> Taxes;
 
     private double Total;
@@ -181,6 +182,18 @@ public class Item{
    {
       this.Complement = Complement;
    }
+   
+   
+    public List<String> getNumerosPedimento()
+   {
+        return NumerosPedimento;
+   }
+   
+    public void setNumerosPedimento(List<String> NumerosPedimento)
+   {
+      this.NumerosPedimento = NumerosPedimento;
+   }
+
 
 
       
