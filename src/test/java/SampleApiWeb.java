@@ -22,8 +22,12 @@ import java.util.Objects;
 import java.util.Random;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Request.Complements.Complements;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.IdContabilidad;
 import com.Facturama.sdk_java.Models.Request.Payment;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.Ine;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.IneEntidad;
+
 
 import java.util.Calendar;
 import java.util.Map;
@@ -53,8 +57,8 @@ public class SampleApiWeb
             //sampleProducts(facturama);
                         
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
-            sampleCfdi(facturama);    // Test CFDI 3.3
-            //sampleCfdi40(facturama);    // Test CFDI 4.0 
+            //sampleCfdi(facturama);    // Test CFDI 3.3
+            sampleCfdi40(facturama);    // Test CFDI 4.0 
              //sampleCfdiGlobal(facturama);    // Test CFDI 4.0 Factura Global
              
             //Prueba de funcionalidad de crear un producto             
@@ -336,7 +340,8 @@ public class SampleApiWeb
                 
         // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
         cfdi = addItemsToCfdi(facturama, cfdi);
-        
+        //cfdi = addIneComplement(facturama, cfdi);
+
         
         // Se obtiene la factura recien creada
         com.Facturama.sdk_java.Models.Response.Cfdi cfdiCreated = facturama.Cfdis().Create3(cfdi);
@@ -837,4 +842,53 @@ public class SampleApiWeb
         return cfdi;
                 
     }
+    
+        
+    //Add Complement    
+    private static com.Facturama.sdk_java.Models.Request.Cfdi addIneComplement(FacturamaApi facturama,
+       com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception
+    {
+        
+        Complements complement = new Complements();
+        Ine ine = new Ine();
+        
+//        ine.setVersion("1.1");
+//        ine.setTipoProceso("Ordinario");
+//        ine.setTipoComite("EjecutivoNacional");
+//        ine.setIdContabilidad("123456");
+//        ine.setTipoComiteSpecified(true);
+
+
+        ine.setVersion("1.1");
+        ine.setTipoProceso("Precampaña");
+             
+        List<IneEntidad> lstentidad=new ArrayList();
+            IneEntidad entidad= new IneEntidad();
+        
+            entidad.setAmbito("Federal");
+            entidad.setClaveEntidad("AGU");
+        
+            List<IdContabilidad> lstContabilidad=new ArrayList<>();
+        
+            IdContabilidad idContabilidad=new IdContabilidad();
+            idContabilidad.setIdContabilidad("123456");
+            lstContabilidad.add(idContabilidad);
+        
+        
+            entidad.setContabilidad(lstContabilidad);        
+            lstentidad.add(entidad);
+
+            entidad.setContabilidad(lstContabilidad);        
+            lstentidad.add(entidad);
+            
+            
+        ine.setEntidad(lstentidad);
+                
+        complement.setIne(ine);
+        cfdi.setComplements(complement);
+               
+        
+        
+        return cfdi;
+    }       
 }
