@@ -1,9 +1,13 @@
 
+import com.Facturama.sdk_java.Container.FacturamaApi;
 import com.Facturama.sdk_java.Container.FacturamaApiMultiemisor;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Csd;
 import com.Facturama.sdk_java.Models.Request.CfdiType;
 import com.Facturama.sdk_java.Models.Request.Complements.Complements;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.IdContabilidad;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.Ine;
+import com.Facturama.sdk_java.Models.Request.Complements.INE.IneEntidad;
 import com.Facturama.sdk_java.Models.Request.Issuer;
 import com.Facturama.sdk_java.Models.Request.Item;
 import com.Facturama.sdk_java.Models.Request.Payment;
@@ -364,27 +368,28 @@ public class SampleApiMultiemisor {
             cfdi.setPaymentAccountNumber("6789");
             cfdi.setPaymentConditions("Condiciones");
 
-         
+             //cfdi = addIneComplement(facturama, cfdi);
+            
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();        
             cfdi.setDate(dateFormat.format(date));            
-            cfdi.setExpeditionPlace("30230");
+            cfdi.setExpeditionPlace("78140");
             
             //Exportación
             cfdi.setExportation("01");
             
             //Nodo Informacion Global
-            GlobalInformation globalinformation=new GlobalInformation();
-            globalinformation.setPeriodicity("02");
-            globalinformation.setMonths("04");
-            globalinformation.setYear("2022");
-            cfdi.setGlobalInformation(globalinformation);
-            
+//            GlobalInformation globalinformation=new GlobalInformation();
+//            globalinformation.setPeriodicity("02");
+//            globalinformation.setMonths("04");
+//            globalinformation.setYear("2022");
+//            cfdi.setGlobalInformation(globalinformation);
+//            
             Receiver  receiver = new Receiver();
             receiver.setRfc("XAXX010101000");
-            receiver.setName("PUBLICO EN GENERAL");
+            receiver.setName("PUBLICO GENERAL");
             receiver.setCfdiUse("S01");
-            receiver.setTaxZipCode("30230");
+            receiver.setTaxZipCode("78140");
             receiver.setFiscalRegime("616");
             
             Issuer issuer = new Issuer();
@@ -728,4 +733,48 @@ public class SampleApiMultiemisor {
         return cfdi;
                 
     }
+        
+         //Add Complement    
+    private static com.Facturama.sdk_java.Models.Request.CfdiLite addIneComplement(FacturamaApiMultiemisor facturama,
+       com.Facturama.sdk_java.Models.Request.CfdiLite cfdi) throws IOException, FacturamaException, Exception
+    {
+        
+        Complements complement = new Complements();
+        Ine ine = new Ine();
+        
+//        ine.setVersion("1.1");
+//        ine.setTipoProceso("Ordinario");
+//        ine.setTipoComite("EjecutivoNacional");
+//        ine.setIdContabilidad("123456");
+//        ine.setTipoComiteSpecified(true);
+
+
+        ine.setVersion("1.1");
+        ine.setTipoProceso("Precampaña");
+        List<IneEntidad> lstentidad=new ArrayList();
+        IneEntidad entidad= new IneEntidad();
+        
+        entidad.setAmbito("Federal");
+        entidad.setClaveEntidad("AGU");
+        
+        List<IdContabilidad> lstContabilidad=new ArrayList<>();
+        
+        IdContabilidad idContabilidad=new IdContabilidad();
+        idContabilidad.setIdContabilidad("123456");
+        lstContabilidad.add(idContabilidad);
+                
+        entidad.setContabilidad(lstContabilidad);        
+        lstentidad.add(entidad);
+        ine.setEntidad(lstentidad);
+                
+        complement.setIne(ine);
+        cfdi.setComplements(complement);
+               
+        
+        
+        return cfdi;
+    }       
+                
 }
+   
+
