@@ -58,6 +58,9 @@ public class SampleApiMultiemisor {
             // Ejemplo de creación de CFDI 4.0
             sampleCfdi40(facturama);
             
+            //Test Cancelación
+            //TestCancel(facturama);
+            
             // Ejemplo de creación de "Complemento de Pago"
             //samplePaymentComplement(facturama);
             
@@ -246,9 +249,8 @@ public class SampleApiMultiemisor {
         
         
         // Se elmina la factura recien creada
-        /*
-        CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"02","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
         
+        CancelationStatus response = facturama.Cfdis().Remove(cfdiCreated.getId(),"02","");        
         System.out.println(response.getStatus());
         
         String strCanceled = "canceled" ;
@@ -261,7 +263,7 @@ public class SampleApiMultiemisor {
         else{
             System.out.println( "Algo ha pasado, que el CFDI no se ha podido cancelar. Revisa el mensaje: " + response.getMessage() );
         }
-        */
+        
         
         //El correo que se ingrese debe existir 
         
@@ -773,7 +775,32 @@ public class SampleApiMultiemisor {
         
         
         return cfdi;
-    }       
+    }   
+
+    private static void TestCancel( FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+    {
+        System.out.println( "----- Inicio del ejemplo Test Cancelación-----" );      
+        
+        
+        String Cfdi_Id="";
+        // Se elmina la factura recien creada
+        CancelationStatus response = facturama.Cfdis().Remove(Cfdi_Id,"02","");        
+        
+        System.out.println(response.getStatus());
+        
+        String strCanceled = "canceled" ;
+        String strPending = "canceled" ;
+        if( strCanceled.equals(response.getStatus())){
+            System.out.println( "Se ha cancelado exitosamente el cfdi con el folio fiscal: " +  response.getUuid() );
+        }else if(strPending.equals(response.getStatus())){
+            System.out.println( "La factura está en proceso de cancelación, pueden pasar hasta 72 horas para que se considere cancelada." );
+        }
+        else{
+            System.out.println( "Algo ha pasado, que el CFDI no se ha podido cancelar. Revisa el mensaje: " + response.getMessage() );
+        }
+        
+        System.out.println( "----- Fin del ejemplo Test Cancelación -----" );
+    }
                 
 }
    
