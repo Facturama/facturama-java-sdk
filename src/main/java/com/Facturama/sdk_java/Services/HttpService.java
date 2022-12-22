@@ -15,6 +15,7 @@ import java.io.IOException;
 import com.Facturama.sdk_java.Models.Exception.FacturamaException;
 import com.Facturama.sdk_java.Models.Exception.ModelException;
 import java.net.ProtocolException;
+import java.util.concurrent.TimeUnit;
 
 public abstract class HttpService <TI, TO>
 {   
@@ -25,8 +26,11 @@ public abstract class HttpService <TI, TO>
     
     public HttpService(OkHttpClient client, String url)
     {                                  
-        httpClient = client;        
-        relativeUrl = url;       
+        httpClient = client; 
+        client.setConnectTimeout(50, TimeUnit.SECONDS);
+        client.setWriteTimeout(50, TimeUnit.SECONDS);
+        client.setReadTimeout(60, TimeUnit.SECONDS);
+        relativeUrl = url;    
         
         BaseUrlInterceptor interceptor = (BaseUrlInterceptor) httpClient.interceptors().get(0);
         this.baseUrl = interceptor.getBaseUrl();        
