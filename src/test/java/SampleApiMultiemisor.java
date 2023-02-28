@@ -35,8 +35,7 @@ import com.Facturama.sdk_java.Models.Response.Cfdi;
 /*
  * Soporte API
  * @author Facturama
- * chucho@facturama.mx
- * rafael@facturama.mx
+ * soporte-api@facturama.mx
  */
 
 public class SampleApiMultiemisor {
@@ -60,6 +59,7 @@ public class SampleApiMultiemisor {
             
             //Test Cancelación
             //TestCancel(facturama);
+            
             
             // Ejemplo de creación de "Complemento de Pago"
             //samplePaymentComplement(facturama);
@@ -784,7 +784,7 @@ public class SampleApiMultiemisor {
         
         String Cfdi_Id="";
         // Se elmina la factura recien creada
-        CancelationStatus response = facturama.Cfdis().Remove(Cfdi_Id,"02","");        
+        CancelationStatus response = facturama.Cfdis().Remove(Cfdi_Id,"02",null);        
         
         System.out.println(response.getStatus());
         

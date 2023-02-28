@@ -45,11 +45,10 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public com.Facturama.sdk_java.Models.Response.Cfdi Create(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception
     {      
-        //return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");  
         return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "2/cfdis");     
     } 
     
-    //metodo de pruebas para CFDI 4.0, vigente hasta el 30/06/2022
+
     public com.Facturama.sdk_java.Models.Response.Cfdi Create3(com.Facturama.sdk_java.Models.Request.Cfdi model) throws IOException, FacturamaException, Exception{        
     return (com.Facturama.sdk_java.Models.Response.Cfdi) Post(model, "3/cfdis");       
     }    
@@ -58,12 +57,24 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String type, String motive, String uuidReplacement ) 
             throws IOException, FacturamaException, Exception
     {
-        String R_uuidReplacement= uuidReplacement.isEmpty()? null : uuidReplacement;
-        if(id != null && !id.isEmpty()){
-            return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("cfdi/" + id  + "?type=" + type + "&motive=" + motive + "&uuidReplacement=" + R_uuidReplacement);
-        }else{
+        uuidReplacement= uuidReplacement== null ? null :uuidReplacement.isEmpty()? null : uuidReplacement;
+        motive=motive.isEmpty()? "02" : motive;
+         if(id != null && !id.isEmpty())
+        {
+            if(uuidReplacement == null  || uuidReplacement == "null" )
+            {
+                return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("cfdi/" + id  + "?type=" + type + "&motive=" + motive);             
+            }
+            else
+            {
+                return (com.Facturama.sdk_java.Models.Response.CancelationStatus) Delete("cfdi/" + id  + "?type=" + type + "&motive=" + motive + "&uuidReplacement=" + uuidReplacement);
+            }
+               
+        }
+        else
+        {
             throw new NullPointerException( singleType.getTypeName() );
-        }        
+        }                 
     }   
     
     public com.Facturama.sdk_java.Models.Response.CancelationStatus RemoveRet(String id,  String motive) 

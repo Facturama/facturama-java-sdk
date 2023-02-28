@@ -56,7 +56,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     public com.Facturama.sdk_java.Models.Response.CancelationStatus Remove(String id, String motive, String uuidReplacement) throws IOException, FacturamaException, Exception{        
-        uuidReplacement= uuidReplacement.isEmpty()? null : uuidReplacement;
+        uuidReplacement= uuidReplacement== null ? null :uuidReplacement.isEmpty()? null : uuidReplacement;
         motive=motive.isEmpty()? "02" : motive;
        
    
