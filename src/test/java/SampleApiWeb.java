@@ -356,8 +356,8 @@ public class SampleApiWeb
         
         
         // Se elmina la factura recien creada
-        //facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","01","d8e34bab-5bd4-4788-bde2-1428dc469e10");        
-        //System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
+        facturama.Cfdis().Remove(cfdiCreated.getId(),"issued","03",null);        
+        System.out.println( "Se elminó exitosamente el cfdi con el folio fiscal: " +  cfdiCreated.getComplement().getTaxStamp().getUuid() );
         
         //El correo que se ingrese debe existir 
         //System.out.println(facturama.Cfdis().SendEmail("example@.mx",CfdiService.InvoiceType.Issued, "7eo51BvzV-E16gBx3nnxfQ2"));
@@ -481,7 +481,7 @@ public class SampleApiWeb
             cfdi.setPaymentForm("03");
             cfdi.setPaymentMethod("PUE");
             cfdi.setCurrency("MXN");
-            cfdi.setExpeditionPlace("30230");
+            cfdi.setExpeditionPlace("78000");
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();        

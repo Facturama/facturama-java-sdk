@@ -6,9 +6,11 @@ public class main
 //        SampleApiWeb ejemplo1 = new SampleApiWeb();
 //        ejemplo1.principal();
 //        
-        SampleApiMultiemisor ejemplo2= new SampleApiMultiemisor();
-        ejemplo2.principal();
-//        
+//        SampleApiMultiemisor ejemplo2= new SampleApiMultiemisor();
+//        ejemplo2.principal();
+//
+//    SampleCatalog ejemplo3=new SampleCatalog();
+//    ejemplo3.principal();
     
     }  
 }
