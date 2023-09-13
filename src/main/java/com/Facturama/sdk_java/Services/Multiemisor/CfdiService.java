@@ -17,7 +17,7 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.util.Base64;
 import java.io.FileOutputStream;
 
 public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.Request.Cfdi,com.Facturama.sdk_java.Models.Response.Cfdi>{
@@ -233,7 +233,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         InovoiceFile file = GetFile(id, FileFormat.Pdf, type);
         
         FileOutputStream fos = new FileOutputStream(filePath);                 
-                 fos.write(Base64.decode(file.getContent()));
+                 fos.write(Base64.getDecoder().decode(file.getContent()));
                  fos.close();                 
     }
 
@@ -256,7 +256,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         InovoiceFile file = GetFile(id, FileFormat.Xml, type);
         
         FileOutputStream fos = new FileOutputStream(filePath);                 
-                 fos.write(Base64.decode(file.getContent()));
+                 fos.write(Base64.getDecoder().decode(file.getContent()));
                  fos.close();                 
     }
     

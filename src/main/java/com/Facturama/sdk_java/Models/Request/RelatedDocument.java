@@ -14,6 +14,7 @@ public class RelatedDocument {
    private Double PreviousBalanceAmount; 
    private Double AmountPaid;
    private Double ImpSaldoInsoluto;
+   private String TaxObject;
 
    public String getUuid()
    {
@@ -116,6 +117,15 @@ public class RelatedDocument {
       this.ImpSaldoInsoluto = ImpSaldoInsoluto;
    }
    
+   public String getTaxObject()
+   {
+       return TaxObject;
+   }
+   
+   public void setTaxObject(String TaxObject)
+   {
+       this.TaxObject = TaxObject;
+   }
    
         
 }

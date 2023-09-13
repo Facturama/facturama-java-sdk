@@ -35,8 +35,7 @@ import java.util.Map;
 /*
  * Soporte API
  * @author Facturama
- * chucho@facturama.mx
- * rafael@facturama.mx
+ * facturamasoporte@freshbooks.com
  */
 public class SampleApiWeb 
 {
@@ -58,7 +57,7 @@ public class SampleApiWeb
                         
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
             //sampleCfdi(facturama);    // Test CFDI 3.3
-            sampleCfdi40(facturama);    // Test CFDI 4.0 
+            //sampleCfdi40(facturama);    // Test CFDI 4.0 
              //sampleCfdiGlobal(facturama);    // Test CFDI 4.0 Factura Global
              
             //Prueba de funcionalidad de crear un producto             
@@ -66,7 +65,7 @@ public class SampleApiWeb
             
              
            // Ejemplo de la creación de un complemento de pago
-           //samplePaymentComplement(facturama);
+           samplePaymentComplement(facturama);
             
             
         } 
@@ -465,12 +464,11 @@ public class SampleApiWeb
                 
     }
     
-    
     /*
     *   Llenado del CFDI 4.0
     *   Se especifica: la moneda, método de pago, forma de pago, cliente, y lugar de expedición 
     */
-        private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40(FacturamaApi facturama) throws IOException, FacturamaException, Exception
+    private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40(FacturamaApi facturama) throws IOException, FacturamaException, Exception
     {
         
                 
@@ -491,7 +489,7 @@ public class SampleApiWeb
             receiver.setRfc("ZUÑ920208KL4");
             receiver.setName("ZAPATERIA URTADO ÑERI");
             receiver.setCfdiUse("G03");
-            receiver.setTaxZipCode("77060");
+            receiver.setTaxZipCode("34541");
             receiver.setFiscalRegime("601");
 
 
@@ -502,7 +500,7 @@ public class SampleApiWeb
     }
   
         
-        private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40Global(FacturamaApi facturama) throws IOException, FacturamaException, Exception
+    private static com.Facturama.sdk_java.Models.Request.Cfdi createModelCfdiGeneral40Global(FacturamaApi facturama) throws IOException, FacturamaException, Exception
     {
         
                 
@@ -621,6 +619,51 @@ public class SampleApiWeb
     }
     
     
+    private static com.Facturama.sdk_java.Models.Request.Cfdi addStaticItemsToCfdi(FacturamaApi facturama, com.Facturama.sdk_java.Models.Request.Cfdi cfdi) throws IOException, FacturamaException, Exception
+    {
+               
+        // Lista de Items en el cfdi (los articulos a facturar)
+        List<Item> lstItems = new ArrayList<>();        
+           
+        // Llenado del item (que va en el cfdi)
+        Item item = new Item();
+        
+        Currency currency = facturama.Catalogs().Currency("MXN");
+        int decimals = (int) currency.getDecimals();
+        Double numberOfDecimals = Math.pow(10, decimals);
+        
+        item.setUnit("Servicio");
+        item.setUnitCode("E48");
+        item.setIdentificationNumber("WEB003");
+        item.setProductCode("10101504");        
+        item.setDescription("Estudios de laboratorio");        
+        item.setQuantity(2.0);
+        item.setDiscount( 0.0);
+        item.setUnitPrice(50.0);
+        Double subTotal = Math.round( (item.getUnitPrice() * item.getQuantity()) * numberOfDecimals) / numberOfDecimals;
+        item.setSubtotal(subTotal);
+        item.setTaxObject("02");     
+        
+        List<Tax> lstTaxes = new ArrayList<>(); 
+        Tax tax = new Tax();
+        
+        tax.setBase(item.getSubtotal());
+        tax.setRate(0.16);
+        tax.setName("IVA");
+        tax.setIsRetention(false);
+        tax.setIsQuota(false);
+        tax.setTotal(Math.round(tax.getBase() * tax.getRate()* numberOfDecimals)/numberOfDecimals);
+        lstTaxes.add(tax);
+        item.setTaxes(lstTaxes);
+        lstItems.add(item);
+
+        item.setTotal(Math.round((tax.getTotal() + item.getSubtotal()) * numberOfDecimals)/ numberOfDecimals);        
+        cfdi.setItems(lstItems);
+        
+        return cfdi;
+    }
+    
+    
     /*
      * Se agregan los impuestos al Item (uno de los items del cfdi)
      * Se agregan todos los impuestos del producto, en el caso de que no se tengan impuestos, se debe colocar un valor nulo
@@ -691,16 +734,16 @@ public class SampleApiWeb
         System.out.println( "Creación del CFDI Inicial (PPD)" );      
         // Cfdi Incial (debe ser "PPD")
         // -------- Creacion del cfdi en su forma general (sin items / productos) asociados --------
-        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = createModelCfdiGeneral(facturama);
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = createModelCfdiGeneral40(facturama);
                 
         // -------- Agregar los items que lleva el cfdi ( para este ejemplo, se agregan con datos aleatorios) --------        
-        cfdi = addItemsToCfdi(facturama, cfdi);
+        cfdi = addStaticItemsToCfdi(facturama, cfdi);
        
         cfdi.setPaymentMethod("PPD");                   // El método de pago del documento inicial debe ser "PPD"
-        
+        cfdi.setPaymentForm("99");
                 
         // Se manda timbrar mediante Facturama
-        com.Facturama.sdk_java.Models.Response.Cfdi cfdiInicial = facturama.Cfdis().Create(cfdi);
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiInicial = facturama.Cfdis().Create3(cfdi);
 
         System.out.println( "Se creó exitosamente el cfdi Inicial (PPD) con el folio fiscal: " +  cfdiInicial.getComplement().getTaxStamp().getUuid() );
         
@@ -720,7 +763,7 @@ public class SampleApiWeb
         
         
         // Se manda timbrar el complemento de pago mediante Facturama
-        com.Facturama.sdk_java.Models.Response.Cfdi paymentComplement = facturama.Cfdis().Create(paymentComplementModel);
+        com.Facturama.sdk_java.Models.Response.Cfdi paymentComplement = facturama.Cfdis().Create3(paymentComplementModel);
         
         System.out.println( "Se creó exitosamente el complemento de pago con el folio fiscal: " +  paymentComplement.getComplement().getTaxStamp().getUuid() );
         
@@ -757,7 +800,7 @@ public class SampleApiWeb
                         
             // Forma de pago
             Catalog paymentForm = facturama.Catalogs().PaymentForms().stream().
-            filter(p -> p.getName().equals("Efectivo")).findFirst().get();                
+            filter(p -> p.getName().equals("Por definir")).findFirst().get();                
             
             cfdi.setNameId(nameForPdf.getValue());            
             cfdi.setCfdiType( CfdiType.Pago.getValue() ); // "P"                               
@@ -768,12 +811,13 @@ public class SampleApiWeb
             filter(p -> p.getRfc().equals(clientRfc))
                     .findFirst().get();        
             
-            Receiver  receiver = new Receiver();
-            receiver.setCfdiUse(client.getCfdiUse());
-            receiver.setName(client.getName());
-            receiver.setRfc(client.getRfc());
-            receiver.setCfdiUse("P01");
-            cfdi.setReceiver(receiver);       
+           Receiver  receiver = new Receiver();
+            receiver.setRfc("ZUÑ920208KL4");
+            receiver.setName("ZAPATERIA URTADO ÑERI");
+            receiver.setCfdiUse("CP01");
+            receiver.setTaxZipCode("34541");
+            receiver.setFiscalRegime("601");
+            cfdi.setReceiver(receiver);  
 
             // Lugar de expedición (es necesario por lo menos tener una sucursal)
             BranchOffice branchOffice = facturama.BranchOffices().List().get(0);                       
@@ -811,7 +855,7 @@ public class SampleApiWeb
             // Monto del pago
             // Este monto se puede distribuir entre los documentos relacionados al pago            
             pago.setAmount(100.00);
-            pago.setPaymentForm(paymentForm.getValue());
+            pago.setPaymentForm("03");
             
             // Documentos relacionados con el pago
             // En este ejemplo, los datos se obtiene el cfdiInicial, pero puedes colocar solo los datos
@@ -827,6 +871,7 @@ public class SampleApiWeb
             relatedDocument.setPreviousBalanceAmount(100.00);
             relatedDocument.setAmountPaid(100.00);
             relatedDocument.setImpSaldoInsoluto(0.00);
+            relatedDocument.setTaxObject("01");
             
             lstRelatedDocuments.add(relatedDocument);
             
