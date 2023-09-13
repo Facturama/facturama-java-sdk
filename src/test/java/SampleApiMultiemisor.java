@@ -35,7 +35,7 @@ import com.Facturama.sdk_java.Models.Response.Cfdi;
 /*
  * Soporte API
  * @author Facturama
- * soporte-api@facturama.mx
+ * facturamasoporte@freshbooks.com
  */
 
 public class SampleApiMultiemisor {
