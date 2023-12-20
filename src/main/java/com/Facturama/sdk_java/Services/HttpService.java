@@ -32,8 +32,8 @@ public abstract class HttpService <TI, TO>
         client.setReadTimeout(60, TimeUnit.SECONDS);
         relativeUrl = url;    
         
-        BaseUrlInterceptor interceptor = (BaseUrlInterceptor) httpClient.interceptors().get(0);
-        this.baseUrl = interceptor.getBaseUrl();        
+        BaseUrlInterceptor interceptor = (BaseUrlInterceptor) httpClient.interceptors().stream().filter(i-> i instanceof BaseUrlInterceptor).findFirst().get();
+        this.baseUrl = interceptor.getBaseUrl();
     }
     
     
