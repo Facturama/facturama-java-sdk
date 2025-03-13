@@ -52,14 +52,14 @@ public class SampleApiWeb {
             //sampleProducts(facturama);
             
             // Ejemplo de la funcionalidad básica del servicio de CFDI (crear factura)
-            //sampleCfdi40(facturama);    // Test CFDI 4.0 
+            sampleCfdi40(facturama);    // Test CFDI 4.0 
             //sampleCfdiGlobal(facturama);    // Test CFDI 4.0 Factura Global
 
             //Prueba de funcionalidad de crear un producto             
             //sampleList(facturama);
             
             // Ejemplo de la creación de un complemento de pago
-            samplePaymentComplement(facturama);
+            //samplePaymentComplement(facturama);
         } catch (FacturamaException ex) {
             // Se muestran los errores
             System.out.println(ex.getMessage());
@@ -82,8 +82,8 @@ public class SampleApiWeb {
     * isDevMode = false : ambiente de producción ( SI se consumen folios, las facturas realzadas son TIMBRADAS por un "PAC" )
      */
     private static FacturamaApi createApiInstance() {
-        String user = "sdkpruebas";
-        String password = "pruebas2022";
+        String user = "tu_usuario";
+        String password = "tu_contraseña";
         Boolean isDevMode = true;
 
         return new FacturamaApi(user, password, isDevMode);
@@ -407,11 +407,26 @@ public class SampleApiWeb {
         cfdi.setDate(dateFormat.format(date));
 
         Receiver receiver = new Receiver();
-        receiver.setRfc("ZUÑ920208KL4");
-        receiver.setName("ZAPATERIA URTADO ÑERI");
+        receiver.setRfc("URE180429TM6");
+        receiver.setName("UNIVERSIDAD ROBOTICA ESPAÑOLA");
         receiver.setCfdiUse("G03");
-        receiver.setTaxZipCode("34541");
+        receiver.setTaxZipCode("86991");
         receiver.setFiscalRegime("601");
+        
+        Address receiverAddress = new Address();
+        receiverAddress.setStreet("Calle de pruebas");
+        receiverAddress.setExteriorNumber("123");
+        receiverAddress.setInteriorNumber("456");
+        receiverAddress.setNeighborhood("Lomas 4ta");
+        receiverAddress.setLocality("San Luis");
+        receiverAddress.setMunicipality("San Luis Potosí");
+        receiverAddress.setState("SLP");
+        receiverAddress.setCountry("MEX");
+
+        receiver.setAddress(receiverAddress);
+                
+                
+       
 
         cfdi.setReceiver(receiver);
 
