@@ -76,8 +76,8 @@ public class SampleApiMultiemisor {
      * @return Objeto creado, listo para hacer las peticiones a la API
      */
     private static FacturamaApiMultiemisor createApiInstance() {
-        String user = "sdkpruebas";
-        String password = "pruebas2022";
+        String user = "tu_usuario";
+        String password = "tu_contraseña";
         Boolean isDevMode = true;       // true  = Sandbox, false = Productivo
 
         return new FacturamaApiMultiemisor(user, password, isDevMode);

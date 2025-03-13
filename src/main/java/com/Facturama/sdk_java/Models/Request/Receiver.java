@@ -1,6 +1,8 @@
 
 package com.Facturama.sdk_java.Models.Request;
 
+import com.Facturama.sdk_java.Models.Address;
+
 public class Receiver {
 
     private String Id;
@@ -11,6 +13,7 @@ public class Receiver {
     private String TaxZipCode;
     private String TaxResidence;
     private String TaxRegistrationNumber;
+    private Address Address;
     
     
    public String getId()
@@ -91,6 +94,16 @@ public class Receiver {
    public void setTaxRegistrationNumber(String TaxRegistrationNumber)
    {
       this.TaxRegistrationNumber = TaxRegistrationNumber;
+   }
+
+   public Address getAddress()
+   {
+        return Address;
+   }
+   
+   public void setAddress(Address Address)
+   {
+      this.Address = Address;
    }
 
 }
