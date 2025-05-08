@@ -2,6 +2,7 @@
 package com.Facturama.sdk_java.Container;
 
 import com.Facturama.sdk_java.Services.CatalogService;
+import com.Facturama.sdk_java.Services.CustomerService;
 import com.Facturama.sdk_java.Services.Multiemisor.*;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -9,6 +10,7 @@ public class FacturamaApiMultiemisor {
      private CsdService _csd;
      private CatalogService _catalogs;
      private CfdiService _cfdis;
+     private CustomerService _customer;
 
     public FacturamaApiMultiemisor(String user, String password, boolean isDevelopment )
     {              
@@ -22,6 +24,7 @@ public class FacturamaApiMultiemisor {
          _csd = new CsdService(httpClient);
          _catalogs = new CatalogService(httpClient);
          _cfdis = new CfdiService(httpClient); 
+         _customer = new CustomerService(httpClient);
         
     }
     
@@ -39,6 +42,10 @@ public class FacturamaApiMultiemisor {
     
     public CfdiService Cfdis(){
         return _cfdis;
+    }
+        public CustomerService Customer()
+    {
+        return _customer;
     }
 
 }

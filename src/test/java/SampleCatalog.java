@@ -45,7 +45,11 @@ public class SampleCatalog
         {
             //Creación de la instancia
             FacturamaApi facturama = createApiInstance();
-            sampleCatalogs(facturama);
+
+            // Ejemplo de consulta codigos postales
+            SamplePostalCode(facturama);
+
+            //sampleCatalogs(facturama);
             
         }
         catch (FacturamaException ex) 
@@ -66,8 +70,8 @@ public class SampleCatalog
     }
     private static FacturamaApi createApiInstance()
     {
-        String user =   "pruebas";
-        String password="pruebas2011";
+        String user =   "tu_usuario";
+        String password="tu_contraseña";
         Boolean isDevMode=true;
         return new FacturamaApi(user,password,isDevMode);
     }
@@ -80,7 +84,7 @@ public class SampleCatalog
         
         for(int i=0 ; i<=totalRegimens - 1; i++ )
         {
-            System.out.println(i);
+
             if(lstFiscalRegimens.get(i).getValue().compareTo("630")==0)
             {
                 System.out.println(lstFiscalRegimens.get(i).getMoral());
@@ -89,5 +93,14 @@ public class SampleCatalog
                 System.out.println(lstFiscalRegimens.get(i).getValue());
             }
         }   
+    }
+
+     private static void SamplePostalCode(FacturamaApi facturama) throws IOException, FacturamaException, Exception {
+        System.out.println("----- Inicio del ejemplo de Código Postal -----");
+
+        // Se obtiene el código postal de una dirección
+        String postalCode = "78000";
+        List<PostalCode> lstPostalCode = facturama.Catalogs().PostalCodes(postalCode);
+        System.out.println("Se obtiene el código postal: " + lstPostalCode.get(0).getStateCode());
     }
 }
