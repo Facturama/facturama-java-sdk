@@ -28,12 +28,12 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     public enum InvoiceType
     {
-        Issued, Received,Payroll, IssuedLite,issued, received,payroll, issuedLite
+        Issued, Received,Payroll, IssuedLite, issued, received, payroll, issuedLite
     }
     
     public enum CfdiStatus
     {
-        All, Active,Cancel,all,active,cancel
+       Active,Cancel, all, active, cancel
     }
     
     public CfdiService(OkHttpClient client) {
@@ -121,15 +121,7 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
              return object.getsuccess();
 
     }
-    
-    public List<CfdiSearchResult> List() throws IOException, FacturamaException, Exception{        
-        return this.List(-1, -1, 
-                null, null,
-                "", "", 
-                "", "",
-                CfdiStatus.Active, InvoiceType.Issued, null);
-    }
-    
+
     public List<CfdiSearchResult> List(String keyword) throws IOException, FacturamaException, Exception
     {        
         return this.List(keyword, CfdiStatus.Active );
@@ -147,28 +139,52 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         return GetList( resource , new TypeToken<List<com.Facturama.sdk_java.Models.Response.CfdiSearchResult>>() {}.getType() );
     }
          
-    public List<CfdiSearchResult> ListFilterByRfc(String rfc) throws IOException, FacturamaException, Exception{        
+    public List<CfdiSearchResult> ListFilterByRfc(String rfc, int page) throws IOException, FacturamaException, Exception{
         return this.List(-1, -1, 
                 rfc, null,
                 null, null, 
                 null, null,
-                CfdiStatus.Active, InvoiceType.Issued, null);
+                CfdiStatus.Active,
+                InvoiceType.Issued,
+                null,
+                null,
+                null,
+                page
+                );
     }
     
-    public List<CfdiSearchResult> ListFilterByOrderNumber(InvoiceType type, String OrderNumber) throws IOException, FacturamaException, Exception{        
-        return this.List(-1, -1, 
+    public List<CfdiSearchResult> ListFilterByOrderNumber(InvoiceType type, String OrderNumber, int page) throws IOException, FacturamaException, Exception{
+
+        return this.List(-1, -1,
                 null, null,
                 null, null, 
                 null, null,
-                CfdiStatus.active, InvoiceType.issued, OrderNumber);
+                CfdiStatus.active,
+                InvoiceType.issued,
+                OrderNumber,
+                null,
+                null,
+                page);
     }
             
         
-    public List<CfdiSearchResult> List(int folioStart, int folioEnd, 
-            String rfc, String taxEntityName,
-            String dateStart, String dateEnd, 
-            String idBranch, String serie,
-            CfdiStatus status, InvoiceType type, String OrderNumber ) throws IOException, FacturamaException, Exception{        
+    public List<CfdiSearchResult> List(
+            int folioStart,
+            int folioEnd,
+            String rfc,
+            String taxEntityName,
+            String dateStart,
+            String dateEnd,
+            String idBranch,
+            String serie,
+            CfdiStatus status,
+            InvoiceType type,
+            String OrderNumber,
+            String id,
+            String rfcIssuer,
+            int page
+            ) throws IOException, FacturamaException, Exception{
+
         
         String resource = "cfdi?type=" +  type + "&status=" + status;
         
@@ -198,6 +214,15 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
         
         if( OrderNumber != null )
             resource += "&orderNumber=" + OrderNumber;
+
+        if( id != null )
+            resource += "&id=" + id;
+
+        if( rfcIssuer != null )
+            resource += "&rfcIssuer=" + rfcIssuer;
+
+        if( page > 0  )
+            resource += "&page=" + page;
 
         
         return GetList( resource , new TypeToken<List<CfdiSearchResult>>() {}.getType() );
