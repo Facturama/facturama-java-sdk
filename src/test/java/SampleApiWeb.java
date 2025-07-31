@@ -56,13 +56,13 @@ public class SampleApiWeb {
             // sampleCfdi40(facturama); // Test CFDI 4.0
             // sampleCfdiGlobal(facturama); // Test CFDI 4.0 Factura Global
 
-            // Prueba de funcionalidad de crear un producto
-            // sampleList(facturama);
+            //Prueba de funcionalidad de crear un producto
+            sampleList(facturama);
 
             // Ejemplo de la creación de un complemento de pago
             // samplePaymentComplement(facturama);
 
-            sampleCustomersValidate(facturama);
+            //sampleCustomersValidate(facturama);
 
         } catch (FacturamaException ex) {
             // Se muestran los errores
@@ -259,7 +259,7 @@ public class SampleApiWeb {
         // Opción 2, prueba con parametros
         int FolioIni = -1;
         int FolioFin = -1;
-        String Rfc = "OÑO120726RX3";
+        String Rfc = null;
         String taxEntityName = null;
         String dateStart = null;
         String dateEnd = null;
@@ -267,11 +267,20 @@ public class SampleApiWeb {
         String serie = null;
         CfdiService.CfdiStatus status = CfdiService.CfdiStatus.all;
         CfdiService.InvoiceType type = CfdiService.InvoiceType.Issued;
-        String OrderNumber = "050408";
+        String OrderNumber = null;
+        String id= null;
+        String rfcIssuer = null;
+        int page=0;
 
-        List<CfdiSearchResult> lstCfdiByOrderNumber2 = facturama.Cfdis().List(FolioIni, FolioFin, Rfc, taxEntityName,
-                dateStart, dateEnd, idBranch, serie, status, type, OrderNumber);
-        System.out.println("Se obtiene la lista de facturas: " + lstCfdiByOrderNumber2.get(0).getId());
+
+        List<CfdiSearchResult> lstCfdi = facturama.Cfdis().List(FolioIni, FolioFin, Rfc, taxEntityName,
+                dateStart, dateEnd, idBranch, serie, status, type, OrderNumber, id, rfcIssuer, page);
+
+        for (CfdiSearchResult cfdi : lstCfdi)
+        {
+            System.out.println(cfdi.getId());
+        }
+
 
     }
 
