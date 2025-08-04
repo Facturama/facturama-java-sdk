@@ -21,7 +21,7 @@ import com.Facturama.sdk_java.Models.Response.Catalogs.Catalog;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.Currency;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.NameCfdi;
 import com.Facturama.sdk_java.Models.Response.CfdiSearchResult;
-import com.Facturama.sdk_java.Services.CfdiService;
+import com.Facturama.sdk_java.Services.Multiemisor.CfdiService;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,7 +56,9 @@ public class SampleApiMultiemisor {
             // TestCancel(facturama);
             // Ejemplo de creación de "Complemento de Pago"
             //samplePaymentComplement(facturama);
-            sampleCustomersValidate(facturama);
+            //sampleCustomersValidate(facturama);
+            sampleList(facturama);
+
 
         } catch (FacturamaException ex) {
             // Se muestran los errores
@@ -878,6 +880,34 @@ public class SampleApiMultiemisor {
         System.out.println("Se valida el código postal de un cliente: " + customerRequest.getZipCode());
         System.out.println("Se valida el régimen fiscal de un cliente: " + customerRequest.getMatchFiscalRegime());
 
+    }
+
+    private static void sampleList(FacturamaApiMultiemisor facturama) throws IOException, FacturamaException, Exception
+    {
+        int FolioIni = -1;
+        int FolioFin = -1;
+        String Rfc = null;
+        String taxEntityName = null;
+        String dateStart = null;
+        String dateEnd = null;
+        String idBranch = null;
+        String serie = null;
+
+        CfdiService.CfdiStatus status = CfdiService.CfdiStatus.all;
+        CfdiService.InvoiceType type = CfdiService.InvoiceType.IssuedLite;
+        String OrderNumber = null;
+        String id= null;
+        String rfcIssuer = null;
+        int page=0;
+
+
+        List<CfdiSearchResult> lstCfdi = facturama.Cfdis().List(FolioIni, FolioFin, Rfc, taxEntityName,
+                dateStart, dateEnd, idBranch, serie, status, type, OrderNumber, id, rfcIssuer, page);
+
+        for (CfdiSearchResult cfdi : lstCfdi)
+        {
+            System.out.println(cfdi.getId());
+        }
     }
 
 }
