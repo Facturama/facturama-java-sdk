@@ -9,8 +9,7 @@ import java.io.IOException;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.net.URLEncoder;
-import com.Facturama.sdk_java.Models.Response.InovoiceFile;
-import com.Facturama.sdk_java.Models.Response.CfdiSendEmail;
+
 import com.google.gson.Gson;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.MediaType;
@@ -282,28 +281,34 @@ public class CfdiService  extends HttpService{ //<com.Facturama.sdk_java.Models.
     
     
     
-     public boolean SendEmail(String email, InvoiceType type, String cfdiId) throws FacturamaException, Exception
-    {
-           HttpUrl.Builder urlBuilder 
-        = HttpUrl.parse(baseUrl + "/Cfdi?cfdiType="+type+"&cfdiId="+cfdiId+"&email="+email ).newBuilder();
-           String jsonObj = new Gson().toString();
-            String url = urlBuilder.build().toString(); 
-            RequestBody body = RequestBody.create(
-                MediaType.parse("application/json; charset=utf-8"),jsonObj);
-            
-            Request request = new Request.Builder()
-                .url(url)
-                .post(body)    
-                .build();
-            
-             Response response = Execute(request);
-             String jsonData = response.body().string();
-             
-             CfdiSendEmail object = new Gson().fromJson(jsonData, CfdiSendEmail.class );
-             return object.getsuccess();
+public boolean SendEmail(String email, InvoiceType type, String cfdiId, String subject, String comments, String issuerEmail) throws FacturamaException, Exception {
+    HttpUrl.Builder urlBuilder = HttpUrl.parse(baseUrl + "/Cfdi")
+        .newBuilder()
+        .addQueryParameter("cfdiType", type.toString())
+        .addQueryParameter("cfdiId", cfdiId)
+        .addQueryParameter("email", email)
+        .addQueryParameter("subject", subject)
+        .addQueryParameter("comments", comments)
+        .addQueryParameter("issuerEmail", issuerEmail);
 
-    }
+    String url = urlBuilder.build().toString();
 
+    String jsonObj = "{}"; 
+    RequestBody body = RequestBody.create(
+        MediaType.parse("application/json; charset=utf-8"), jsonObj);
+
+    Request request = new Request.Builder()
+        .url(url)
+        .post(body)
+        .build();
+
+    Response response = Execute(request);
+    String jsonData = response.body().string();
+
+    CfdiSendEmail object = new Gson().fromJson(jsonData, CfdiSendEmail.class);
+    return object.getsuccess();
+
+}
 
         
 }

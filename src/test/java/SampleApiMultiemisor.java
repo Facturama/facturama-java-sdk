@@ -22,6 +22,8 @@ import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.Currency;
 import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.NameCfdi;
 import com.Facturama.sdk_java.Models.Response.CfdiSearchResult;
 import com.Facturama.sdk_java.Services.Multiemisor.CfdiService;
+import com.Facturama.sdk_java.Models.Request.CfdiRelation;
+import com.Facturama.sdk_java.Models.Request.CfdiRelations;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,13 +53,13 @@ public class SampleApiMultiemisor {
             // ejecución)
             // sampleCsd(facturama);
             // Ejemplo de creación de CFDI 4.0
-            // sampleCfdi40(facturama);
+             sampleCfdi40(facturama);
             // Test Cancelación
             // TestCancel(facturama);
             // Ejemplo de creación de "Complemento de Pago"
             //samplePaymentComplement(facturama);
             //sampleCustomersValidate(facturama);
-            sampleList(facturama);
+            //sampleList(facturama);
 
 
         } catch (FacturamaException ex) {
@@ -245,6 +247,10 @@ public class SampleApiMultiemisor {
 
         System.out.println("Se creó exitosamente el cfdi con el folio fiscal: "
                 + cfdiCreated.getComplement().getTaxStamp().getUuid());
+        if(facturama.Cfdis().SendEmail("receptor_ejemplo@ejemplo.com", CfdiService.InvoiceType.IssuedLite, cfdiCreated.getId(),"","","emisor_correo@ejemplo.com"))
+        {
+            System.out.println("factura enviada");
+        }
 
         // Descarga de los archivos de la factura
         // String filePath =
@@ -396,6 +402,22 @@ public class SampleApiMultiemisor {
 
         cfdi.setIssuer(issuer);
         cfdi.setReceiver(receiver);
+        
+        CfdiRelation cfdiRelation = new CfdiRelation();
+        cfdiRelation.setType("07");
+
+        List<CfdiRelations> lstUuidRelations = new ArrayList<>();
+
+        CfdiRelations relation1 = new CfdiRelations();
+        relation1.setUuid("d8e34bab-5bd4-4788-bde2-1428dc469e10");
+        lstUuidRelations.add(relation1);
+
+        CfdiRelations relation2 = new CfdiRelations();
+        relation2.setUuid("45ab1a98-1709-446a-8759-e45a8d76b557");
+        lstUuidRelations.add(relation2);
+
+        cfdiRelation.setCfdis(lstUuidRelations);
+        cfdi.setRelations(cfdiRelation);
 
         return cfdi;
 
