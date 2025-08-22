@@ -16,7 +16,7 @@ public class CfdiLite {
    private String Currency;
    private String ExpeditionPlace;
    private String PaymentConditions;
-   private CfdiRelations Relations;
+   private CfdiRelation Relations;
    private String Folio;
    private String CfdiType;
    private String Exportation;
@@ -116,12 +116,12 @@ public class CfdiLite {
       this.PaymentConditions = PaymentConditions;
    }
    
-   public CfdiRelations getRelations()
+   public CfdiRelation getRelations()
    {
         return Relations;
    }
    
-   public void setRelations(CfdiRelations Relations)
+   public void setRelations(CfdiRelation Relations)
    {
       this.Relations = Relations;
    }
