@@ -8,6 +8,7 @@ import com.Facturama.sdk_java.Models.Request.Complements.Donat.Donat;
 import com.Facturama.sdk_java.Models.Request.Complements.IEDU.EducationalInstitution;
 import com.Facturama.sdk_java.Models.Request.Complements.Terceros.ThirdPartyAccount;
 import com.Facturama.sdk_java.Models.Request.Complements.INE.Ine;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.*;
 import java.util.List;
 
 
@@ -24,6 +25,7 @@ public class Complements {
    private ForeingTrade ForeignTrade;
    private Donat Donation;
    private Ine Ine;
+   private ComplementoCartaPorte31 CartaPorte31;
 
  
    
@@ -97,5 +99,14 @@ public class Complements {
        this.Ine=Ine;
    }   
 
+   public ComplementoCartaPorte31 getCartaPorte31()
+   {
+       return CartaPorte31;
+   }
+
+    public void setCartaPorte31(ComplementoCartaPorte31 CartaPorte31)
+    {      
+         this.CartaPorte31=CartaPorte31;
+    }
     
 }

@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.Facturama.sdk_java.Container.FacturamaApi;
 import com.Facturama.sdk_java.Services.*;
 import com.Facturama.sdk_java.Models.*;
@@ -16,6 +18,8 @@ import com.Facturama.sdk_java.Models.Response.Catalogs.Cfdi.*;
 import com.Facturama.sdk_java.Models.Response.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +32,20 @@ import com.Facturama.sdk_java.Models.Request.Payment;
 import com.Facturama.sdk_java.Models.Request.RelatedDocument;
 import com.Facturama.sdk_java.Models.Request.Complements.INE.Ine;
 import com.Facturama.sdk_java.Models.Request.Complements.INE.IneEntidad;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Autotransporte;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.CantidadTransporta;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.ComplementoCartaPorte31;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.ComplementoCartaPorte31.RegistroISTMO;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.ComplementoCartaPorte31.TipoUbicacion;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.ComplementoCartaPorte31.TranspInternac;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Domicilio;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.IdentificacionVehicular;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Mercancia;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Mercancias;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Remolque;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Seguros;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.TiposFigura;
+import com.Facturama.sdk_java.Models.Request.Complements.Waybill.Ubicacion;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -56,13 +74,16 @@ public class SampleApiWeb {
             // sampleCfdi40(facturama); // Test CFDI 4.0
             // sampleCfdiGlobal(facturama); // Test CFDI 4.0 Factura Global
 
-            //Prueba de funcionalidad de crear un producto
-            sampleList(facturama);
+            // Prueba de funcionalidad de crear un producto
+            // sampleList(facturama);
 
             // Ejemplo de la creación de un complemento de pago
             // samplePaymentComplement(facturama);
 
-            //sampleCustomersValidate(facturama);
+            // sampleCustomersValidate(facturama);
+
+            // Prueba de funcionalidad Carta Porte 31
+            sampleWaybill(facturama);
 
         } catch (FacturamaException ex) {
             // Se muestran los errores
@@ -268,19 +289,16 @@ public class SampleApiWeb {
         CfdiService.CfdiStatus status = CfdiService.CfdiStatus.all;
         CfdiService.InvoiceType type = CfdiService.InvoiceType.Issued;
         String OrderNumber = null;
-        String id= null;
+        String id = null;
         String rfcIssuer = null;
-        int page=0;
-
+        int page = 0;
 
         List<CfdiSearchResult> lstCfdi = facturama.Cfdis().List(FolioIni, FolioFin, Rfc, taxEntityName,
                 dateStart, dateEnd, idBranch, serie, status, type, OrderNumber, id, rfcIssuer, page);
 
-        for (CfdiSearchResult cfdi : lstCfdi)
-        {
+        for (CfdiSearchResult cfdi : lstCfdi) {
             System.out.println(cfdi.getId());
         }
-
 
     }
 
@@ -982,7 +1000,8 @@ public class SampleApiWeb {
         Custumer.setFiscalRegime(fiscalRegime);
 
         // Se valida el RFC de un cliente
-        com.Facturama.sdk_java.Models.Response.CustomerValidate customerRequest = facturama.Customer().Validate(Custumer);
+        com.Facturama.sdk_java.Models.Response.CustomerValidate customerRequest = facturama.Customer()
+                .Validate(Custumer);
         System.out.println("Se valida el RFC de un cliente: " + customerRequest.getExistRfc());
         System.out.println("Se valida el nombre de un cliente: " + customerRequest.geMatchName());
         System.out.println("Se valida el código postal de un cliente: " + customerRequest.getZipCode());
@@ -990,4 +1009,187 @@ public class SampleApiWeb {
 
     }
 
+    private static void sampleWaybill(FacturamaApi facturama) throws IOException, FacturamaException, Exception {
+        System.out.println("----- Ejemplo de CFDI carta porte -----");
+
+        com.Facturama.sdk_java.Models.Request.Cfdi cfdi = new com.Facturama.sdk_java.Models.Request.Cfdi();
+
+        Currency currency = facturama.Catalogs().Currency("MXN");
+        int decimals = (int) currency.getDecimals();
+        Double numberOfDecimals = Math.pow(10, decimals);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        cfdi.setNameId("36");
+        cfdi.setCurrency("MXN");
+        cfdi.setFolio("1");
+        cfdi.setSerie("CAR");
+        cfdi.setCfdiType("I");
+        cfdi.setPaymentForm("01");
+        cfdi.setPaymentMethod("PUE");
+        cfdi.setExpeditionPlace("78000");
+        cfdi.setOrderNumber("TEST-001");
+        cfdi.setDate("2025-09-10T12:00:00");
+        cfdi.setPaymentConditions("CONDICIONES DE PAGO");
+        cfdi.setObservations("null");
+        cfdi.setExportation("01");
+
+        Receiver receiver = new Receiver();
+        receiver.setRfc("URE180429TM6");
+        receiver.setName("UNIVERSIDAD ROBOTICA ESPAÑOLA");
+        receiver.setCfdiUse("G03");
+        receiver.setTaxZipCode("86991");
+        receiver.setFiscalRegime("601");
+
+        cfdi.setReceiver(receiver);
+
+        // Lista de Items en el cfdi (los articulos a facturar)
+        List<Item> lstItems = new ArrayList<>();
+
+        // Llenado del item (que va en el cfdi)
+        Item item = new Item();
+        item.setUnit("Servicio");
+        item.setUnitCode("E48");
+        item.setIdentificationNumber("WEB003");
+        item.setProductCode("78101800");
+        item.setDescription("Transporte de carga por carretera");
+        item.setQuantity(2.0);
+        item.setDiscount(0.0);
+        item.setUnitPrice(50.0);
+        Double subTotal = Math.round((item.getUnitPrice() * item.getQuantity()) * numberOfDecimals) / numberOfDecimals;
+        item.setSubtotal(subTotal);
+        item.setTaxObject("01");
+        item.setTotal(Math.round((item.getSubtotal() + item.getDiscount()) * numberOfDecimals) / numberOfDecimals);
+
+        lstItems.add(item);
+        cfdi.setItems(lstItems);
+
+        Complements complement = new Complements();
+        ComplementoCartaPorte31 CartaPorte = new ComplementoCartaPorte31();
+
+        // Valores simples
+        CartaPorte.setIdCCP("CCCBCD94-870A-4332-A52A-A52AA52AA52A");
+        CartaPorte.setTranspInternac(TranspInternac.No);
+        CartaPorte.setTotalDistRec(new BigDecimal("1"));
+        CartaPorte.setRegistroISTMO(RegistroISTMO.Sí); // asumimos que Sí = true
+        CartaPorte.setUbicacionPoloOrigen("01");
+        CartaPorte.setUbicacionPoloDestino("01");
+
+        // Ubicaciones
+        Ubicacion origen = new Ubicacion();
+        origen.setTipoUbicacion(TipoUbicacion.Origen);
+        origen.setIdUbicacion("OR101010");
+        origen.setRfcRemitenteDestinatario("EKU9003173C9");
+        origen.setNombreRemitenteDestinatario("NombreRemitenteDestinatario1");
+        origen.setFechaHoraSalidaLlegada("2023-08-01T00:00:00");
+
+        Domicilio domicilioOrigen = new Domicilio();
+        domicilioOrigen.setCalle("Calle1");
+        domicilioOrigen.setNumeroExterior("211");
+        domicilioOrigen.setNumeroInterior("212");
+        domicilioOrigen.setColonia("1957");
+        domicilioOrigen.setLocalidad("13");
+        domicilioOrigen.setReferencia("casa blanca");
+        domicilioOrigen.setMunicipio("011");
+        domicilioOrigen.setEstado("CMX");
+        domicilioOrigen.setPais("MEX");
+        domicilioOrigen.setCodigoPostal("13250");
+        origen.setDomicilio(domicilioOrigen);
+
+        Ubicacion destino = new Ubicacion();
+        destino.setTipoUbicacion(TipoUbicacion.Destino);
+        destino.setIdUbicacion("DE202020");
+        destino.setRfcRemitenteDestinatario("EKU9003173C9");
+        destino.setNombreRemitenteDestinatario("NombreRemitenteDestinatario2");
+        destino.setFechaHoraSalidaLlegada("2023-08-01T00:00:01");
+        destino.setDistanciaRecorrida(new BigDecimal("1"));
+
+        Domicilio domicilioDestino = new Domicilio();
+        domicilioDestino.setCalle("Calle2");
+        domicilioDestino.setNumeroExterior("214");
+        domicilioDestino.setNumeroInterior("215");
+        domicilioDestino.setColonia("0347");
+        domicilioDestino.setLocalidad("23");
+        domicilioDestino.setReferencia("casa negra");
+        domicilioDestino.setMunicipio("004");
+        domicilioDestino.setEstado("COA");
+        domicilioDestino.setPais("MEX");
+        domicilioDestino.setCodigoPostal("25350");
+        destino.setDomicilio(domicilioDestino);
+
+        CartaPorte.setUbicaciones(new Ubicacion[] { origen, destino });
+
+        // Mercancias
+        Mercancia mercancia = new Mercancia();
+        mercancia.setBienesTransp("11121900");
+        mercancia.setDescripcion("Accesorios de equipo de telefonía");
+        mercancia.setCantidad(new BigDecimal("1.0"));
+        mercancia.setClaveUnidad("XBX");
+        mercancia.setMaterialPeligroso("No");
+        mercancia.setPesoEnKg(new BigDecimal("1"));
+        mercancia.setDenominacionGenericaProd("DenominacionGenericaProd1");
+        mercancia.setDenominacionDistintivaProd("DenominacionDistintivaProd1");
+        mercancia.setFabricante("Fabricante1");
+        mercancia.setFechaCaducidad("2028-01-01T00:00:00");
+        mercancia.setLoteMedicamento("LoteMedic1");
+        mercancia.setRegistroSanitarioFolioAutorizacion("RegistroSanita1");
+
+        // CantidadTransporta
+        CantidadTransporta ct = new CantidadTransporta();
+        ct.setCantidad(new BigDecimal("1"));
+        ct.setIDOrigen("OR101010");
+        ct.setIDDestino("DE202020");
+        mercancia.setCantidadTransporta(new CantidadTransporta[] { ct });
+
+        // Mercancias contenedor
+        Mercancias mercancias = new Mercancias();
+        mercancias.setPesoBrutoTotal(new BigDecimal("1.0"));
+        mercancias.setUnidadPeso("XBX");
+        mercancias.setNumTotalMercancias(1);
+        mercancias.setLogisticaInversaRecoleccionDevolucion("Sí");
+        mercancias.setMercancia(new Mercancia[] { mercancia });
+
+        // Autotransporte
+        Autotransporte autotransporte = new Autotransporte();
+        autotransporte.setPermSCT("TPAF01");
+        autotransporte.setNumPermisoSCT("NumPermisoSCT1");
+
+        IdentificacionVehicular identificacionVehicular = new IdentificacionVehicular();
+        identificacionVehicular.setConfigVehicular("VL");
+        identificacionVehicular.setPesoBrutoVehicular("1");
+        identificacionVehicular.setPlacaVM("plac892");
+        identificacionVehicular.setAnioModeloVM(2020);
+        autotransporte.setIdentificacionVehicular(identificacionVehicular);
+
+        Seguros seguros = new Seguros();
+        seguros.setAseguraRespCivil("AseguraRespCivil");
+        seguros.setPolizaRespCivil("123456789");
+        autotransporte.setSeguros(seguros);
+
+        Remolque remolque = new Remolque();
+        remolque.setSubTipoRem("CTR004");
+        remolque.setPlaca("VL45K98");
+        autotransporte.setRemolques(new Remolque[] { remolque });
+
+        mercancias.setAutotransporte(autotransporte);
+
+        CartaPorte.setMercancias(mercancias);
+
+        // FiguraTransporte
+        TiposFigura figura = new TiposFigura();
+        figura.setTipoFigura("01");
+        figura.setNombreFigura("NombreFigura");
+        figura.setRfcFigura("EKU9003173C9");
+        figura.setNumLicencia("a234567890");
+        CartaPorte.setFiguraTransporte(new TiposFigura[] { figura });
+        complement.setCartaPorte31(CartaPorte);
+        cfdi.setComplements(complement);
+
+                // Se manda timbrar mediante Facturama
+        com.Facturama.sdk_java.Models.Response.Cfdi cfdiInicial = facturama.Cfdis().Create3(cfdi);
+
+        System.out.println("Se creó exitosamente el cfdi Inicial (PPD) con el folio fiscal: "
+                + cfdiInicial.getComplement().getTaxStamp().getUuid() + " y Id: " + cfdiInicial.getId());
+
+
+    }
 }
